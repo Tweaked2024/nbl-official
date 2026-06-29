@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>National Basketball League - Stats Dashboard</title>
+    <style>
+        /* [Keep your standard CSS structural variables from index.html here] */
+        :root {
+            --bg-color: #fcfcfc;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --text-light: #777777;
+            --border-color: #e0e0e0;
+            --nav-bg: #ffffff;
+            --accent-red: #e61e2b;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); padding: 20px; }
+
+        /* Stat Selection Buttons Container */
+        .stat-nav {
+            display: flex;
+            gap: 8px;
+            max-width: 1200px;
+            margin: 20px auto;
+            flex-wrap: wrap;
+        }
+        .stat-btn {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        .stat-btn.active {
+            background-color: var(--accent-red);
+            color: white;
+            border-color: var(--accent-red);
+        }
+
+        .page-title {
+            max-width: 1200px;
+            margin: 20px auto;
+            text-transform: capitalize;
+            font-size: 1.5rem;
+        }
+
+        /* Responsive Table Formatting */
+        .table-container {
+            display: none; /* Hidden by default */
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .table-container.active {
+            display: block; /* Shown when category match fires */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        th {
+            background-color: var(--accent-red);
+            color: white;
+            text-transform: uppercase;
+        }
+        tr:hover { background-color: rgba(0,0,0,0.02); }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Horizontal Reactive Button Links -->
+    <div class="stat-nav">
+        <button class="stat-btn active" onclick="showStatTable('passing')">Passing</button>
+        <button class="stat-btn" onclick="showStatTable('rushing')">Rushing</button>
+        <button class="stat-btn" onclick="showStatTable('receiving')">Receiving</button>
+        <button class="stat-btn" onclick="showStatTable('tightends')">Tight Ends</button>
+        <button class="stat-btn" onclick="showStatTable('center')">Center</button>
+        <button class="stat-btn" onclick="showStatTable('defensiveends')">Defensive Ends</button>
+        <button class="stat-btn" onclick="showStatTable('linebackers')">Linebackers</button>
+        <button class="stat-btn" onclick="showStatTable('secondary')">Secondary</button>
+        <button class="stat-btn" onclick="showStatTable('kicking')">Kicking</button>
+    </div>
+
+    <h2 class="page-title" id="statViewTitle">passing stats</h2>
+
+    <!-- 2. Passing Table Block -->
+    <div id="table-passing" class="table-container active">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th><th>TM</th><th>Player</th><th>YDS</th><th>TD</th><th>INT</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td><td>WSH</td><td>DimingSLC</td><td>7131</td><td>68</td><td>24</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 3. Rushing Table Block (Hidden initially) -->
+    <div id="table-rushing" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th><th>TM</th><th>Player</th><th>YDS</th><th>AVG</th><th>TD</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td><td>DAL</td><td>RushMaster</td><td>1420</td><td>5.2</td><td>12</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add more table blocks here matching the button IDs (table-receiving, table-tightends, etc.) -->
+
+    <!-- Interactive Script to Swap Datasets Reactively -->
+    <script>
+        function showStatTable(categoryKey) {
+            // Hide all table containers
+            document.querySelectorAll('.table-container').forEach(table => {
+                table.classList.remove('active');
+            });
+            // Remove active coloring from top buttons
+            document.querySelectorAll('.stat-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Target view configurations
+            const selectedTable = document.getElementById('table-' + categoryKey);
+            if (selectedTable) {
+                selectedTable.classList.add('active');
+            }
+
+            // Update Dynamic H2 Section Label Header
+            document.getElementById('statViewTitle').textContent = categoryKey.replace('cat-', '') + " stats";
+
+            // Light up active button state matches
+            event.currentTarget.classList.add('active');
+        }
+
+        // Auto-check URL links if redirected from navbar column links directly
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlCategory = urlParams.get('cat');
+        if (urlCategory) {
+            // Find and click the button matching the category automatically
+            document.querySelectorAll('.stat-btn').forEach(btn => {
+                if(btn.getAttribute('onclick').includes(urlCategory)) {
+                    btn.click();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
