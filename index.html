@@ -103,6 +103,49 @@
             display: block;
         }
 
+        /* Added Custom Mega Dropdown CSS Styles for Multi-Column Display */
+        .nav-item:hover .dropdown-mega {
+            display: flex !important;
+        }
+        .dropdown-mega {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--card-bg);
+            min-width: 550px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            gap: 30px;
+            list-style: none;
+        }
+        .mega-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .mega-col h4 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+        .mega-col a {
+            color: var(--text-color);
+            padding: 6px 0;
+            text-decoration: none;
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .mega-col a:hover {
+            color: var(--accent-red);
+        }
+
         /* Right Header Elements (Toggle + Button) */
         .right-actions {
             display: flex;
@@ -292,7 +335,13 @@
 
     <!-- Header / Navbar -->
     <header>
-        <div class="logo-area">National Basketball League</div>
+        <div class="logo-area">
+            <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;">
+                <img src="e1abd0576f5f77741b1f5a27399462ff.webp" alt="NBL Logo" style="height: 45px; width: auto; display: block;">
+                
+                <span style="font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px;">National Basketball League</span>
+            </a>
+        </div>
         <nav>
             <div class="nav-item"><a href="#">Standings</a></div>
             <div class="nav-item"><a href="#">Teams</a></div>
@@ -310,13 +359,34 @@
                 </ul>
             </div>
             
-            <!-- Stats Hover Dropdown -->
+            <!-- Added Stats Mega Hover Dropdown Split Layout -->
             <div class="nav-item">
-                <a href="#">Stats ▾</a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Player Metrics</a></li>
-                    <li><a href="#">Team Metrics</a></li>
-                </ul>
+                <a href="stats.html">Stats ▾</a>
+                <div class="dropdown-menu dropdown-mega">
+                    <!-- Offense Column -->
+                    <div class="mega-col">
+                        <h4>Offense</h4>
+                        <a href="stats.html?cat=passing">Quarterbacks</a>
+                        <a href="stats.html?cat=rushing">Running Backs</a>
+                        <a href="stats.html?cat=receiving">Wide Receivers</a>
+                        <a href="stats.html?cat=tightends">Tight Ends</a>
+                        <a href="stats.html?cat=center">Centers</a>
+                    </div>
+                    <!-- Defense Column -->
+                    <div class="mega-col">
+                        <h4>Defense</h4>
+                        <a href="stats.html?cat=defensiveends">Defensive Ends</a>
+                        <a href="stats.html?cat=linebackers">Linebackers</a>
+                        <a href="stats.html?cat=secondary">Defensive Backs</a>
+                    </div>
+                    <!-- Special Teams Column -->
+                    <div class="mega-col">
+                        <h4>Special Teams</h4>
+                        <a href="stats.html?cat=kicking">Kickers</a>
+                        <h4 style="margin-top: 15px;">Record Book</h4>
+                        <a href="#">All-Time Stats</a>
+                    </div>
+                </div>
             </div>
             
             <div class="nav-item"><a href="#">Rulebook</a></div>
@@ -443,7 +513,7 @@
 
     </div>
 
-    <!-- Red Call to Action Section from image_5cbafd.png -->
+    <!-- Red Call to Action Section -->
     <div class="cta-section">
         <h2>come join in on the fun.</h2>
         <a href="#" class="cta-btn">Get Started!</a>
@@ -477,3 +547,5 @@
             }
         });
     </script>
+</body>
+</html>
