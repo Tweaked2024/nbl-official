@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>National Basketball League - Stats Dashboard</title>
+    <title>National Basketball League - Stats</title>
     <style>
-        /* [Keep your standard CSS structural variables from index.html here] */
+        /* CSS Variables for Dynamic Theme Switching */
         :root {
             --bg-color: #fcfcfc;
             --card-bg: #ffffff;
@@ -14,16 +14,177 @@
             --border-color: #e0e0e0;
             --nav-bg: #ffffff;
             --accent-red: #e61e2b;
+            --filter-bg: #fdfdfd;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-color); padding: 20px; }
 
-        /* Stat Selection Buttons Container */
+        [data-theme="dark"] {
+            --bg-color: #0b0e14;
+            --card-bg: #161b22;
+            --text-color: #f0f6fc;
+            --text-light: #8b949e;
+            --border-color: #30363d;
+            --nav-bg: #161b22;
+            --filter-bg: #21262d;
+        }
+
+        /* Base Styling & Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Top Navigation Bar */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            z-index: 1000;
+        }
+        .logo-area {
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        /* Hover Navigation Menu with Mega Dropdown */
+        nav {
+            display: flex;
+            align-items: center;
+        }
+        .nav-item {
+            position: relative;
+            display: inline-block;
+            margin: 0 15px;
+        }
+        .nav-item > a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--card-bg);
+            min-width: 150px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            list-style: none;
+            padding: 5px 0;
+        }
+        .dropdown-menu a {
+            color: var(--text-color);
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .dropdown-menu a:hover {
+            background-color: var(--bg-color);
+        }
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* Mega Dropdown for Stats Columns */
+        .nav-item:hover .dropdown-mega {
+            display: flex !important;
+        }
+        .dropdown-mega {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--card-bg);
+            min-width: 550px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            gap: 30px;
+            list-style: none;
+        }
+        .mega-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .mega-col h4 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+        .mega-col a {
+            color: var(--text-color);
+            padding: 6px 0;
+            text-decoration: none;
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .mega-col a:hover {
+            color: var(--accent-red);
+        }
+
+        /* Right Header Elements */
+        .right-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .theme-toggle-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .join-btn {
+            background-color: var(--accent-red);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Horizontal Category Switcher Row */
         .stat-nav {
             display: flex;
-            gap: 8px;
+            gap: 10px;
+            width: 90%;
             max-width: 1200px;
-            margin: 20px auto;
+            margin: 30px auto 10px auto;
             flex-wrap: wrap;
         }
         .stat-btn {
@@ -34,8 +195,8 @@
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 0.85rem;
             text-transform: uppercase;
-            font-size: 0.8rem;
         }
         .stat-btn.active {
             background-color: var(--accent-red);
@@ -43,62 +204,143 @@
             border-color: var(--accent-red);
         }
 
+        /* Category Label */
         .page-title {
+            width: 90%;
             max-width: 1200px;
-            margin: 20px auto;
-            text-transform: capitalize;
-            font-size: 1.5rem;
+            margin: 15px auto;
+            text-transform: uppercase;
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
-        /* Responsive Table Formatting */
+        /* Stat Table Panels */
         .table-container {
-            display: none; /* Hidden by default */
+            display: none; /* Hidden until clicked */
+            width: 90%;
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 0 auto 50px auto;
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 8px;
             overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
         .table-container.active {
-            display: block; /* Shown when category match fires */
+            display: block;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
         th, td {
-            padding: 12px 15px;
+            padding: 14px 18px;
             border-bottom: 1px solid var(--border-color);
         }
         th {
-            background-color: var(--accent-red);
-            color: white;
+            background-color: #1a1e24;
+            color: #f0f6fc;
+            font-weight: 700;
             text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
         }
-        tr:hover { background-color: rgba(0,0,0,0.02); }
+        [data-theme="dark"] th {
+            background-color: #21262d;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        tr:hover td {
+            background-color: rgba(0,0,0,0.01);
+        }
+
+        /* Footer styling */
+        footer {
+            background-color: #1a1e24;
+            color: #8a94a6;
+            padding: 40px 5%;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-top: auto;
+        }
+        footer a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            header, footer { flex-direction: column; text-align: center; gap: 15px; }
+            .stat-nav { justify-content: center; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- 1. Horizontal Reactive Button Links -->
+    <header>
+        <div class="logo-area">
+            <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;">
+                <img src="e1abd0576f5f77741b1f5a27399462ff.webp" alt="NBL Logo" style="height: 45px; width: auto; display: block;">
+                <span style="font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px;">National Basketball League</span>
+            </a>
+        </div>
+        <nav>
+            <div class="nav-item"><a href="#">Standings</a></div>
+            <div class="nav-item"><a href="#">Teams</a></div>
+            <div class="nav-item"><a href="#">Matchups</a></div>
+            <div class="nav-item">
+                <a href="scores.html">Scores ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="scores.html?series=1">Series I</a></li>
+                    <li><a href="scores.html?series=2">Series II</a></li>
+                    <li><a href="scores.html?series=3">Series III</a></li>
+                </ul>
+            </div>
+            <div class="nav-item">
+                <a href="stats.html">Stats ▾</a>
+                <div class="dropdown-menu dropdown-mega">
+                    <div class="mega-col">
+                        <h4>Offense</h4>
+                        <a href="stats.html?cat=passing">Quarterbacks</a>
+                        <a href="stats.html?cat=rushing">Running Backs</a>
+                        <a href="stats.html?cat=receiving">Wide Receivers</a>
+                    </div>
+                    <div class="mega-col">
+                        <h4>Defense</h4>
+                        <a href="stats.html?cat=defensiveends">Defensive Ends</a>
+                        <a href="stats.html?cat=linebackers">Linebackers</a>
+                    </div>
+                    <div class="mega-col">
+                        <h4>Special Teams</h4>
+                        <a href="stats.html?cat=kicking">Kickers</a>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-item"><a href="#">Rulebook</a></div>
+        </nav>
+        <div class="right-actions">
+            <button class="theme-toggle-btn" id="themeToggleBtn">🌙</button>
+            <a href="#" class="join-btn">Join Now</a>
+        </div>
+    </header>
+
     <div class="stat-nav">
         <button class="stat-btn active" onclick="showStatTable('passing')">Passing</button>
         <button class="stat-btn" onclick="showStatTable('rushing')">Rushing</button>
         <button class="stat-btn" onclick="showStatTable('receiving')">Receiving</button>
-        <button class="stat-btn" onclick="showStatTable('tightends')">Tight Ends</button>
-        <button class="stat-btn" onclick="showStatTable('center')">Center</button>
         <button class="stat-btn" onclick="showStatTable('defensiveends')">Defensive Ends</button>
         <button class="stat-btn" onclick="showStatTable('linebackers')">Linebackers</button>
-        <button class="stat-btn" onclick="showStatTable('secondary')">Secondary</button>
         <button class="stat-btn" onclick="showStatTable('kicking')">Kicking</button>
     </div>
 
-    <h2 class="page-title" id="statViewTitle">passing stats</h2>
+    <h2 class="page-title" id="statViewTitle">Passing Stats</h2>
 
-    <!-- 2. Passing Table Block -->
     <div id="table-passing" class="table-container active">
         <table>
             <thead>
@@ -107,14 +349,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td><td>WSH</td><td>DimingSLC</td><td>7131</td><td>68</td><td>24</td>
-                </tr>
+                <tr><td>1</td><td>WSH</td><td>DimingSLC</td><td>7131</td><td>68</td><td>24</td></tr>
+                <tr><td>2</td><td>DAL</td><td>PlayerTwo</td><td>6420</td><td>52</td><td>12</td></tr>
             </tbody>
         </table>
     </div>
 
-    <!-- 3. Rushing Table Block (Hidden initially) -->
     <div id="table-rushing" class="table-container">
         <table>
             <thead>
@@ -123,51 +363,82 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td><td>DAL</td><td>RushMaster</td><td>1420</td><td>5.2</td><td>12</td>
-                </tr>
+                <tr><td>1</td><td>NYG</td><td>RushMaster</td><td>1840</td><td>5.4</td><td>16</td></tr>
             </tbody>
         </table>
     </div>
 
-    <!-- Add more table blocks here matching the button IDs (table-receiving, table-tightends, etc.) -->
+    <div id="table-receiving" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th><th>TM</th><th>Player</th><th>REC</th><th>YDS</th><th>TD</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>SF</td><td>WideOutPro</td><td>98</td><td>1420</td><td>11</td></tr>
+            </tbody>
+        </table>
+    </div>
 
-    <!-- Interactive Script to Swap Datasets Reactively -->
+    <footer>
+        <div>
+            <h3>NATIONAL BASKETBALL LEAGUE</h3>
+            <p style="margin-top: 10px;">© 2026 Roblox Operations.</p>
+        </div>
+        <div>
+            <a href="#">Terms of Service</a>
+            <a href="#">League Rules</a>
+        </div>
+    </footer>
+
     <script>
         function showStatTable(categoryKey) {
-            // Hide all table containers
+            // Hide all tab containers
             document.querySelectorAll('.table-container').forEach(table => {
                 table.classList.remove('active');
             });
-            // Remove active coloring from top buttons
+            // Reset button active backgrounds
             document.querySelectorAll('.stat-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
 
-            // Target view configurations
+            // Target view container display activation
             const selectedTable = document.getElementById('table-' + categoryKey);
             if (selectedTable) {
                 selectedTable.classList.add('active');
             }
 
-            // Update Dynamic H2 Section Label Header
-            document.getElementById('statViewTitle').textContent = categoryKey.replace('cat-', '') + " stats";
+            // Update Dynamic Section title string 
+            document.getElementById('statViewTitle').textContent = categoryKey + " stats";
 
-            // Light up active button state matches
-            event.currentTarget.classList.add('active');
-        }
-
-        // Auto-check URL links if redirected from navbar column links directly
-        const urlParams = new URLSearchParams(window.location.search);
-        const urlCategory = urlParams.get('cat');
-        if (urlCategory) {
-            // Find and click the button matching the category automatically
+            // Light up target selected button
             document.querySelectorAll('.stat-btn').forEach(btn => {
-                if(btn.getAttribute('onclick').includes(urlCategory)) {
-                    btn.click();
+                if(btn.getAttribute('onclick').includes(categoryKey)) {
+                    btn.classList.add('active');
                 }
             });
         }
+
+        // Handles linking directly into subsections from Navbar URLs
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlCategory = urlParams.get('cat');
+        if (urlCategory) {
+            showStatTable(urlCategory);
+        }
+
+        // Dark / Light Theme Toggle Script Handler
+        const toggleBtn = document.getElementById('themeToggleBtn');
+        toggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                toggleBtn.textContent = '🌙'; 
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                toggleBtn.textContent = '☀️'; 
+            }
+        });
     </script>
 </body>
 </html>
