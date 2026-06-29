@@ -339,6 +339,7 @@
         <nav>
             <div class="nav-item"><a href="#">Standings</a></div>
             <div class="nav-item"><a href="#">Teams</a></div>
+            <div class="nav-item"><a href="#">Matchups</a></div> <!-- Kept this from your homepage! -->
             <div class="nav-item"><a href="scores.html">Scores ▾</a>
                 <ul class="dropdown-menu">
                     <li><a href="#" onclick="switchSeries('series-1')">Series I</a></li>
@@ -346,7 +347,32 @@
                     <li><a href="#" onclick="switchSeries('series-3')">Series III</a></li>
                 </ul>
             </div>
-            <div class="nav-item"><a href="#">Stats ▾</a></div>
+            <div class="nav-item">
+                <a href="#">Stats ▾</a>
+                <!-- This mega-menu dropdown container was completely missing in your scores file! -->
+                <div class="dropdown-menu mega-menu">
+                    <div class="mega-col">
+                        <h4>OFFENSE</h4>
+                        <a href="#">Quarterbacks</a>
+                        <a href="#">Running Backs</a>
+                        <a href="#">Wide Receivers</a>
+                        <a href="#">Tight Ends</a>
+                        <a href="#">Centers</a>
+                    </div>
+                    <div class="mega-col">
+                        <h4>DEFENSE</h4>
+                        <a href="#">Defensive Ends</a>
+                        <a href="#">Linebackers</a>
+                        <a href="#">Defensive Backs</a>
+                    </div>
+                    <div class="mega-col">
+                        <h4>SPECIAL TEAMS</h4>
+                        <a href="#">Kickers</a>
+                        <h4>RECORD BOOK</h4>
+                        <a href="#">All-Time Stats</a>
+                    </div>
+                </div>
+            </div>
             <div class="nav-item"><a href="#">Rulebook</a></div>
             <div class="nav-item"><a href="#">Legacy ▾</a></div>
         </nav>
