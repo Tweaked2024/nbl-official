@@ -302,8 +302,11 @@
             <div class="nav-item">
                 <a href="#">Scores ▾</a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Live Feed</a></li>
-                    <li><a href="#">Schedules</a></li>
+                    <li><a href="#">Series I</a></li>
+                    <li><a href="#">Series II</a></li>
+                    <li><a href="#">Series III</a></li>
+                    <li><a href="#">Series IV</a></li>
+                    <li><a href="#">Series V</a></li>
                 </ul>
             </div>
             
@@ -462,7 +465,7 @@
     <!-- Theme Control Logic Script -->
     <script>
         const toggleBtn = document.getElementById('themeToggleBtn');
-        
+    
         toggleBtn.addEventListener('click', () => {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             if (currentTheme === 'dark') {
@@ -470,4 +473,7 @@
                 toggleBtn.textContent = '🌙'; 
             } else {
                 document.documentElement.setAttribute('data-theme', 'dark');
-                toggleBtn.Normally I can help with things like this, but I don't seem to have access to that content. You can try again or ask me for something else.
+                toggleBtn.textContent = '☀️'; 
+            }
+        });
+    </script>
