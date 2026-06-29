@@ -15,6 +15,8 @@
             --nav-bg: #ffffff;
             --accent-red: #e61e2b;
             --filter-bg: #fdfdfd;
+            --th-bg: #1a1e24;
+            --th-text: #f0f6fc;
         }
 
         [data-theme="dark"] {
@@ -25,6 +27,8 @@
             --border-color: #30363d;
             --nav-bg: #161b22;
             --filter-bg: #21262d;
+            --th-bg: #21262d;
+            --th-text: #f0f6fc;
         }
 
         /* Base Styling & Reset */
@@ -33,7 +37,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
         }
         body {
             background-color: var(--bg-color);
@@ -178,6 +182,35 @@
             font-weight: bold;
         }
 
+        /* Layout Controls Row (Heading + Search) */
+        .title-controls-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            max-width: 1200px;
+            margin: 15px auto;
+        }
+
+        .page-title {
+            text-transform: uppercase;
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        /* Search input styling */
+        .search-wrapper input {
+            padding: 8px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            outline: none;
+            font-size: 0.9rem;
+            width: 240px;
+        }
+
         /* Horizontal Category Switcher Row */
         .stat-nav {
             display: flex;
@@ -204,20 +237,8 @@
             border-color: var(--accent-red);
         }
 
-        /* Category Label */
-        .page-title {
-            width: 90%;
-            max-width: 1200px;
-            margin: 15px auto;
-            text-transform: uppercase;
-            font-size: 1.4rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
         /* Stat Table Panels */
         .table-container {
-            display: none; /* Hidden until clicked */
             width: 90%;
             max-width: 1200px;
             margin: 0 auto 50px auto;
@@ -226,9 +247,6 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-        }
-        .table-container.active {
-            display: block;
         }
         table {
             width: 100%;
@@ -241,21 +259,33 @@
             border-bottom: 1px solid var(--border-color);
         }
         th {
-            background-color: #1a1e24;
-            color: #f0f6fc;
+            background-color: var(--th-bg);
+            color: var(--th-text);
             font-weight: 700;
             text-transform: uppercase;
             font-size: 0.8rem;
             letter-spacing: 0.5px;
+            cursor: pointer;
+            user-select: none;
         }
-        [data-theme="dark"] th {
-            background-color: #21262d;
+        th:hover {
+            opacity: 0.9;
+        }
+        .sort-icon {
+            margin-left: 6px;
+            font-size: 0.75rem;
+            display: inline-block;
         }
         tr:last-child td {
             border-bottom: none;
         }
         tr:hover td {
-            background-color: rgba(0,0,0,0.01);
+            background-color: rgba(var(--text-color), 0.02);
+        }
+
+        /* Highlight styling for specific high priority data columns like PTS */
+        .highlight-column {
+            font-weight: 700;
         }
 
         /* Footer styling */
@@ -277,7 +307,7 @@
 
         @media (max-width: 768px) {
             header, footer { flex-direction: column; text-align: center; gap: 15px; }
-            .stat-nav { justify-content: center; }
+            .stat-nav, .title-controls-container { justify-content: center; flex-direction: column; gap: 15px; }
         }
     </style>
 </head>
@@ -307,18 +337,18 @@
                 <div class="dropdown-menu dropdown-mega">
                     <div class="mega-col">
                         <h4>Offense</h4>
-                        <a href="stats.html?cat=passing">Quarterbacks</a>
-                        <a href="stats.html?cat=rushing">Running Backs</a>
-                        <a href="stats.html?cat=receiving">Wide Receivers</a>
+                        <a href="#" onclick="showStatTable('passing'); return false;">Quarterbacks (Passing)</a>
+                        <a href="#" onclick="showStatTable('rushing'); return false;">Running Backs (Rushing)</a>
+                        <a href="#" onclick="showStatTable('receiving'); return false;">Wide Receivers (Receiving)</a>
                     </div>
                     <div class="mega-col">
                         <h4>Defense</h4>
-                        <a href="stats.html?cat=defensiveends">Defensive Ends</a>
-                        <a href="stats.html?cat=linebackers">Linebackers</a>
+                        <a href="#" onclick="showStatTable('defensiveends'); return false;">Defensive Ends</a>
+                        <a href="#" onclick="showStatTable('linebackers'); return false;">Linebackers</a>
                     </div>
                     <div class="mega-col">
                         <h4>Special Teams</h4>
-                        <a href="stats.html?cat=kicking">Kickers</a>
+                        <a href="#" onclick="showStatTable('kicking'); return false;">Kickers</a>
                     </div>
                 </div>
             </div>
@@ -339,45 +369,19 @@
         <button class="stat-btn" onclick="showStatTable('kicking')">Kicking</button>
     </div>
 
-    <h2 class="page-title" id="statViewTitle">Passing Stats</h2>
-
-    <div id="table-passing" class="table-container active">
-        <table>
-            <thead>
-                <tr>
-                    <th>#</th><th>TM</th><th>Player</th><th>YDS</th><th>TD</th><th>INT</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>1</td><td>WSH</td><td>DimingSLC</td><td>7131</td><td>68</td><td>24</td></tr>
-                <tr><td>2</td><td>DAL</td><td>PlayerTwo</td><td>6420</td><td>52</td><td>12</td></tr>
-            </tbody>
-        </table>
+    <div class="title-controls-container">
+        <h2 class="page-title" id="statViewTitle">Passing Stats</h2>
+        <div class="search-wrapper">
+            <input type="text" id="playerSearch" oninput="searchTable()" placeholder="Search players or teams...">
+        </div>
     </div>
 
-    <div id="table-rushing" class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>#</th><th>TM</th><th>Player</th><th>YDS</th><th>AVG</th><th>TD</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>1</td><td>NYG</td><td>RushMaster</td><td>1840</td><td>5.4</td><td>16</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="table-receiving" class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>#</th><th>TM</th><th>Player</th><th>REC</th><th>YDS</th><th>TD</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>1</td><td>SF</td><td>WideOutPro</td><td>98</td><td>1420</td><td>11</td></tr>
-            </tbody>
+    <div class="table-container">
+        <table id="dynamicStatsTable">
+            <thead id="tableHead">
+                </thead>
+            <tbody id="tableBody">
+                </tbody>
         </table>
     </div>
 
@@ -393,38 +397,233 @@
     </footer>
 
     <script>
-        function showStatTable(categoryKey) {
-            // Hide all tab containers
-            document.querySelectorAll('.table-container').forEach(table => {
-                table.classList.remove('active');
-            });
-            // Reset button active backgrounds
-            document.querySelectorAll('.stat-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
+        // Centralized Master Database matching your required configurations
+        const dataset = {
+            passing: {
+                headers: [
+                    { label: "#", key: "rank", type: "number" },
+                    { label: "TM", key: "team", type: "string" },
+                    { label: "Player", key: "player", type: "string" },
+                    { label: "PTS", key: "pts", type: "number", highlight: true },
+                    { label: "YDS", key: "yds", type: "number" },
+                    { label: "TD", key: "td", type: "number" },
+                    { label: "INT", key: "int", type: "number" }
+                ],
+                rows: [
+                    { rank: 1, team: "WSH", player: "DimingSLC", pts: 450, yds: 7131, td: 68, int: 24 },
+                    { rank: 2, team: "DAL", player: "PlayerTwo", pts: 380, yds: 6420, td: 52, int: 12 },
+                    { rank: 3, team: "MIA", player: "AlphaQuarter", pts: 290, yds: 5110, td: 41, int: 18 }
+                ]
+            },
+            rushing: {
+                headers: [
+                    { label: "#", key: "rank", type: "number" },
+                    { label: "TM", key: "team", type: "string" },
+                    { label: "Player", key: "player", type: "string" },
+                    { label: "PTS", key: "pts", type: "number", highlight: true },
+                    { label: "YDS", key: "yds", type: "number" },
+                    { label: "AVG", key: "avg", type: "number" },
+                    { label: "TD", key: "td", type: "number" }
+                ],
+                rows: [
+                    { rank: 1, team: "NYG", player: "RushMaster", pts: 120, yds: 1840, avg: 5.4, td: 16 },
+                    { rank: 2, team: "SF", player: "BulletTrain", pts: 96, yds: 1420, avg: 6.1, td: 12 }
+                ]
+            },
+            receiving: {
+                headers: [
+                    { label: "#", key: "rank", type: "number" },
+                    { label: "TM", key: "team", type: "string" },
+                    { label: "Player", key: "player", type: "string" },
+                    { label: "PTS", key: "pts", type: "number", highlight: true },
+                    { label: "REC", key: "rec", type: "number" },
+                    { label: "YDS", key: "yds", type: "number" },
+                    { label: "TD", key: "td", type: "number" }
+                ],
+                rows: [
+                    { rank: 1, team: "SF", player: "WideOutPro", pts: 88, rec: 98, yds: 1420, td: 11 }
+                ]
+            },
+            defensiveends: {
+                headers: [
+                    { label: "#", key: "rank", type: "number" },
+                    { label: "TM", key: "team", type: "string" },
+                    { label: "Player", key: "player", type: "string" },
+                    { label: "PTS", key: "pts", type: "number", highlight: true },
+                    { label: "SCK", key: "sacks", type: "number" },
+                    { label: "TKL", key: "tackles", type: "number" }
+                ],
+                rows: [
+                    { rank: 1, team: "PHI", player: "BlitzKing", pts: 40, sacks: 14, tackles: 45 }
+                ]
+            },
+            linebackers: {
+                headers: [
+                    { label: "#", key: "rank", type: "number" },
+                    { label: "TM", key: "team", type: "string" },
+                    { label: "Player", key: "player", type: "string" },
+                    { label: "PTS", key: "pts", type: "number", highlight: true },
+                    { label: "TKL", key: "tackles", type: "number" },
+                    { label: "INT", key: "int", type: "number" }
+                ],
+                rows: [
+                    { rank: 1, team: "CHI", player: "LineBackerOne", pts: 55, tackles: 88, int: 3 }
+                ]
+            },
+            kicking: {
+                headers: [
+                    { label: "#", key: "rank", type: "number" },
+                    { label: "TM", key: "team", type: "string" },
+                    { label: "Player", key: "player", type: "string" },
+                    { label: "PTS", key: "pts", type: "number", highlight: true },
+                    { label: "FGM", key: "fgm", type: "number" },
+                    { label: "FGA", key: "fga", type: "number" }
+                ],
+                rows: [
+                    { rank: 1, team: "BAL", player: "LegGod", pts: 110, fgm: 28, fga: 30 }
+                ]
+            }
+        };
 
-            // Target view container display activation
-            const selectedTable = document.getElementById('table-' + categoryKey);
-            if (selectedTable) {
-                selectedTable.classList.add('active');
+        // State Tracking variables
+        let currentCategory = 'passing';
+        let currentSortKey = '';
+        let currentSortDirection = 'none'; // 'none', 'asc', 'desc'
+        let currentSearchQuery = '';
+
+        // Master function to render headers and rows combined
+        function renderTable() {
+            const dataConfig = dataset[currentCategory];
+            if (!dataConfig) return;
+
+            // 1. Build Headers
+            const thead = document.getElementById('tableHead');
+            thead.innerHTML = '';
+            const trHead = document.createElement('tr');
+
+            dataConfig.headers.forEach(header => {
+                const th = document.createElement('th');
+                th.textContent = header.label;
+                
+                // Append custom tracking visual arrow indicator 
+                const iconSpan = document.createElement('span');
+                iconSpan.className = 'sort-icon';
+                
+                if (currentSortKey === header.key) {
+                    iconSpan.textContent = currentSortDirection === 'asc' ? ' ▴' : ' ▾';
+                } else {
+                    iconSpan.textContent = ' ⇅';
+                }
+                
+                th.appendChild(iconSpan);
+                th.addEventListener('click', () => sortDataBy(header.key, header.type));
+                trHead.appendChild(th);
+            });
+            thead.appendChild(trHead);
+
+            // 2. Filter & Sort rows for mapping implementation
+            let filteredRows = [...dataConfig.rows];
+
+            // Apply searching rules safely
+            if (currentSearchQuery.trim() !== '') {
+                filteredRows = filteredRows.filter(row => 
+                    row.player.toLowerCase().includes(currentSearchQuery) || 
+                    row.team.toLowerCase().includes(currentSearchQuery)
+                );
             }
 
-            // Update Dynamic Section title string 
-            document.getElementById('statViewTitle').textContent = categoryKey + " stats";
+            // Apply structural sorting values context
+            if (currentSortKey && currentSortDirection !== 'none') {
+                const type = dataConfig.headers.find(h => h.key === currentSortKey)?.type;
+                
+                filteredRows.sort((a, b) => {
+                    let valA = a[currentSortKey];
+                    let valB = b[currentSortKey];
 
-            // Light up target selected button
-            document.querySelectorAll('.stat-btn').forEach(btn => {
-                if(btn.getAttribute('onclick').includes(categoryKey)) {
-                    btn.classList.add('active');
-                }
+                    if (type === 'number') {
+                        return currentSortDirection === 'asc' ? valA - valB : valB - valA;
+                    } else {
+                        return currentSortDirection === 'asc' 
+                            ? String(valA).localeCompare(String(valB))
+                            : String(valB).localeCompare(String(valA));
+                    }
+                });
+            }
+
+            // 3. Output to DOM body content block
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            filteredRows.forEach(rowData => {
+                const tr = document.createElement('tr');
+                dataConfig.headers.forEach(header => {
+                    const td = document.createElement('td');
+                    td.textContent = rowData[header.key];
+                    if (header.highlight) {
+                        td.className = 'highlight-column';
+                    }
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
             });
         }
 
-        // Handles linking directly into subsections from Navbar URLs
+        // Sorting toggle handler algorithm (Most -> Least -> Default loop)
+        function sortDataBy(key, type) {
+            if (currentSortKey !== key) {
+                currentSortKey = key;
+                // Numbers sorting starts high-to-low (desc), strings start A-Z (asc)
+                currentSortDirection = (type === 'number') ? 'desc' : 'asc';
+            } else {
+                if (currentSortDirection === 'asc') {
+                    currentSortDirection = 'desc';
+                } else if (currentSortDirection === 'desc') {
+                    currentSortDirection = 'none';
+                    currentSortKey = '';
+                } else {
+                    currentSortDirection = 'asc';
+                }
+            }
+            renderTable();
+        }
+
+        // Handle text querying filters
+        function searchTable() {
+            currentSearchQuery = document.getElementById('playerSearch').value.toLowerCase();
+            renderTable();
+        }
+
+        // Main controller method for switcher layout logic switching
+        function showStatTable(categoryKey) {
+            currentCategory = categoryKey;
+            currentSortKey = '';
+            currentSortDirection = 'none';
+            
+            // Clean inputs query string
+            document.getElementById('playerSearch').value = '';
+            currentSearchQuery = '';
+
+            // Update tab styling visual state indicators
+            document.querySelectorAll('.stat-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('onclick').includes(categoryKey)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Update title label text
+            document.getElementById('statViewTitle').textContent = categoryKey + " stats";
+            
+            renderTable();
+        }
+
+        // Handles linking directly into subsections from URL structure parameters
         const urlParams = new URLSearchParams(window.location.search);
         const urlCategory = urlParams.get('cat');
-        if (urlCategory) {
+        if (urlCategory && dataset[urlCategory]) {
             showStatTable(urlCategory);
+        } else {
+            renderTable(); // Fallback initializer
         }
 
         // Dark / Light Theme Toggle Script Handler
