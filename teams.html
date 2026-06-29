@@ -9,11 +9,13 @@
         :root {
             --bg-color: #fcfcfc;
             --card-bg: #ffffff;
-            --text-color: #333333;
+            --text-color: #111111;
             --text-light: #777777;
             --border-color: #e0e0e0;
             --nav-bg: #ffffff;
             --accent-red: #e61e2b;
+            --footer-bg: #161a22;
+            --footer-text: #8a94a6;
         }
 
         [data-theme="dark"] {
@@ -30,7 +32,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             transition: background-color 0.2s, color 0.2s, border-color 0.2s;
         }
         body {
@@ -41,69 +43,87 @@
             min-height: 100vh;
         }
 
-        /* Top Navigation Bar Layout */
+        /* --- NAVIGATION BAR STYLES (image_daa93f.png) --- */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 5%;
+            padding: 15px 4%;
             background: var(--nav-bg);
             border-bottom: 1px solid var(--border-color);
             position: relative;
             z-index: 1000;
         }
-        .logo-area {
+        .logo-area a {
+            text-decoration: none;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-area span {
             font-weight: 800;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
+            letter-spacing: -0.5px;
         }
 
         nav {
             display: flex;
             align-items: center;
+            gap: 5px;
         }
         .nav-item {
             position: relative;
-            display: inline-block;
-            margin: 0 15px;
         }
         .nav-item > a {
             text-decoration: none;
             color: var(--text-color);
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.92rem;
+            padding: 8px 14px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             gap: 4px;
         }
+        .nav-item > a:hover {
+            background-color: rgba(0,0,0,0.04);
+        }
+        [data-theme="dark"] .nav-item > a:hover {
+            background-color: rgba(255,255,255,0.04);
+        }
+
+        /* Dropdowns & Mega Dropdown Menus */
         .dropdown-menu {
             display: none;
             position: absolute;
             top: 100%;
             left: 0;
             background-color: var(--card-bg);
-            min-width: 150px;
-            box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
+            min-width: 160px;
+            box-shadow: 0px 8px 24px rgba(0,0,0,0.12);
             border: 1px solid var(--border-color);
-            border-radius: 4px;
+            border-radius: 8px;
             list-style: none;
-            padding: 5px 0;
+            padding: 6px 0;
+            margin-top: 5px;
         }
         .dropdown-menu a {
             color: var(--text-color);
-            padding: 10px 15px;
+            padding: 9px 16px;
             text-decoration: none;
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             font-weight: 500;
         }
         .dropdown-menu a:hover {
-            background-color: var(--bg-color);
+            background-color: rgba(0,0,0,0.04);
         }
         .nav-item:hover .dropdown-menu {
             display: block;
         }
 
-        /* Mega Dropdown menu for stats options */
+        /* Mega Menu Configuration */
         .nav-item:hover .dropdown-mega {
             display: flex !important;
         }
@@ -114,13 +134,14 @@
             left: 50%;
             transform: translateX(-50%);
             background-color: var(--card-bg);
-            min-width: 550px;
-            box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
+            min-width: 560px;
+            box-shadow: 0px 8px 24px rgba(0,0,0,0.12);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 20px;
-            gap: 30px;
+            border-radius: 12px;
+            padding: 24px;
+            gap: 32px;
             list-style: none;
+            margin-top: 5px;
         }
         .mega-col {
             flex: 1;
@@ -132,7 +153,7 @@
             text-transform: uppercase;
             color: var(--text-light);
             margin-bottom: 12px;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
         }
         .mega-col a {
             color: var(--text-color);
@@ -146,14 +167,15 @@
             color: var(--accent-red);
         }
 
+        /* Right Actions */
         .right-actions {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 16px;
         }
         .theme-toggle-btn {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             border: 1px solid var(--border-color);
             background: var(--card-bg);
@@ -162,47 +184,47 @@
             align-items: center;
             justify-content: center;
             color: var(--text-color);
-            font-size: 1.1rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-size: 1.15rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
         }
         .join-btn {
             background-color: var(--accent-red);
             color: white;
-            padding: 8px 18px;
-            border-radius: 4px;
+            padding: 10px 22px;
+            border-radius: 6px;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 700;
+            font-size: 0.92rem;
+            letter-spacing: -0.2px;
         }
 
-        /* Title Area Section Configuration */
+        /* --- CONTENT BODY STYLE --- */
         .page-header-section {
             width: 90%;
             max-width: 1200px;
-            margin: 40px auto 10px auto;
+            margin: 45px auto 10px auto;
         }
         .subtitle-tag {
-            color: var(--accent-red);
+            color: #3b82f6; /* Matching the league highlight tag */
             font-size: 0.75rem;
             text-transform: uppercase;
             font-weight: 700;
             letter-spacing: 1.5px;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             display: block;
         }
         .page-title {
-            text-transform: uppercase;
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             font-weight: 800;
             letter-spacing: -0.5px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
         .page-description {
             color: var(--text-light);
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: 500;
         }
 
-        /* Responsive Team Card Grid Layout matching your shared style goals */
         .teams-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -211,7 +233,6 @@
             max-width: 1200px;
             margin: 30px auto 60px auto;
         }
-
         .team-card {
             display: flex;
             flex-direction: column;
@@ -228,14 +249,10 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01);
             transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s;
         }
-
-        /* Smooth slide-lift card pop on hover state interaction */
         .team-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
         }
-
-        /* Colored accent line boundary accents on top of team cards */
         .team-card::before {
             content: '';
             position: absolute;
@@ -245,7 +262,6 @@
             height: 4px;
             background-color: var(--accent-color, var(--accent-red));
         }
-
         .logo-box {
             width: 110px;
             height: 110px;
@@ -254,57 +270,96 @@
             justify-content: center;
             margin-bottom: 18px;
         }
-
         .logo-box img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
         }
-
         .team-name {
             font-size: 1.05rem;
             font-weight: 700;
             line-height: 1.3;
             margin-bottom: 6px;
         }
-
         .team-record {
             font-size: 0.85rem;
             font-weight: 600;
             color: var(--text-light);
-            letter-spacing: 0.5px;
         }
 
-        /* Footer styling */
+        /* --- FOOTER STYLES (image_daa8de.png) --- */
         footer {
-            background-color: #1a1e24;
-            color: #8a94a6;
-            padding: 40px 5%;
+            background-color: #11141a; /* Dark sleek container base */
+            color: #8e99a8;
+            padding: 60px 8% 50px 8%;
+            margin-top: auto;
             display: flex;
             justify-content: space-between;
-            font-size: 0.85rem;
-            margin-top: auto;
+            align-items: flex-start;
+            border-top: 1px solid #1f242e;
         }
-        footer a {
-            color: #fff;
+        .footer-left {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .footer-socials {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .footer-socials a {
+            color: #8e99a8;
+            font-size: 1.3rem;
             text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-socials a:hover {
+            color: #ffffff;
+        }
+        .footer-logo img {
+            height: 55px;
+            width: auto;
             display: block;
-            margin-bottom: 8px;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
+        }
+        .footer-links-container {
+            display: flex;
+            gap: 100px;
+        }
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .footer-column a {
+            color: #8e99a8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            text-transform: lowercase; /* Matches image_daa8de.png typography style */
+        }
+        .footer-column a:hover {
+            color: #ffffff;
         }
 
         @media (max-width: 768px) {
-            header, footer { flex-direction: column; text-align: center; gap: 15px; }
-            .page-header-section { text-align: center; }
+            header { flex-direction: column; gap: 15px; text-align: center; }
+            nav { flex-wrap: wrap; justify-content: center; }
+            footer { flex-direction: column; gap: 40px; align-items: center; text-align: center; }
+            .footer-links-container { gap: 50px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- UNIVERSAL HEADER COMPONENT -->
     <header>
         <div class="logo-area">
-            <a href="/" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;">
-                <img src="e1abd0576f5f77741b1f5a27399462ff.webp" alt="NBL Logo" style="height: 45px; width: auto; display: block;">
-                <span style="font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px;">National Basketball League</span>
+            <a href="/">
+                <img src="e1abd0576f5f77741b1f5a27399462ff.webp" alt="NBL Logo" style="height: 40px; width: auto;">
+                <span>National Basketball League</span>
             </a>
         </div>
         <nav>
@@ -340,6 +395,14 @@
                 </div>
             </div>
             <div class="nav-item"><a href="#">Rulebook</a></div>
+            <div class="nav-item">
+                <a href="#">Legacy ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">History</a></li>
+                    <li><a href="#">Hall of Fame</a></li>
+                    <li><a href="#">Past Seasons</a></li>
+                </ul>
+            </div>
         </nav>
         <div class="right-actions">
             <button class="theme-toggle-btn" id="themeToggleBtn">🌙</button>
@@ -347,55 +410,75 @@
         </div>
     </header>
 
-    <!-- Header Description blocks -->
+    <!-- CONTENT ELEMENT HOOK -->
     <div class="page-header-section">
         <span class="subtitle-tag">League</span>
-        <h2 class="page-title">Teams</h2>
+        <h2 class="page-title">teams</h2>
         <p class="page-description">Every franchise in the league. Pick a team for schedule, roster, and player profiles.</p>
     </div>
 
-    <!-- Main dynamic grid hook container -->
     <div class="teams-grid" id="teamsGridContainer">
-        <!-- Rendered dynamically by JavaScript execution below -->
+        <!-- Rendered dynamically by database array below -->
     </div>
 
+    <!-- UNIVERSAL MULTI-COLUMN DARK FOOTER COMPONENT -->
     <footer>
-        <div>
-            <h3>NATIONAL BASKETBALL LEAGUE</h3>
-            <p style="margin-top: 10px;">© 2026 Roblox Operations.</p>
+        <div class="footer-left">
+            <div class="footer-socials">
+                <!-- SVG Discord Icon -->
+                <a href="#" aria-label="Discord">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.578-.406.833a12.256 12.256 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032a.054.054 0 0 0 .022.035a13.271 13.271 0 0 0 3.984 2.016.054.054 0 0 0 .058-.019c.308-.42.582-.865.818-1.34a.05.05 0 0 0-.028-.069a8.726 8.726 0 0 1-1.253-.59a.054.054 0 0 1-.006-.09c.085-.063.17-.129.252-.196a.054.054 0 0 1 .056-.008c2.58 1.184 5.374 1.184 7.914 0a.054.054 0 0 1 .056.008c.082.067.166.133.252.196a.054.054 0 0 1-.006.09 8.2 8.2 0 0 1-1.253.59.05.05 0 0 0-.028.069c.237.475.511.92.817 1.34a.054.054 0 0 0 .058.02 13.281 13.281 0 0 0 3.984-2.016.056.056 0 0 0 .023-.035c.321-3.462-.239-6.474-1.649-9.107a.042.042 0 0 0-.021-.019zm-7.348 7.37c-.785 0-1.432-.718-1.432-1.604c0-.885.637-1.604 1.432-1.604c.795 0 1.44.724 1.432 1.604c0 .886-.637 1.604-1.432 1.604zm4.08 0c-.785 0-1.432-.718-1.432-1.604c0-.885.637-1.604 1.432-1.604c.795 0 1.44.724 1.432 1.604c0 .886-.637 1.604-1.432 1.604z"/>
+                    </svg>
+                </a>
+                <!-- SVG Twitter/Roblox alternative icon track -->
+                <a href="#" aria-label="Twitter">
+                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.055-4.425 5.055H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.6.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z"/>
+                    </svg>
+                </a>
+            </div>
+            <div class="footer-logo">
+                <img src="e1abd0576f5f77741b1f5a27399462ff.webp" alt="NBL Branded Logo Footer">
+            </div>
         </div>
-        <div>
-            <a href="#">Terms of Service</a>
-            <a href="#">League Rules</a>
+
+        <div class="footer-links-container">
+            <div class="footer-column">
+                <a href="/">home</a>
+                <a href="#">standings</a>
+                <a href="/stats">stats</a>
+                <a href="/scores">scores</a>
+            </div>
+            <div class="footer-column">
+                <a href="#">rulebook</a>
+                <a href="#">legacy</a>
+                <a href="#">documentation</a>
+            </div>
         </div>
     </footer>
 
     <script>
         // Centralized Array Database of your Teams matching layout structures
         const teamsData = [
-            { name: "Canada", record: "6-4", logo: "canada.webp", color: "#D80621", slug: "canada" },
-            { name: "California", record: "9-1", logo: "california.webp", color: "#0021A5", slug: "california" },
-            { name: "Florida", record: "6-4", logo: "florida.webp", color: "#FA4616", slug: "florida" },
-            { name: "Illinois", record: "3-7", logo: "illinois.webp", color: "#E84A27", slug: "illinois" },
-            { name: "Michigan", record: "6-4", logo: "michigan.webp", color: "#FFCB05", slug: "michigan" },
-            { name: "North Carolina", record: "0-10", logo: "carolina.webp", color: "#4B9CD3", slug: "north carolina" },
-            { name: "Oklahoma", record: "6-4", logo: "oklahoma.webp", color: "#841617", slug: "oklahoma" },
-            { name: "Texas", record: "3-7", logo: "texas.webp", color: "#BF5700", slug: "texas" }
+            { name: "Alabama State Bruins", record: "8–5", logo: "bruins.png", color: "#800000", slug: "alabama-state" },
+            { name: "Anchorage Polar Bears", record: "4–9", logo: "polarbears.png", color: "#708090", slug: "anchorage" },
+            { name: "Atlantis Guardians", record: "9–4", logo: "guardians.png", color: "#005f73", slug: "atlantis" },
+            { name: "Baltimore Bats", record: "13–0", logo: "bats.png", color: "#4b0082", slug: "baltimore" },
+            { name: "Arizona Cardinals", record: "0–0", logo: "cardinals.png", color: "#a71930", slug: "arizona" },
+            { name: "Atlanta Falcons", record: "0–0", logo: "falcons.png", color: "#a71930", slug: "atlanta" },
+            { name: "Buffalo Bills", record: "0–0", logo: "bills.png", color: "#00338d", slug: "buffalo" },
+            { name: "Chicago Bears", record: "0–0", logo: "bears.png", color: "#0b162a", slug: "chicago" }
         ];
 
-        // Generator routine to populate the UI view
         function loadTeamsGrid() {
             const container = document.getElementById('teamsGridContainer');
-            container.innerHTML = ''; // Clear container
-
+            container.innerHTML = '';
             teamsData.forEach(team => {
                 const card = document.createElement('a');
                 card.href = `/teams/${team.slug}`;
                 card.className = 'team-card';
-                
-                // Inject custom inline style properties for specific color lines on top of cards
                 card.style.setProperty('--accent-color', team.color);
-
                 card.innerHTML = `
                     <div class="logo-box">
                         <img src="${team.logo}" alt="${team.name} Logo">
@@ -403,15 +486,12 @@
                     <h3 class="team-name">${team.name}</h3>
                     <span class="team-record">${team.record}</span>
                 `;
-
                 container.appendChild(card);
             });
         }
-
-        // Initialize grid on document load setup
         loadTeamsGrid();
 
-        // Dark / Light Theme Toggle Script Handler
+        // Dark / Light Theme Toggle Logic
         const toggleBtn = document.getElementById('themeToggleBtn');
         toggleBtn.addEventListener('click', () => {
             const currentTheme = document.documentElement.getAttribute('data-theme');
