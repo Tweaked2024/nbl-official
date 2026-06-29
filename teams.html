@@ -295,7 +295,7 @@
             color: var(--text-light);
         }
 
-        /* --- TEAM VIEW STYLES (image_db211a.png & image_db2157.png) --- */
+        /* --- TEAM VIEW STYLES --- */
         .profile-container {
             width: 90%;
             max-width: 1200px;
@@ -443,7 +443,7 @@
         .outcome-w { background-color: #10b981; }
         .outcome-l { background-color: #a3a3a3; }
 
-        /* Stats Table Styles (image_db2157.png) */
+        /* Stats Table Styles */
         .table-responsive {
             width: 100%;
             overflow-x: auto;
@@ -560,7 +560,6 @@
 </head>
 <body>
 
-    <!-- UNIVERSAL HEADER COMPONENT -->
     <header>
         <div class="logo-area">
             <a href="/">
@@ -618,23 +617,18 @@
         </div>
     </header>
 
-    <!-- CONTENT ELEMENT HOOK -->
     <div class="page-header-section" id="pageHeader">
         <span class="subtitle-tag">League</span>
         <h2 class="page-title">NBL - Teams</h2>
         <p class="page-description">Every franchise in the league. Pick a team for schedule, roster, and player profiles.</p>
     </div>
 
-    <!-- MAIN GRID CONTAINER -->
     <div class="teams-grid" id="teamsGridContainer">
-        <!-- Rendered dynamically by database array below -->
-    </div>
+        </div>
 
-    <!-- DYNAMIC OVERLAY CONTAINER (HIDDEN BY DEFAULT) -->
     <div class="profile-container" id="teamProfileView" style="display: none;">
         <a href="#" class="back-btn" id="closeProfileBtn">← back to standings</a>
         
-        <!-- Top Custom Team Banner Layout -->
         <div class="team-banner" id="teamBanner">
             <div class="banner-left">
                 <img id="bannerLogo" src="" alt="" class="banner-logo">
@@ -655,13 +649,10 @@
             </div>
         </div>
 
-        <!-- Schedule Section -->
         <h3 class="section-header">Schedule</h3>
         <div class="schedule-list" id="scheduleContainer">
-            <!-- Populated via Javascript dynamically -->
-        </div>
+            </div>
 
-        <!-- Passing Stats Table Section -->
         <h3 class="section-header">Passing</h3>
         <div class="table-responsive">
             <table class="stats-table">
@@ -681,12 +672,10 @@
                     </tr>
                 </thead>
                 <tbody id="passingTableBody">
-                    <!-- Populated via JS -->
-                </tbody>
+                    </tbody>
             </table>
         </div>
 
-        <!-- Rushing Stats Table Section -->
         <h3 class="section-header">Rushing</h3>
         <div class="table-responsive">
             <table class="stats-table">
@@ -708,13 +697,11 @@
                     </tr>
                 </thead>
                 <tbody id="rushingTableBody">
-                    <!-- Populated via JS -->
-                </tbody>
+                    </tbody>
             </table>
         </div>
     </div>
 
-    <!-- UNIVERSAL MULTI-COLUMN DARK FOOTER COMPONENT -->
     <footer>
         <div class="footer-left">
             <div class="footer-socials">
@@ -762,12 +749,12 @@
                     { week: "WK 1", type: "@", oppLogo: "illinois.webp", oppName: "ILLINOIS", score: "49 - 8", win: true },
                     { week: "WK 2", type: "vs", oppLogo: "oklahoma.webp", oppName: "OKLAHOMA", score: "64 - 22", win: true },
                     { week: "WK 3", type: "vs", oppLogo: "canada.webp", oppName: "CANADA", score: "97 - 69", win: true },
-                    { week: "WK 4", type: "vs", oppLogo: "carolina.webp", oppName: "CAROLINA", score: "53 - 12", win: true }
-                    { week: "WK 5", type: "@ ", oppLogo: "illinois.webp", oppName: "ILLINOIS", score: "124 - 97", win: true }
-                    { week: "WK 6", type: "vs", oppLogo: "michigan.webp", oppName: "MICHIGAN", score: "122 - 81", win: true }
-                    { week: "WK 7", type: "@", oppLogo: "canada.webp", oppName: "CANADA", score: "123 - 109", win: true }
-                    { week: "WK 8", type: "vs", oppLogo: "florida.webp", oppName: "FLORIDA", score: "90 - 84", win: true }
-                    { week: "WK 9", type: "vs", oppLogo: "illinois.webp", oppName: "ILLINOIS", score: "40 - 0", win: true }
+                    { week: "WK 4", type: "vs", oppLogo: "carolina.webp", oppName: "CAROLINA", score: "53 - 12", win: true },
+                    { week: "WK 5", type: "@ ", oppLogo: "illinois.webp", oppName: "ILLINOIS", score: "124 - 97", win: true },
+                    { week: "WK 6", type: "vs", oppLogo: "michigan.webp", oppName: "MICHIGAN", score: "122 - 81", win: true },
+                    { week: "WK 7", type: "@", oppLogo: "canada.webp", oppName: "CANADA", score: "123 - 109", win: true },
+                    { week: "WK 8", type: "vs", oppLogo: "florida.webp", oppName: "FLORIDA", score: "90 - 84", win: true },
+                    { week: "WK 9", type: "vs", oppLogo: "illinois.webp", oppName: "ILLINOIS", score: "40 - 0", win: true },
                     { week: "WK 10", type: "@", oppLogo: "oklahoma.webp", oppName: "OKLAHOMA", score: "112 - 95", win: false }   
                 ],
                 passing: [
@@ -813,7 +800,6 @@
                     <span class="team-record">${team.record}</span>
                 `;
                 
-                // Intercept clicks to open option 1 panel instead of navigating away
                 card.addEventListener('click', () => {
                     showTeamProfile(team);
                 });
@@ -823,11 +809,10 @@
         }
 
         function showTeamProfile(team) {
-            // 1. Hide Grid Layout Views
             document.getElementById('teamsGridContainer').style.display = 'none';
             document.getElementById('pageHeader').style.display = 'none';
+            document.getElementById('teamProfileView').style.display = 'block';
 
-            // 2. Set Up Banner Styles
             document.getElementById('teamBanner').style.backgroundColor = team.color;
             document.getElementById('bannerLogo').src = team.logo;
             
@@ -839,7 +824,7 @@
             document.getElementById('bannerName').textContent = lastName;
             document.getElementById('bannerRecord').textContent = team.record;
 
-            // 3. Populate Schedules Block Layout
+            // Populate Schedules
             const schedContainer = document.getElementById('scheduleContainer');
             schedContainer.innerHTML = '';
             if (!team.schedule || team.schedule.length === 0) {
@@ -865,22 +850,17 @@
                 });
             }
 
-            // 4. Populate Passing Table Row Content
+            // Populate Passing Table
             const passingBody = document.getElementById('passingTableBody');
             passingBody.innerHTML = '';
             if(!team.passing || team.passing.length === 0) {
-                passingBody.innerHTML = '<tr><td colspan="11" style="text-align:center; color:var(--text-light)">No passing stats recorded.</td></tr>';
+                passingBody.innerHTML = '<tr><td colspan="11" style="text-align: center; padding: 20px;">No passing stats available.</td></tr>';
             } else {
                 team.passing.forEach(p => {
                     passingBody.innerHTML += `
                         <tr>
                             <td>${p.rk}</td>
-                            <td>
-                                <div class="player-cell">
-                                    <div class="player-avatar" style="background: #ccc;"></div>
-                                    <span>${p.name}</span>
-                                </div>
-                            </td>
+                            <td class="player-cell"><div class="player-avatar"></div>${p.name}</td>
                             <td>${p.pts}</td>
                             <td>${p.yds}</td>
                             <td>${p.pct}</td>
@@ -895,22 +875,17 @@
                 });
             }
 
-            // 5. Populate Rushing Table Row Content
+            // Populate Rushing Table
             const rushingBody = document.getElementById('rushingTableBody');
             rushingBody.innerHTML = '';
             if(!team.rushing || team.rushing.length === 0) {
-                rushingBody.innerHTML = '<tr><td colspan="13" style="text-align:center; color:var(--text-light)">No rushing stats recorded.</td></tr>';
+                rushingBody.innerHTML = '<tr><td colspan="13" style="text-align: center; padding: 20px;">No rushing stats available.</td></tr>';
             } else {
                 team.rushing.forEach(r => {
                     rushingBody.innerHTML += `
                         <tr>
                             <td>${r.rk}</td>
-                            <td>
-                                <div class="player-cell">
-                                    <div class="player-avatar" style="background: #ccc;"></div>
-                                    <span>${r.name}</span>
-                                </div>
-                            </td>
+                            <td class="player-cell"><div class="player-avatar"></div>${r.name}</td>
                             <td>${r.pts}</td>
                             <td>${r.yds}</td>
                             <td>${r.yatt}</td>
@@ -926,13 +901,9 @@
                     `;
                 });
             }
-
-            // Reveal profile panel view markup
-            document.getElementById('teamProfileView').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Close and return to core grid layout execution
+        // Close Profile View Button Logic
         document.getElementById('closeProfileBtn').addEventListener('click', (e) => {
             e.preventDefault();
             document.getElementById('teamProfileView').style.display = 'none';
@@ -940,21 +911,10 @@
             document.getElementById('pageHeader').style.display = 'block';
         });
 
-        // Initialize grid on run
-        loadTeamsGrid();
-
-        // Dark / Light Theme Toggle Logic
-        const toggleBtn = document.getElementById('themeToggleBtn');
-        toggleBtn.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            if (currentTheme === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'light');
-                toggleBtn.textContent = '🌙'; 
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                toggleBtn.textContent = '☀️'; 
-            }
-        });
+        // Run functions immediately on page startup
+        window.onload = function() {
+            loadTeamsGrid();
+        };
     </script>
 </body>
 </html>
