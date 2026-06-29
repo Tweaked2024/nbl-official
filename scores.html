@@ -1,1 +1,88 @@
 
+<style>
+    .series-nav {
+        display: flex;
+        gap: 10px;
+        margin: 20px auto;
+        width: 90%;
+        max-width: 1200px;
+    }
+    .series-btn {
+        background-color: var(--card-bg);
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    .series-btn.active {
+        background-color: var(--accent-red);
+        color: white;
+        border-color: var(--accent-red);
+    }
+    .series-container {
+        display: none; /* Hides all series layouts by default */
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    .series-container.active {
+        display: grid; /* Shows the active series layout block */
+    }
+    .week-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 20px;
+    }
+</style>
+
+<main>
+    <div class="series-nav">
+        <button class="series-btn active" onclick="switchSeries('series-1')">SERIES I</button>
+        <button class="series-btn" onclick="switchSeries('series-2')">SERIES II</button>
+        <button class="series-btn" onclick="switchSeries('series-3')">SERIES III</button>
+        </div>
+
+    <div id="series-1" class="series-container active">
+        <div class="week-card">
+            <h3>WEEK 1 <span class="live-tag">FINAL</span></h3>
+            <hr style="border-color: var(--border-color); margin: 10px 0;">
+            <div class="row-item"><span>STEELERS</span> <div class="match-score">29 - 3</div> <span>RAMS</span></div>
+            <div class="row-item"><span>DOLPHINS</span> <div class="match-score">21 - 0</div> <span>TITANS</span></div>
+            </div>
+        <div class="week-card">
+            <h3>WEEK 2 <span class="live-tag">FINAL</span></h3>
+            <hr style="border-color: var(--border-color); margin: 10px 0;">
+            <div class="row-item"><span>BROWNS</span> <div class="match-score">42 - 38</div> <span>COMMANDERS</span></div>
+            </div>
+    </div>
+
+    <div id="series-2" class="series-container">
+        <div class="week-card">
+            <h3>WEEK 1 (Series II)</h3>
+            <div class="row-item"><span>LIONS</span> <div class="match-score">0 - 0</div> <span>BEARS</span></div>
+        </div>
+    </div>
+</main>
+
+<script>
+    function switchSeries(seriesId) {
+        // Hide all series blocks
+        document.querySelectorAll('.series-container').forEach(container => {
+            container.classList.remove('active');
+        });
+        // Remove active button color styling
+        document.querySelectorAll('.series-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Show the targeted clicked series block
+        document.getElementById(seriesId).classList.add('active');
+        // Add active style to target button clicked
+        event.currentTarget.classList.add('active');
+    }
+</script>
