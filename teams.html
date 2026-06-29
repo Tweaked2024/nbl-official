@@ -578,6 +578,8 @@
                     <li><a href="/scores?series=1">Series I</a></li>
                     <li><a href="/scores?series=2">Series II</a></li>
                     <li><a href="/scores?series=3">Series III</a></li>
+                    <li><a href="/scores?series=4">Series IV</a></li>
+                    <li><a href="/scores?series=5">Series V</a></li>
                 </ul>
             </div>
             <div class="nav-item">
@@ -619,7 +621,7 @@
     <!-- CONTENT ELEMENT HOOK -->
     <div class="page-header-section" id="pageHeader">
         <span class="subtitle-tag">League</span>
-        <h2 class="page-title">teams</h2>
+        <h2 class="page-title">NBL - Teams</h2>
         <p class="page-description">Every franchise in the league. Pick a team for schedule, roster, and player profiles.</p>
     </div>
 
@@ -751,16 +753,22 @@
         // Centralized Database containing game stats & schedules for each team
         const teamsData = [
             { 
-                name: "Arizona Cardinals", 
-                record: "7 - 6", 
+                name: "California", 
+                record: "9 - 1", 
                 logo: "california.webp", 
-                color: "#8c1d27", 
+                color: "#003262", 
                 slug: "california",
                 schedule: [
-                    { week: "WK 1", type: "vs", oppLogo: "california.webp", oppName: "LIONS", score: "44 - 41", win: true },
-                    { week: "WK 2", type: "@", oppLogo: "california.webp", oppName: "TITANS", score: "49 - 30", win: true },
-                    { week: "WK 3", type: "vs", oppLogo: "california.webp", oppName: "SAINTS", score: "40 - 7", win: true },
-                    { week: "WK 4", type: "vs", oppLogo: "california.webp", oppName: "COMMANDERS", score: "40 - 43", win: false }
+                    { week: "WK 1", type: "@", oppLogo: "illinois.webp", oppName: "ILLINOIS", score: "49 - 8", win: true },
+                    { week: "WK 2", type: "vs", oppLogo: "oklahoma.webp", oppName: "OKLAHOMA", score: "64 - 22", win: true },
+                    { week: "WK 3", type: "vs", oppLogo: "canada.webp", oppName: "CANADA", score: "97 - 69", win: true },
+                    { week: "WK 4", type: "vs", oppLogo: "carolina.webp", oppName: "CAROLINA", score: "53 - 12", win: true }
+                    { week: "WK 5", type: "@ ", oppLogo: "illinois.webp", oppName: "ILLINOIS", score: "124 - 97", win: true }
+                    { week: "WK 6", type: "vs", oppLogo: "michigan.webp", oppName: "MICHIGAN", score: "122 - 81", win: true }
+                    { week: "WK 7", type: "@", oppLogo: "canada.webp", oppName: "CANADA", score: "123 - 109", win: true }
+                    { week: "WK 8", type: "vs", oppLogo: "florida.webp", oppName: "FLORIDA", score: "90 - 84", win: true }
+                    { week: "WK 9", type: "vs", oppLogo: "illinois.webp", oppName: "ILLINOIS", score: "40 - 0", win: true }
+                    { week: "WK 10", type: "@", oppLogo: "oklahoma.webp", oppName: "OKLAHOMA", score: "112 - 95", win: false }   
                 ],
                 passing: [
                     { rk: 15, name: "TheLordPred", avatar: "avatar1.png", pts: 255.6, yds: 3939, pct: "50.19%", td: 37, int: 25, sck: 39, c3rd: 13, c4th: 7, snap: 262 },
