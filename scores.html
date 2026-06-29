@@ -1,88 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>American Football League - Scores</title>
+    <style>
+        /* CSS Variables for Dynamic Theme Switching */
+        :root {
+            --bg-color: #fcfcfc;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --text-light: #777777;
+            --border-color: #e0e0e0;
+            --nav-bg: #ffffff;
+            --accent-red: #e61e2b;
+            --filter-bg: #fdfdfd;
+        }
 
-<style>
-    .series-nav {
-        display: flex;
-        gap: 10px;
-        margin: 20px auto;
-        width: 90%;
-        max-width: 1200px;
-    }
-    .series-btn {
-        background-color: var(--card-bg);
-        color: var(--text-color);
-        border: 1px solid var(--border-color);
-        padding: 8px 16px;
-        border-radius: 4px;
-        cursor: pointer;
-        font-weight: bold;
-    }
-    .series-btn.active {
-        background-color: var(--accent-red);
-        color: white;
-        border-color: var(--accent-red);
-    }
-    .series-container {
-        display: none; /* Hides all series layouts by default */
-        width: 90%;
-        max-width: 1200px;
-        margin: 0 auto;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-    }
-    .series-container.active {
-        display: grid; /* Shows the active series layout block */
-    }
-    .week-card {
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 6px;
-        padding: 20px;
-    }
-</style>
+        [data-theme="dark"] {
+            --bg-color: #0b0e14;
+            --card-bg: #161b22;
+            --text-color: #f0f6fc;
+            --text-light: #8b949e;
+            --border-color: #30363d;
+            --nav-bg: #161b22;
+            --filter-bg: #21262d;
+        }
 
-<main>
+        /* Base Styling & Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* Top Navigation Bar */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            z-index: 1000;
+        }
+        .logo-area {
+            font-weight: 800;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Hover Navigation Menu with Dropdowns */
+        nav {
+            display: flex;
+            align-items: center;
+        }
+        .nav-item {
+            position: relative;
+            display: inline-block;
+            margin: 0 15px;
+        }
+        .nav-item > a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--card-bg);
+            min-width: 150px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            list-style: none;
+            padding: 5px 0;
+        }
+        .dropdown-menu a {
+            color: var(--text-color);
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .dropdown-menu a:hover {
+            background-color: var(--bg-color);
+        }
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* Right Header Elements */
+        .right-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .theme-toggle-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .join-btn {
+            background-color: var(--accent-red);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Series Navigation Row */
+        .series-nav {
+            display: flex;
+            gap: 10px;
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto 10px auto;
+        }
+        .series-btn {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+        .series-btn.active {
+            background-color: var(--accent-red);
+            color: white;
+            border-color: var(--accent-red);
+        }
+
+        /* Scores Display Container Grid */
+        .scores-dashboard {
+            display: none; /* Hidden by default */
+            width: 90%;
+            max-width: 1200px;
+            margin: 10px auto 50px auto;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        .scores-dashboard.active {
+            display: grid; /* Displayed when active */
+        }
+
+        /* Week Box Cards */
+        .week-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .week-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--accent-red);
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .live-tag {
+            background: #fee2e2;
+            color: #991b1b;
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        /* Matchup Rows */
+        .match-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+        .team-side {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 40%;
+        }
+        .team-side.right {
+            justify-content: flex-end;
+            color: var(--text-light); /* Matches muted side appearance */
+        }
+        .match-score-box {
+            font-weight: 800;
+            font-size: 1.05rem;
+            background: var(--bg-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            min-width: 80px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Footer styling */
+        footer {
+            background-color: #1a1e24;
+            color: #8a94a6;
+            padding: 40px 5%;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-top: auto;
+        }
+        footer a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .scores-dashboard { grid-template-columns: 1fr; }
+            header, footer { flex-direction: column; text-align: center; gap: 15px; }
+            .series-nav { justify-content: center; flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+            AMERICAN FOOTBALL LEAGUE
+        </div>
+        <nav>
+            <div class="nav-item"><a href="#">Standings</a></div>
+            <div class="nav-item"><a href="#">Teams</a></div>
+            <div class="nav-item"><a href="scores.html">Scores ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" onclick="switchSeries('series-1')">Series I</a></li>
+                    <li><a href="#" onclick="switchSeries('series-2')">Series II</a></li>
+                    <li><a href="#" onclick="switchSeries('series-3')">Series III</a></li>
+                </ul>
+            </div>
+            <div class="nav-item"><a href="#">Stats ▾</a></div>
+            <div class="nav-item"><a href="#">Rulebook</a></div>
+            <div class="nav-item"><a href="#">Legacy ▾</a></div>
+        </nav>
+        <div class="right-actions">
+            <button class="theme-toggle-btn" id="themeToggleBtn">🌙</button>
+            <a href="#" class="join-btn">join now</a>
+        </div>
+    </header>
+
     <div class="series-nav">
-        <button class="series-btn active" onclick="switchSeries('series-1')">SERIES I</button>
-        <button class="series-btn" onclick="switchSeries('series-2')">SERIES II</button>
-        <button class="series-btn" onclick="switchSeries('series-3')">SERIES III</button>
-        </div>
-
-    <div id="series-1" class="series-container active">
-        <div class="week-card">
-            <h3>WEEK 1 <span class="live-tag">FINAL</span></h3>
-            <hr style="border-color: var(--border-color); margin: 10px 0;">
-            <div class="row-item"><span>STEELERS</span> <div class="match-score">29 - 3</div> <span>RAMS</span></div>
-            <div class="row-item"><span>DOLPHINS</span> <div class="match-score">21 - 0</div> <span>TITANS</span></div>
-            </div>
-        <div class="week-card">
-            <h3>WEEK 2 <span class="live-tag">FINAL</span></h3>
-            <hr style="border-color: var(--border-color); margin: 10px 0;">
-            <div class="row-item"><span>BROWNS</span> <div class="match-score">42 - 38</div> <span>COMMANDERS</span></div>
-            </div>
+        <button class="series-btn active" onclick="switchSeries('series-1')">Series I</button>
+        <button class="series-btn" onclick="switchSeries('series-2')">Series II</button>
+        <button class="series-btn" onclick="switchSeries('series-3')">Series III</button>
+        <button class="series-btn" onclick="switchSeries('series-4')">Series IV</button>
+        <button class="series-btn" onclick="switchSeries('series-5')">Series V</button>
+        <button class="series-btn" onclick="switchSeries('series-6')">Series VI</button>
     </div>
 
-    <div id="series-2" class="series-container">
-        <div class="week-card">
-            <h3>WEEK 1 (Series II)</h3>
-            <div class="row-item"><span>LIONS</span> <div class="match-score">0 - 0</div> <span>BEARS</span></div>
-        </div>
-    </div>
-</main>
-
-<script>
-    function switchSeries(seriesId) {
-        // Hide all series blocks
-        document.querySelectorAll('.series-container').forEach(container => {
-            container.classList.remove('active');
-        });
-        // Remove active button color styling
-        document.querySelectorAll('.series-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
+    <div id="series-1" class="scores-dashboard active">
         
-        // Show the targeted clicked series block
-        document.getElementById(seriesId).classList.add('active');
-        // Add active style to target button clicked
-        event.currentTarget.classList.add('active');
-    }
-</script>
+        <div class="week-card">
+            <div class="week-title">Week 1 <span class="live-tag">FINAL</span></div>
+            
+            <div class="match-row">
+                <div class="team-side"><span>STEELERS</span></div>
+                <div class="match-score-box">29 - 3</div>
+                <div class="team-side right"><span>RAMS</span></div>
+            </div>
+            
+            <div class="match-row">
+                <div class="team-side"><span>DOLPHINS</span></div>
+                <div class="match-score-box">21 - 0</div>
+                <div class="team-side right"><span>TITANS</span></div>
+            </div>
+
+            <div class="match-row">
+                <div class="team-side"><span>CARDINALS</span></div>
+                <div class="match-score-box">44 - 41</div>
+                <div class="team-side right"><span>LIONS</span></div>
+            </div>
+        </div>
+
+        <div class="week-card">
+            <div class="week-title">Week 2 <span class="live-tag">FINAL</span></div>
+            
+            <div class="match-row">
+                <div class="team-side"><span>BROWNS</span></div>
+                <div class="match-score-box">42 - 38</div>
+                <div class="team-side right"><span>COMMANDERS</span></div>
+            </div>
+
+            <div class="match-row">
+                <div class="team-side"><span>TITANS</span></div>
+                <div class="match-score-box">30 - 49</div>
+                <div class="team-side right"><span>CARDINALS</span></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="series-2" class="scores-dashboard">
+        <div class="week-card">
+            <div class="week-title">Week 1 <span class="live-tag">FINAL</span></div>
+            <div class="match-row">
+                <div class="team-side"><span>PACKERS</span></div>
+                <div class="match-score-box">14 - 10</div>
+                <div class="team-side right"><span>BEARS</span></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div>
+            <h3>AMERICAN FOOTBALL LEAGUE</h3>
+            <p style="margin-top: 10px;">© 2026 Roblox Football Operations.</p>
+        </div>
+        <div>
+            <a href="#">Terms of Service</a>
+            <a href="#">League Rules</a>
+            <a href="#">Discord Server</a>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Tab Switcher Logic
+        function switchSeries(seriesId) {
+            // Hide all layout blocks
+            document.querySelectorAll('.scores-dashboard').forEach(dashboard => {
+                dashboard.classList.remove('active');
+            });
+            // Reset active styles on row navigation buttons
+            document.querySelectorAll('.series-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Target show selection content
+            const targetDashboard = document.getElementById(seriesId);
+            if(targetDashboard) {
+                targetDashboard.classList.add('active');
+            }
+
+            // Style the clicked button state
+            // Find button that matches the switch execution call signature
+            document.querySelectorAll('.series-btn').forEach(btn => {
+                if(btn.getAttribute('onclick').includes(seriesId)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // 2. Light / Dark mode button fix toggle code block logic 
+        const toggleBtn = document.getElementById('themeToggleBtn');
+        toggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                toggleBtn.textContent = '🌙'; 
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                toggleBtn.textContent = '☀️'; 
+            }
+        });
+    </script>
+</body>
+</html>
