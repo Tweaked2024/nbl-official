@@ -210,7 +210,6 @@
             border-radius: 6px;
             margin-bottom: 8px;
             font-size: 0.95rem;
-            font-weight: 700;
         }
         .team-side {
             display: flex;
@@ -220,7 +219,6 @@
         }
         .team-side.right {
             justify-content: flex-end;
-            color: var(--text-light); /* Matches muted side appearance */
         }
         .match-score-box {
             font-weight: 800;
@@ -231,6 +229,28 @@
             min-width: 80px;
             text-align: center;
             border: 1px solid var(--border-color);
+        }
+
+        /* Winner & Loser Opacity/Color Styling Rules */
+        .team-winner {
+            color: var(--text-color);
+            font-weight: 800;
+        }
+        .team-winner img {
+            opacity: 1;
+        }
+        .team-loser {
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        .team-loser img {
+            opacity: 0.4;
+        }
+        .team-logo {
+            height: 24px;
+            width: auto;
+            object-fit: contain;
+            border-radius: 2px;
         }
 
         /* Footer styling */
@@ -263,7 +283,6 @@
         <div class="logo-area">
             <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;">
                 <img src="e1abd0576f5f77741b1f5a27399462ff.webp" alt="NBL Logo" style="height: 45px; width: auto; display: block;">
-        
                 <span style="font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px;">National Basketball League</span>
             </a>
         </div>
@@ -298,53 +317,131 @@
 
     <div id="series-1" class="scores-dashboard active">
         
+        <!-- WEEK 1 CARD -->
         <div class="week-card">
             <div class="week-title">Week 1 <span class="live-tag">FINAL</span></div>
             
+            <!-- Texas vs Canada -->
             <div class="match-row">
-                <div class="team-side"><span>STEELERS</span></div>
-                <div class="match-score-box">29 - 3</div>
-                <div class="team-side right"><span>RAMS</span></div>
+                <div class="team-side team-winner">
+                    <img src="steelers-logo.png" alt="Texas" class="team-logo">
+                    <span>TEXAS</span>
+                </div>
+                <div class="match-score-box">71 - 77</div>
+                <div class="team-side right team-loser">
+                    <span>CANADA</span>
+                    <img src="rams-logo.png" alt="Canada" class="team-logo">
+                </div>
             </div>
             
+            <!-- California vs Illinois -->
             <div class="match-row">
-                <div class="team-side"><span>DOLPHINS</span></div>
-                <div class="match-score-box">21 - 0</div>
-                <div class="team-side right"><span>TITANS</span></div>
+                <div class="team-side team-winner">
+                    <img src="dolphins-logo.png" alt="Dolphins" class="team-logo">
+                    <span>CALIFORNIA</span>
+                </div>
+                <div class="match-score-box">49 - 8</div>
+                <div class="team-side right team-loser">
+                    <span>ILLINOIS</span>
+                    <img src="titans-logo.png" alt="Titans" class="team-logo">
+                </div>
             </div>
-
+            <!-- Michigan vs Oklahoma -->
             <div class="match-row">
-                <div class="team-side"><span>CARDINALS</span></div>
-                <div class="match-score-box">44 - 41</div>
-                <div class="team-side right"><span>LIONS</span></div>
+                <div class="team-side team-winner">
+                    <img src="cardinals-logo.png" alt="Cardinals" class="team-logo">
+                    <span>MICHIGAN</span>
+                </div>
+                <div class="match-score-box">52 - 11</div>
+                <div class="team-side right team-loser">
+                    <span>OKLAHOMA</span>
+                    <img src="lions-logo.png" alt="Lions" class="team-logo">
+                </div>
+            </div>
+            <!-- Florida vs Carolina -->
+            <div class="match-row">
+                <div class="team-side team-winner">
+                    <img src="cardinals-logo.png" alt="Florida" class="team-logo">
+                    <span>FLORIDA</span>
+                </div>
+                <div class="match-score-box">40 - 0</div>
+                <div class="team-side right team-loser">
+                    <span>CAROLINA</span>
+                    <img src="lions-logo.png" alt="CAROLINA" class="team-logo">
+                </div>
             </div>
         </div>
 
+        <!-- WEEK 2 CARD -->
         <div class="week-card">
             <div class="week-title">Week 2 <span class="live-tag">FINAL</span></div>
             
+            <!-- Browns vs Commanders -->
             <div class="match-row">
-                <div class="team-side"><span>BROWNS</span></div>
-                <div class="match-score-box">42 - 38</div>
-                <div class="team-side right"><span>COMMANDERS</span></div>
+                <div class="team-side team-winner">
+                    <img src="browns-logo.png" alt="Canada" class="team-logo">
+                    <span>CANADA</span>
+                </div>
+                <div class="match-score-box">44 - 4</div>
+                <div class="team-side right team-loser">
+                    <span>CAROLINA</span>
+                    <img src="commanders-logo.png" alt="Carolina" class="team-logo">
+                </div>
             </div>
-
+            
+            <!-- California vs Oklahoma -->
             <div class="match-row">
-                <div class="team-side"><span>TITANS</span></div>
-                <div class="match-score-box">30 - 49</div>
-                <div class="team-side right"><span>CARDINALS</span></div>
+                <div class="team-side team-loser">
+                    <img src="titans-logo.png" alt="California" class="team-logo">
+                    <span>CALIFORNIA</span>
+                </div>
+                <div class="match-score-box">64 - 22</div>
+                <div class="team-side right team-winner">
+                    <span>OKLAHOMA</span>
+                    <img src="cardinals-logo.png" alt="Oklahoma" class="team-logo">
+                </div>
+            <!-- Florida vs Texas -->
+            <div class="match-row">
+                <div class="team-side team-loser">
+                    <img src="titans-logo.png" alt="Florida" class="team-logo">
+                    <span>FLORIDA</span>
+                </div>
+                <div class="match-score-box">107 - 81</div>
+                <div class="team-side right team-winner">
+                    <span>TEXAS</span>
+                    <img src="cardinals-logo.png" alt="Texas" class="team-logo">
+                </div>
+            <!-- Michigan vs Illinois -->
+            <div class="match-row">
+                <div class="team-side team-loser">
+                    <img src="titans-logo.png" alt="Titans" class="team-logo">
+                    <span>ILLINOIS</span>
+                </div>
+                <div class="match-score-box">38 - 79</div>
+                <div class="team-side right team-winner">
+                    <span>MICHIGAN</span>
+                    <img src="cardinals-logo.png" alt="Cardinals" class="team-logo">
+                </div>
             </div>
         </div>
-
     </div>
 
     <div id="series-2" class="scores-dashboard">
+
+        <!-- WEEK 3 CARD -->
         <div class="week-card">
-            <div class="week-title">Week 1 <span class="live-tag">FINAL</span></div>
+            <div class="week-title">Week 3 <span class="live-tag">FINAL</span></div>
+            <!-- Packers vs Bears -->
             <div class="match-row">
-                <div class="team-side"><span>PACKERS</span></div>
+                <div class="team-side team-winner">
+                    <img src="packers-logo.png" alt="Packers" class="team-logo">
+                    <span>PACKERS</span>
+                </div>
                 <div class="match-score-box">14 - 10</div>
-                <div class="team-side right"><span>BEARS</span></div>
+                <div class="team-side right team-loser">
+                    <span>BEARS</span>
+                    <img src="bears-logo.png" alt="Bears" class="team-logo">
+                </div>
             </div>
         </div>
     </div>
@@ -364,23 +461,18 @@
     <script>
         // 1. Tab Switcher Logic
         function switchSeries(seriesId) {
-            // Hide all layout blocks
             document.querySelectorAll('.scores-dashboard').forEach(dashboard => {
                 dashboard.classList.remove('active');
             });
-            // Reset active styles on row navigation buttons
             document.querySelectorAll('.series-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
 
-            // Target show selection content
             const targetDashboard = document.getElementById(seriesId);
             if(targetDashboard) {
                 targetDashboard.classList.add('active');
             }
 
-            // Style the clicked button state
-            // Find button that matches the switch execution call signature
             document.querySelectorAll('.series-btn').forEach(btn => {
                 if(btn.getAttribute('onclick').includes(seriesId)) {
                     btn.classList.add('active');
