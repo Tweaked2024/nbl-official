@@ -357,6 +357,11 @@
             font-weight: 700;
             text-align: center;
         }
+        .card-team-score {
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin-top: 4px;
+        }
         .card-vs-sign {
             font-size: 0.85rem;
             color: var(--text-light);
@@ -374,13 +379,13 @@
         .recap-hero-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 16px 16px 0 0;
-            border-bottom: none;
+            border-radius: 16px;
             padding: 40px;
             display: flex;
             justify-content: space-around;
             align-items: center;
             position: relative;
+            margin-bottom: 40px;
         }
         .recap-hero-status {
             position: absolute;
@@ -425,10 +430,8 @@
             margin: 6px 0 12px 0;
         }
         .recap-hero-score {
-            font-size: 2.2rem;
+            font-size: 2.3rem;
             font-weight: 900;
-            color: var(--text-color);
-            margin-top: 5px;
         }
         .recap-hero-badge {
             background: rgba(0,0,0,0.04);
@@ -447,38 +450,37 @@
             background: rgba(255,255,255,0.04);
         }
 
-        /* Bottom Links Area of the Scoreboard Card */
-        .recap-hero-links-row {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-top: none;
-            border-radius: 0 0 16px 16px;
-            padding: 16px 40px 24px 40px;
+        .recap-team-links {
             display: flex;
             justify-content: center;
-            gap: 24px;
-            margin-bottom: 40px;
+            gap: 20px;
+            width: 100%;
+            position: absolute;
+            bottom: 24px;
         }
-        .team-page-link {
-            color: #2563eb;
+        .recap-team-links a {
+            color: var(--accent-blue);
             text-decoration: none;
-            font-size: 0.88rem;
-            font-weight: 600;
-        }
-        .team-page-link:hover {
-            text-decoration: underline;
+            font-size: 0.82rem;
+            font-weight: 700;
         }
 
         /* Text Prose Section Blocks */
         .recap-body-writeup {
             max-width: 840px;
-            margin: 0 auto 50px auto;
+            margin: 0 auto;
         }
         .recap-main-title {
             font-size: 2.1rem;
             font-weight: 900;
             letter-spacing: -0.5px;
             margin-bottom: 8px;
+        }
+        .recap-meta-line {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 600;
+            margin-bottom: 24px;
         }
         .recap-divider {
             height: 1px;
@@ -574,8 +576,8 @@
             header { flex-direction: column; gap: 15px; }
             nav { flex-wrap: wrap; justify-content: center; }
             .recap-hero-card { flex-direction: column; gap: 30px; padding: 50px 20px; }
-            .recap-hero-links-row { flex-direction: column; gap: 10px; align-items: center; text-align: center; }
             .recap-hero-side { width: 80%; }
+            .recap-team-links { position: relative; bottom: 0; margin-top: 20px; }
             footer { flex-direction: column; gap: 40px; align-items: center; text-align: center; }
             .footer-links-container { gap: 50px; }
         }
@@ -585,7 +587,7 @@
 
     <header>
         <div class="logo-area">
-            <a href="/">
+            <a href="#">
                 <img src="e1abd0576f5f77741b1f5a27399462ff.webp" alt="NBL Logo" style="height: 40px; width: auto;">
                 <span>National Basketball League</span>
             </a>
@@ -593,7 +595,7 @@
         <nav>
             <div class="nav-item"><a href="#">Standings</a></div>
             <div class="nav-item"><a href="/teams">Teams</a></div>
-            <div class="nav-item"><a href="/matchups">Matchups</a></div>
+            <div class="nav-item"><a href="#">Matchups</a></div>
             <div class="nav-item">
                 <a href="/scores">Scores ▾</a>
                 <ul class="dropdown-menu">
@@ -645,11 +647,13 @@
         <h2 class="main-heading">matchup previews</h2>
         <p class="heading-desc">Data-driven game previews for every Week — records, stat-sheet leaders, and matchup analysis generated from live ACFL worksheets.</p>
 
-        <div class="week-tabs-container global-week-tabs"></div>
+        <div class="week-tabs-container global-week-tabs">
+            </div>
 
         <p class="jump-text">Jump to <a href="#week-13">Week 13</a> or pick a week above.</p>
 
-        <div class="card-grid" id="landingGridBoxes"></div>
+        <div class="card-grid" id="landingGridBoxes">
+            </div>
     </div>
 
     <div id="centerView" class="view-section">
@@ -658,75 +662,62 @@
         <h2 class="main-heading">matchup center</h2>
         <p class="heading-desc">Every game this week with a full preview article — tap a card to read the breakdown.</p>
 
-        <div class="week-tabs-container global-week-tabs"></div>
+        <div class="week-tabs-container global-week-tabs">
+            </div>
 
-        <div class="card-grid" id="centerScoreGrid"></div>
+        <div class="card-grid" id="centerScoreGrid">
+            </div>
     </div>
 
     <div id="deepDiveView" class="view-section">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
-            <a href="#week-13" class="back-link" id="deepDiveBackBtn">← Back to matchups</a>
-            <div class="week-tabs-container global-week-tabs" style="margin-bottom: 0;"></div>
+            <a href="#week-13" class="back-link" id="deepDiveBackBtn">← Week 13 matchups</a>
+            <div class="week-tabs-container global-week-tabs" style="margin-bottom: 0;">
+                </div>
         </div>
 
         <div class="recap-hero-card">
             <span class="recap-hero-status" id="recapHeroStatusLabel">WEEK 13 · FINAL</span>
             
             <div class="recap-hero-side">
-                <span class="recap-hero-location" id="teamALocation">WASHINGTON</span>
-                <span class="recap-hero-name" id="teamAName">TIMBER</span>
-                <span class="recap-hero-record" id="teamARecord">11-2</span>
-                <img src="" id="teamALogo" alt="Away Logo" class="recap-hero-logo">
-                <span class="recap-hero-score" id="teamAScore">21</span>
+                <img src="california.webp" alt="Washington Logo" class="recap-hero-logo">
+                <span class="recap-hero-location">Washington</span>
+                <span class="recap-hero-name">Timber</span>
+                <span class="recap-hero-record">11-2</span>
+                <span class="recap-hero-score">21</span>
             </div>
 
             <div class="recap-hero-badge">FINAL</div>
 
             <div class="recap-hero-side">
-                <span class="recap-hero-location" id="teamBLocation">MEMPHIS</span>
-                <span class="recap-hero-name" id="teamBName">KINGS</span>
-                <span class="recap-hero-record" id="teamBRecord">8-5</span>
-                <img src="" id="teamBLogo" alt="Home Logo" class="recap-hero-logo">
-                <span class="recap-hero-score" id="teamBScore">0</span>
+                <img src="memphis.webp" alt="Memphis Logo" class="recap-hero-logo">
+                <span class="recap-hero-location">Memphis</span>
+                <span class="recap-hero-name">Kings</span>
+                <span class="recap-hero-record">8-5</span>
+                <span class="recap-hero-score">0</span>
             </div>
-        </div>
 
-        <div class="recap-hero-links-row">
-            <a href="#" class="team-page-link" id="teamAPageBtn">Washington Timber team page</a>
-            <a href="#" class="team-page-link" id="teamBPageBtn">Memphis Kings team page</a>
+            <div class="recap-team-links">
+                <a href="/teams/california">Washington Timber team page</a>
+                <a href="/teams/memphis">Memphis Kings team page</a>
+            </div>
         </div>
 
         <div class="recap-body-writeup">
-            <h1 class="recap-main-title" id="recapMainTitleHeading">Matchup Analysis</h1>
+            <h1 class="recap-main-title" id="recapMainTitleHeading">Washington Timber 21–0 at Memphis Kings</h1>
+            <p class="recap-meta-line" id="recapMetaSubLabel">Week 13 · Final 21–0</p>
             <div class="recap-divider"></div>
 
-            <h3 class="recap-section-h3">Unit on unit</h3>
-            <p class="recap-paragraph" id="unitOnUnitIntro"></p>
-            <ul class="recap-bullets-list" id="unitOnUnitList"></ul>
+            <h3 class="recap-section-h3">Statement win</h3>
+            <p class="recap-paragraph">Timber rolled in this matchup, dropping 21 points on Kings in a 21–0 final (Timber–Kings on the road scoreboard). Timber move to an impressive stance with a result that jumps off the page. Below is how each roster stacked on the season stat sheet in the categories we track. That context shows how these teams were built entering the week.</p>
 
-            <h3 class="recap-section-h3">Stat-sheet stars</h3>
-            <p class="recap-paragraph">Five players who shape how this one is supposed to play:</p>
-            <ul class="recap-bullets-list" id="statStarsList"></ul>
-
-            <h3 class="recap-section-h3">Pre-game context</h3>
-            <p class="recap-paragraph" id="preGameContextIntro"></p>
-            <ul class="recap-bullets-list" id="preGameContextList"></ul>
-        </div>
-
-        <div style="max-width: 840px; margin: 0 auto;">
-            <h3 class="recap-section-h3" style="text-align: center; margin-bottom: 10px;">Stat sheet leaders</h3>
-            <p class="heading-desc" style="text-align: center; margin-bottom: 30px;">Top-ranked players on each side for this preview (season totals from the live stat worksheets).</p>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 50px;">
-                <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px;">
-                    <h4 id="statCardTeamA" style="text-transform: uppercase; font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px;"></h4>
-                    <div id="leaderListTeamA"></div>
-                </div>
-                <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px;">
-                    <h4 id="statCardTeamB" style="text-transform: uppercase; font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px;"></h4>
-                    <div id="leaderListTeamB"></div>
-                </div>
-            </div>
+            <h3 class="recap-section-h3">By the sheet</h3>
+            <ul class="recap-bullets-list">
+                <li>Memphis Kings (8-5) · 6-1 · PD 63 · SOS 0.55</li>
+                <li>Washington Timber (11-2) · 7-0 · PD 161 · SOS 0.54</li>
+                <li>Kings top weapon: Skullatis1 (Defensive Line, top-10 (#7 of 478))</li>
+                <li>Timber top weapon: jaxversi (Receiving, top-10 (#6 of 715))</li>
+            </ul>
         </div>
     </div>
 
@@ -765,26 +756,11 @@
     </footer>
 
     <script>
+        // Generate uniform week selection lists across the dashboard dynamically
         const totalWeeks = 13;
-
-        // Dictionary mapping team nicknames to image logo files
-        const teamLogos = {
-            "washington": "california.webp",
-            "memphis": "memphis.webp",
-            "scottsdale": "scottsdale.webp",
-            "veracruz": "veracruz.webp",
-            "alabama": "alabama.webp",
-            "baltimore": "baltimore.webp",
-            "buffalo": "buffalo.webp",
-            "glendale": "glendale.webp",
-            "jose": "jose.webp",
-            "st.": "st.webp",
-            "rushmore": "rushmore.webp",
-            "pittsburgh": "pittsburgh.webp"
-        };
-
-        // Renders uniform selectors across active modules
+        
         function populateWeekUIComponents(activeWeekNum) {
+            // Render top bar picker layout rows
             const tabContainers = document.querySelectorAll('.global-week-tabs');
             tabContainers.forEach(container => {
                 container.innerHTML = '';
@@ -797,9 +773,11 @@
                 }
             });
 
+            // Render Overview board navigation box grid block links
             const landingGrid = document.getElementById('landingGridBoxes');
             if(landingGrid) {
                 landingGrid.innerHTML = '';
+                // Display in reverse chronological order (Week 13 down to Week 1)
                 for(let i = totalWeeks; i >= 1; i--) {
                     const card = document.createElement('a');
                     card.href = `#week-${i}`;
@@ -813,162 +791,143 @@
             }
         }
 
-        // Generates the match choices dynamically on the match grid overview page
+        // Render match grid content blocks for any chosen week dynamic selector context
         function generateCenterMatchCards(weekNum) {
             const centerGrid = document.getElementById('centerScoreGrid');
             if(!centerGrid) return;
 
-            const schedule = [
-                { away: "washington", home: "memphis" },
-                { away: "scottsdale", home: "veracruz" },
-                { away: "alabama", home: "baltimore" },
-                { away: "buffalo", home: "glendale" },
-                { away: "jose", home: "st." },
-                { away: "rushmore", home: "pittsburgh" }
-            ];
-
-            centerGrid.innerHTML = schedule.map(match => `
+            // Clear current cards and generate standard match grid blocks clean layout matching card 1 structure
+            centerGrid.innerHTML = 
                 <div class="score-card">
-                    <span class="card-status">PREVIEW</span>
+                    <span class="card-status">FINAL</span>
                     <div class="card-teams-row">
                         <div class="card-team-sub">
-                            <img src="${teamLogos[match.away] || 'default.webp'}" alt="${match.away}" class="card-team-logo">
-                            <span class="card-team-name" style="text-transform: capitalize;">${match.away}</span>
+                            <img src="california.webp" alt="Washington Logo" class="card-team-logo">
+                            <span class="card-team-name">Washington</span>
+                            <span class="card-team-score">21</span>
                         </div>
                         <span class="card-vs-sign">@</span>
                         <div class="card-team-sub">
-                            <img src="${teamLogos[match.home] || 'default.webp'}" alt="${match.home}" class="card-team-logo">
-                            <span class="card-team-name" style="text-transform: capitalize;">${match.home}</span>
+                            <img src="memphis.webp" alt="Memphis Logo" class="card-team-logo">
+                            <span class="card-team-name">Memphis</span>
+                            <span class="card-team-score">0</span>
                         </div>
                     </div>
-                    <a href="#week-${weekNum}/${match.away}-vs-${match.home}" class="card-recap-link">Read preview context →</a>
+                    <a href="#week-${weekNum}/memphis-vs-washington" class="card-recap-link">Read recap context →</a>
                 </div>
-            `).join('');
+
+                <div class="score-card">
+                    <span class="card-status">FINAL</span>
+                    <div class="card-teams-row">
+                        <div class="card-team-sub">
+                            <img src="scottsdale.webp" alt="Scottsdale Logo" class="card-team-logo">
+                            <span class="card-team-name">Scottsdale</span>
+                            <span class="card-team-score">43</span>
+                        </div>
+                        <span class="card-vs-sign">@</span>
+                        <div class="card-team-sub">
+                            <img src="veracruz.webp" alt="Veracruz Logo" class="card-team-logo">
+                            <span class="card-team-name">Veracruz</span>
+                            <span class="card-team-score">38</span>
+                        </div>
+                    </div>
+                    <a href="#" class="card-recap-link">Read recap context →</a>
+                </div>
+
+                <div class="score-card">
+                    <span class="card-status">FINAL</span>
+                    <div class="card-teams-row">
+                        <div class="card-team-sub">
+                            <img src="alabama.webp" alt="Alabama Logo" class="card-team-logo">
+                            <span class="card-team-name">Alabama</span>
+                            <span class="card-team-score">40</span>
+                        </div>
+                        <span class="card-vs-sign">@</span>
+                        <div class="card-team-sub">
+                            <img src="baltimore.webp" alt="Baltimore Logo" class="card-team-logo">
+                            <span class="card-team-name">Baltimore</span>
+                            <span class="card-team-score">55</span>
+                        </div>
+                    </div>
+                    <a href="#" class="card-recap-link">Read recap context →</a>
+                </div>
+
+                <div class="score-card">
+                    <span class="card-status">FINAL</span>
+                    <div class="card-teams-row">
+                        <div class="card-team-sub">
+                            <img src="buffalo.webp" alt="Buffalo Logo" class="card-team-logo">
+                            <span class="card-team-name">Buffalo</span>
+                            <span class="card-team-score">14</span>
+                        </div>
+                        <span class="card-vs-sign">@</span>
+                        <div class="card-team-sub">
+                            <img src="glendale.webp" alt="Glendale Logo" class="card-team-logo">
+                            <span class="card-team-name">Glendale</span>
+                            <span class="card-team-score">28</span>
+                        </div>
+                    </div>
+                    <a href="#" class="card-recap-link">Read recap context →</a>
+                </div>
+            ;
         }
 
-        // Fills stats lists and analysis text sections dynamically
-        function populateDeepDiveContent(weekNum, awayTeam, homeTeam) {
-            // Titles and links
-            document.getElementById('deepDiveBackBtn').href = `#week-${weekNum}`;
-            document.getElementById('deepDiveBackBtn').textContent = `← Week ${weekNum} Matchups`;
-            document.getElementById('recapHeroStatusLabel').textContent = `WEEK ${weekNum} · FINAL`;
-            document.getElementById('recapMainTitleHeading').textContent = `${awayTeam.toUpperCase()} TIMBER 21-0 AT ${homeTeam.toUpperCase()} KINGS`;
-
-            // Scoreboard identities and numbers
-            document.getElementById('teamALocation').textContent = awayTeam.toUpperCase();
-            document.getElementById('teamAName').textContent = awayTeam === 'washington' ? 'TIMBER' : awayTeam.toUpperCase();
-            document.getElementById('teamARecord').textContent = awayTeam === 'washington' ? '11-2' : '0-0';
-            document.getElementById('teamALogo').src = teamLogos[awayTeam] || 'default.webp';
-            document.getElementById('teamAScore').textContent = awayTeam === 'washington' ? '21' : '0';
-
-            document.getElementById('teamBLocation').textContent = homeTeam.toUpperCase();
-            document.getElementById('teamBName').textContent = homeTeam === 'memphis' ? 'KINGS' : homeTeam.toUpperCase();
-            document.getElementById('teamBRecord').textContent = homeTeam === 'memphis' ? '8-5' : '0-0';
-            document.getElementById('teamBLogo').src = teamLogos[homeTeam] || 'default.webp';
-            document.getElementById('teamBScore').textContent = '0';
-
-            // Configure team profile route parameters dynamically
-            const profileBtnA = document.getElementById('teamAPageBtn');
-            const profileBtnB = document.getElementById('teamBPageBtn');
-            profileBtnA.href = `/teams/${awayTeam}`;
-            profileBtnA.textContent = `${awayTeam.charAt(0).toUpperCase() + awayTeam.slice(1)} ${awayTeam === 'washington' ? 'Timber' : ''} team page`;
-            profileBtnB.href = `/teams/${homeTeam}`;
-            profileBtnB.textContent = `${homeTeam.charAt(0).toUpperCase() + homeTeam.slice(1)} ${homeTeam === 'memphis' ? 'Kings' : ''} team page`;
-
-            // Side-by-side card titles
-            document.getElementById('statCardTeamA').textContent = `${awayTeam} stat leaders`;
-            document.getElementById('statCardTeamB').textContent = `${homeTeam} stat leaders`;
-
-            // Dynamic layout generation matching statistical dashboards
-            const categories = ['PASSING', 'RUSHING', 'RECEIVING', 'DEFENSIVE LINE', 'SECONDARY', 'KICKING'];
-            const generateStatRows = () => categories.map(cat => `
-                <div style="margin-bottom: 18px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
-                    <span style="font-size: 0.72rem; color: var(--text-light); font-weight: 800; display:block; letter-spacing: 0.5px; margin-bottom: 2px;">${cat}</span>
-                    <span style="font-weight: 800; font-size: 0.95rem; display:block; color: var(--text-color);">RosterStar</span>
-                    <span style="font-size: 0.82rem; color: var(--text-light);">244.4 PTS <span style="margin-left:6px; color:var(--text-light); font-weight:500;">Top Ranks</span></span>
-                </div>
-            `).join('');
-
-            document.getElementById('leaderListTeamA').innerHTML = generateStatRows();
-            document.getElementById('leaderListTeamB').innerHTML = generateStatRows();
-
-            // Analysis prose layout generation matching context worksheets
-            document.getElementById('unitOnUnitIntro').textContent = `The ${awayTeam} run strategy meets the tough ${homeTeam} defensive wall. Protection options and read speeds will determine control.`;
-            document.getElementById('unitOnUnitList').innerHTML = `
-                <li>${homeTeam} Rush Defense metrics sit near the peak of active worksheets.</li>
-                <li>${awayTeam} Ground game sets performance targets weekly.</li>
-            `;
-
-            document.getElementById('statStarsList').innerHTML = `
-                <li>jaxversi (${awayTeam}): Receiving, 336.9 PTS · top-10</li>
-                <li>Skullatis1 (${homeTeam}): Defensive Line, 0 PTS · top-10</li>
-            `;
-
-            document.getElementById('preGameContextIntro').textContent = `Analytical breakdown favors a tight battle with margins shifting on tactical unit choices.`;
-            document.getElementById('preGameContextList').innerHTML = `
-                <li>${homeTeam} Aerial attack setups vs Secondary lines.</li>
-                <li>${awayTeam} Turnover conversion efficiency targets.</li>
-            `;
-        }
-
-        // --- CLIENT ROUTER SCHEME ---
-        function handleRouting() {
-            const hash = window.location.hash;
+        // --- HASH ROUTING STATE HANDLING CONTROLLER Engine ---
+        function handleClientSideViewRouting() {
+            const currentHashStr = window.location.hash || '';
             
+            // Hide all block segments
             document.getElementById('landingView').classList.remove('active');
             document.getElementById('centerView').classList.remove('active');
             document.getElementById('deepDiveView').classList.remove('active');
 
-            // Regex captures routes matching structural links: #week-5/scottsdale-vs-veracruz
-            const deepDiveMatch = hash.match(/^#week-(\d+)\/([a-z0-9.-]+)-vs-([a-z0-9.-]+)$/i);
-            if (deepDiveMatch) {
-                const weekNum = parseInt(deepDiveMatch[1]);
-                const awayTeam = deepDiveMatch[2];
-                const homeTeam = deepDiveMatch[3];
+            // View 3: Matchup Deep Dive Context Check
+            if(currentHashStr.includes('/') && currentHashStr.startsWith('#week-')) {
+                const routeParams = currentHashStr.replace('#week-', '').split('/');
+                const targetWeekNum = parseInt(routeParams[0]) || 13;
                 
-                populateWeekUIComponents(weekNum);
-                populateDeepDiveContent(weekNum, awayTeam, homeTeam);
+                // Synchronize dynamic structural text strings
+                document.getElementById('deepDiveBackBtn').href = `#week-${targetWeekNum}`;
+                document.getElementById('deepDiveBackBtn').textContent = `← Week ${targetWeekNum} matchups`;
                 
+                populateWeekUIComponents(targetWeekNum);
                 document.getElementById('deepDiveView').classList.add('active');
                 window.scrollTo(0, 0);
-                return;
             }
-
-            // Route handler matches single week boards: #week-4
-            const centerWeekMatch = hash.match(/^#week-(\d+)$/);
-            if (centerWeekMatch) {
-                const weekNum = parseInt(centerWeekMatch[1]);
-                populateWeekUIComponents(weekNum);
-                generateCenterMatchCards(weekNum);
+            // View 2: Week Matchup Center Context Check
+            else if(currentHashStr.startsWith('#week-')) {
+                const parsedWeekNum = parseInt(currentHashStr.replace('#week-', '')) || 13;
                 
-                document.getElementById('centerViewWeekTag').textContent = `Week ${weekNum}`;
+                document.getElementById('centerViewWeekTag').textContent = `Week ${parsedWeekNum}`;
+                
+                populateWeekUIComponents(parsedWeekNum);
+                generateCenterMatchCards(parsedWeekNum);
                 document.getElementById('centerView').classList.add('active');
                 window.scrollTo(0, 0);
-                return;
             }
-
-            // Fallback screen matches primary module base
-            populateWeekUIComponents(13);
-            document.getElementById('landingView').classList.add('active');
+            // View 1: Default Matchup Dashboard Dashboard Home
+            else {
+                populateWeekUIComponents(0);
+                document.getElementById('landingView').classList.add('active');
+            }
         }
 
-        window.addEventListener('hashchange', handleRouting);
-        window.addEventListener('load', handleRouting);
+        // Light/Dark Local State Theme Switch
+        const themeBtn = document.getElementById('themeToggleBtn');
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if(currentTheme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                themeBtn.textContent = '🌙';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeBtn.textContent = '☀️';
+            }
+        });
 
-        // --- LIGHT/DARK TOGGLE ---
-        const themeToggleBtn = document.getElementById('themeToggleBtn');
-        if (themeToggleBtn) {
-            themeToggleBtn.addEventListener('click', () => {
-                const currentTheme = document.documentElement.getAttribute('data-theme');
-                if (currentTheme === 'dark') {
-                    document.documentElement.removeAttribute('data-theme');
-                    themeToggleBtn.textContent = '🌙';
-                } else {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                    themeToggleBtn.textContent = '☀️';
-                }
-            });
-        }
+        // Initialize state hooks on document ready variables layout
+        window.addEventListener('hashchange', handleClientSideViewRouting);
+        window.addEventListener('DOMContentLoaded', handleClientSideViewRouting);
     </script>
 </body>
 </html>
