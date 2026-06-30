@@ -623,8 +623,7 @@
         <p class="page-description">Every franchise in the league. Pick a team for schedule, roster, and player profiles.</p>
     </div>
 
-    <div class="teams-grid" id="teamsGridContainer">
-        </div>
+    <div class="teams-grid" id="teamsGridContainer"></div>
 
     <div class="profile-container" id="teamProfileView" style="display: none;">
         <a href="#" class="back-btn" id="closeProfileBtn">← back to standings</a>
@@ -650,8 +649,7 @@
         </div>
 
         <h3 class="section-header">Schedule</h3>
-        <div class="schedule-list" id="scheduleContainer">
-            </div>
+        <div class="schedule-list" id="scheduleContainer"></div>
 
         <h3 class="section-header">Passing</h3>
         <div class="table-responsive">
@@ -671,8 +669,7 @@
                         <th>Snap</th>
                     </tr>
                 </thead>
-                <tbody id="passingTableBody">
-                    </tbody>
+                <tbody id="passingTableBody"></tbody>
             </table>
         </div>
 
@@ -696,8 +693,7 @@
                         <th>Snap</th>
                     </tr>
                 </thead>
-                <tbody id="rushingTableBody">
-                    </tbody>
+                <tbody id="rushingTableBody"></tbody>
             </table>
         </div>
     </div>
@@ -776,19 +772,38 @@
                 logo: "canada.webp", 
                 color: "#D80621", 
                 slug: "canada",
+                conf: "INT",
+                seed: "3",
+                tp: "410",
+                pd: "+12",
+                sos: "0.51",
                 schedule: [
                     { week: "WK 1", type: "vs", oppLogo: "canada.webp", oppName: "TEXANS", score: "24 - 14", win: true }
                 ],
                 passing: [], rushing: []
             },
-            { name: "Carolina", record: "0–0", logo: "carolina.webp", color: "#4B9CD3", slug: "north-carolina", schedule: [], passing: [], rushing: [] },
-            { name: "Florida", record: "6-4", logo: "florida.webp", color: "#005f73", slug: "florida", schedule: [], passing: [], rushing: [] },
-            { name: "Illinois", record: "3-7", logo: "illinois.webp", color: "#FF5F05", slug: "illinois", schedule: [], passing: [], rushing: [] },
-            { name: "Michigan", record: "6-4", logo: "michigan.webp", color: "#FFCB05", slug: "michigan", schedule: [], passing: [], rushing: [] },
-            { name: "Oklahoma", record: "6-4", logo: "oklahoma.webp", color: "#841617", slug: "oklahoma", schedule: [], passing: [], rushing: [] },
-            { name: "Texas", record: "4-6", logo: "texas.webp", color: "#BF5700", slug: "texas", schedule: [], passing: [], rushing: [] }
+            { name: "Carolina", record: "0–0", logo: "carolina.webp", color: "#4B9CD3", slug: "north-carolina", conf: "ACC", seed: "8", tp: "0", pd: "0", sos: "0.00", schedule: [], passing: [], rushing: [] },
+            { name: "Florida", record: "6-4", logo: "florida.webp", color: "#005f73", slug: "florida", conf: "SEC", seed: "5", tp: "520", pd: "+45", sos: "0.55", schedule: [], passing: [], rushing: [] },
+            { name: "Illinois", record: "3-7", logo: "illinois.webp", color: "#FF5F05", slug: "illinois", conf: "BIG10", seed: "12", tp: "310", pd: "-110", sos: "0.48", schedule: [], passing: [], rushing: [] },
+            { name: "Michigan", record: "6-4", logo: "michigan.webp", color: "#FFCB05", slug: "michigan", conf: "BIG10", seed: "6", tp: "490", pd: "+30", sos: "0.52", schedule: [], passing: [], rushing: [] },
+            { name: "Oklahoma", record: "6-4", logo: "oklahoma.webp", color: "#841617", slug: "oklahoma", conf: "SEC", seed: "4", tp: "580", pd: "+65", sos: "0.58", schedule: [], passing: [], rushing: [] },
+            { name: "Texas", record: "4-6", logo: "texas.webp", color: "#BF5700", slug: "texas", conf: "SEC", seed: "9", tp: "390", pd: "-20", sos: "0.50", schedule: [], passing: [], rushing: [] }
         ];
 
+        // --- THEME ENGINE ---
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                themeToggleBtn.textContent = '🌙';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggleBtn.textContent = '☀️';
+            }
+        });
+
+        // --- GRID LOADING CONFIG ---
         function loadTeamsGrid() {
             const container = document.getElementById('teamsGridContainer');
             container.innerHTML = '';
@@ -813,6 +828,7 @@
             });
         }
 
+        // --- PROFILE VIEW INTERACTION ---
         function showTeamProfile(team) {
             document.getElementById('teamsGridContainer').style.display = 'none';
             document.getElementById('pageHeader').style.display = 'none';
@@ -828,6 +844,10 @@
             document.getElementById('bannerCity').textContent = cityPref || "NATIONAL";
             document.getElementById('bannerName').textContent = lastName;
             document.getElementById('bannerRecord').textContent = team.record;
+
+            // Badges Configuration Fallbacks
+            document.getElementById('badgeConf').textContent = `CONF ${team.conf || 'NBL'}`;
+            document.getElementById('badgeSeed').textContent = `SEED ${team.seed || '-'}`;
 
             // Populate Schedules
             const schedContainer = document.getElementById('scheduleContainer');
@@ -908,7 +928,7 @@
             }
         }
 
-        // Close Profile View Button Logic
+        // --- INITIAL CLOSE EVENT HANDLER ---
         document.getElementById('closeProfileBtn').addEventListener('click', (e) => {
             e.preventDefault();
             document.getElementById('teamProfileView').style.display = 'none';
@@ -916,10 +936,8 @@
             document.getElementById('pageHeader').style.display = 'block';
         });
 
-        // Run functions immediately on page startup
-        window.onload = function() {
-            loadTeamsGrid();
-        };
+        // Initialize execution setup on load
+        window.addEventListener('DOMContentLoaded', loadTeamsGrid);
     </script>
 </body>
 </html>
