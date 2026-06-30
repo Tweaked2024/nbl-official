@@ -1,3 +1,9 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/teams/:team",
+      "destination": "/teams.html?team=:team"
+    }
+  ]
 }
