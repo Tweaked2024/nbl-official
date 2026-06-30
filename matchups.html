@@ -134,7 +134,6 @@
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 30px;
-            cursor: pointer;
             position: relative;
         }
         .status-tag {
@@ -154,18 +153,33 @@
             margin: 20px 0;
             padding: 0 10px;
         }
+        
+        /* TEAM LINK BLOCKS FOR SCORECARD GRID */
         .scorecard-team-block {
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 38%;
             text-align: center;
+            text-decoration: none;
+            color: inherit;
+        }
+        .scorecard-team-block:hover .name {
+            color: var(--accent-blue);
         }
         .scorecard-team-block img { width: 44px; height: 44px; object-fit: contain; margin-bottom: 12px; }
-        .scorecard-team-block .name { font-weight: 800; font-size: 1.05rem; margin-bottom: 10px; }
+        .scorecard-team-block .name { font-weight: 800; font-size: 1.05rem; margin-bottom: 10px; transition: color 0.15s; }
         .scorecard-team-block .score { font-size: 2.2rem; font-weight: 900; letter-spacing: -1px; }
         .scorecard-divider { font-weight: 600; color: var(--text-light); opacity: 0.5; font-size: 1.1rem; }
-        .recap-trigger-text { color: var(--accent-blue); font-size: 0.85rem; font-weight: 700; text-decoration: none; }
+        
+        .recap-trigger-btn { 
+            color: var(--accent-blue); 
+            font-size: 0.85rem; 
+            font-weight: 700; 
+            text-decoration: none; 
+            cursor: pointer;
+            display: inline-block;
+        }
 
         /* --- VIEW 3: MATCHUP SCORE BANNER --- */
         .preview-header-card {
@@ -290,7 +304,7 @@
         <nav>
             <div class="nav-item"><a href="#">Standings</a></div>
             <div class="nav-item"><a href="teams.html">Teams</a></div>
-            <div class="nav-item"><a href="#">Matchups</a></div>
+            <div class="nav-item"><a href="#" style="color: var(--accent-blue);">Matchups</a></div>
         </nav>
         <div class="right-actions">
             <button class="theme-toggle-btn" id="themeToggleBtn">🌙</button>
@@ -299,12 +313,14 @@
 
     <div class="main-container">
         
+        <!-- VIEW 1: MATCHUP PREVIEWS HUB -->
         <div id="hubView">
             <h2 class="hub-title">matchup previews</h2>
             <p class="hub-desc">Data-driven game previews for every regular season week.</p>
             <div class="weeks-grid" id="weeksGridContainer"></div>
         </div>
 
+        <!-- VIEW 2: MATCHUPS SELECTION GRID -->
         <div id="matchupsGridView" style="display: none;">
             <a href="#" class="back-nav-link" id="backToHubBtn">← back to matchup previews</a>
             <h2 class="hub-title" id="matchupsGridTitle">Week Matchups</h2>
@@ -312,9 +328,11 @@
             <div class="matchups-list-grid" id="matchupsGridContainer"></div>
         </div>
 
+        <!-- VIEWS 3-6: COMPLETE MATCHUP RECAP PROFILE SHEET -->
         <div id="matchupRecapView" style="display: none;">
             <a href="#" class="back-nav-link" id="backToMatchupsBtn">← back to week matchups</a>
             
+            <!-- View 3: Matchup Score Banner -->
             <div class="preview-header-card">
                 <div class="banner-status-tag" id="recapBannerStatus">WEEK 1 - FINAL</div>
                 <div class="banner-vs-display">
@@ -338,60 +356,34 @@
                 </div>
             </div>
 
+            <!-- View 4: Main Narrative Headline & Summary Block -->
             <h1 class="recap-headline" id="recapHeadlineDisplay">San Francisco Miners 42–45 at Washington Timber</h1>
             <div class="recap-sub-meta" id="recapMetaDisplay">Week 1 · Final 42–45</div>
 
             <div class="recap-body-section">
                 <h4 id="narrativeTitle">Nail-biter</h4>
-                <p id="narrativeParagraph">Week 1 came down to the wire: San Francisco Miners (9-4) and Washington Timber (11-2) finished 42–45, with Timber edging Miners in a one-score game. Below is how each roster stacked on the season stat sheet in the categories we track. That context shows how these teams were built entering the week.</p>
+                <p id="narrativeParagraph">Week 1 came down to the wire...</p>
             </div>
 
+            <!-- View 4/5: Text Metrics Lists -->
             <div class="recap-body-section">
                 <h4>By the sheet</h4>
-                <ul class="recap-bullet-list" id="byTheSheetList">
-                    <li>Washington Timber (11-2) · 7-0 · PD 161 · SOS 0.54</li>
-                    <li>San Francisco Miners (9-4) · 6-1 · PD 110 · SOS 0.47</li>
-                    <li>Timber top weapon: jaxversi (Receiving, top-10 (#6 of 715))</li>
-                    <li>Miners top weapon: Nxmbsi (Passing, #42 of 165)</li>
-                </ul>
+                <ul class="recap-bullet-list" id="byTheSheetList"></ul>
             </div>
 
             <div class="recap-body-section">
                 <h4>QB matchup</h4>
-                <p id="qbMatchupParagraph">Nxmbsi (#42 of 165, 26.7 PTS) matches up with BlondeGirls (top-10 (#10 of 165), 244.4 PTS).</p>
-                <p>BlondeGirls carries a 32-rank advantage in the passing leaderboard. That is a gap Timber pass rush or Miners coverage must respect.</p>
+                <p id="qbMatchupParagraph"></p>
             </div>
 
             <div class="recap-body-section">
                 <h4>Unit on unit</h4>
-                <p id="unitOnUnitParagraph">On the ground, BlondeGirls (106.7 PTS) tests Eraows (0 PTS).</p>
-                <ul class="recap-bullet-list" id="unitOnUnitList">
-                    <li>Timber rush: BlondeGirls, 106.7 PTS, top-20 (#17 of 191)</li>
-                    <li>Miners rush: TOYSWRLD, 36.2' PTS, #45 of 191</li>
-                    <li>Timber receiving: jaxversi, 336.9 PTS, top-10 (#6 of 715)</li>
-                </ul>
+                <p id="unitOnUnitParagraph"></p>
+                <ul class="recap-bullet-list" id="unitOnUnitList"></ul>
             </div>
 
-            <div class="recap-body-section">
-                <h4>Stat-sheet stars</h4>
-                <p style="color: var(--text-light); margin-bottom: 12px;">Highest nationally ranked producers in this pairing:</p>
-                <ul class="recap-bullet-list" id="sheetStarsList">
-                    <li>jaxversi (Timber): Receiving, 336.9 PTS · top-10 (#6 of 715)</li>
-                    <li>BlondeGirls (Timber): Secondary, 0 PTS · top-10 (#7 of 662)</li>
-                </ul>
-            </div>
-
-            <div class="recap-body-section">
-                <h4>Stat sheet lens</h4>
-                <p>Timber lead our tracked categories 6–0. Washington has more paths to win on paper, but Miners need a disruption game from their playmakers.</p>
-                <ul class="recap-bullet-list" id="sheetLensList">
-                    <li>Timber Passing: BlondeGirls (top-10 (#10 of 165))</li>
-                    <li>Timber Rushing: BlondeGirls (top-20 (#17 of 191))</li>
-                </ul>
-            </div>
-
+            <!-- Side-by-Side Live Sheet Leaders Columns -->
             <h3 style="font-size: 1.4rem; font-weight: 800; margin-top: 45px;">Stat sheet leaders</h3>
-            <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 4px;">Top-ranked players on each side for this preview (season totals from the live stat worksheets).</p>
             
             <div class="leaders-comparison-layout">
                 <div class="leaders-card-container">
@@ -413,28 +405,27 @@
     </footer>
 
     <script>
+        // Database contains explicit lowercase city slugs matching teams.html parameter expectations
         const matchupWeeksDatabase = {
             10: [
-                { id: "m10-1", t1City: "BARBARA", t1Name: "BARBARIANS", t1Record: "7-2", t1Score: 42, t1Logo: "barb.png", t2City: "WASHINGTON", t2Name: "TIMBER", t2Record: "8-1", t2Score: 45, t2Logo: "wash.png", headline: "Barbarians Fall Short in Final Seconds at Washington", narrativeTitle: "Clutch Stop", narrativeText: "A defensive stand inside the 5-yard line secures the win.", leaders1: [{cat:"PASSING", name:"Nxmbsi", val:"26.7 PTS"}], leaders2: [{cat:"PASSING", name:"BlondeGirls", val:"244.4 PTS"}] },
-                { id: "m10-2", t1City: "KORBLOX", t1Name: "DEATH", t1Record: "3-6", t1Score: 13, t1Logo: "korb.png", t2City: "VERACRUZ", t2Name: "JAGUARS", t2Record: "6-3", t2Score: 51, t2Logo: "vera.png", headline: "Veracruz Dominates Korblox on the Road", narrativeTitle: "Blowout", narrativeText: "Jaguars ground out early leads to seal off any comeback path.", leaders1: [], leaders2: [] }
+                { id: "m10-1", t1City: "BARBARA", t1Slug: "barbara", t1Name: "BARBARIANS", t1Record: "7-2", t1Score: 42, t2City: "WASHINGTON", t2Slug: "washington", t2Name: "TIMBER", t2Record: "8-1", t2Score: 45, headline: "Barbarians Fall Short in Final Seconds at Washington", narrativeTitle: "Clutch Stop", narrativeText: "A defensive stand secures the win.", leaders1: [], leaders2: [] },
+                { id: "m10-2", t1City: "KORBLOX", t1Slug: "korblox", t1Name: "DEATH", t1Record: "3-6", t1Score: 13, t2City: "VERACRUZ", t2Slug: "veracruz", t2Name: "JAGUARS", t2Record: "6-3", t2Score: 51, headline: "Veracruz Dominates Korblox on the Road", narrativeTitle: "Blowout", narrativeText: "Jaguars ground out early leads.", leaders1: [], leaders2: [] }
             ],
             9: [], 8: [], 7: [], 6: [], 5: [], 4: [], 3: [], 2: [],
             1: [
                 {
                     id: "m1-1",
-                    t1City: "SAN FRANCISCO", t1Name: "MINERS", t1Record: "9-4", t1Score: 42, t1Logo: "miners.png",
-                    t2City: "WASHINGTON", t2Name: "TIMBER", t2Record: "11-2", t2Score: 45, t2Logo: "timber.png",
+                    t1City: "SAN FRANCISCO", t1Slug: "san francisco", t1Name: "MINERS", t1Record: "9-4", t1Score: 42,
+                    t2City: "WASHINGTON", t2Slug: "washington", t2Name: "TIMBER", t2Record: "11-2", t2Score: 45,
                     headline: "San Francisco Miners 42–45 at Washington Timber",
                     narrativeTitle: "Nail-biter",
                     narrativeText: "Week 1 came down to the wire: San Francisco Miners (9-4) and Washington Timber (11-2) finished 42–45, with Timber edging Miners in a one-score game. Below is how each roster stacked on the season stat sheet in the categories we track. That context shows how these teams were built entering the week.",
                     leaders1: [
                         { cat: "PASSING", name: "Nxmbsi", val: "26.7 PTS<br>#42 of 165" },
-                        { cat: "RUSHING", name: "TOYSWRLD", val: "36.2 PTS<br>#45 of 191" },
-                        { cat: "RECEIVING", name: "bxk5", val: "90.7 PTS<br>#106 of 715" }
+                        { cat: "RUSHING", name: "TOYSWRLD", val: "36.2 PTS<br>#45 of 191" }
                     ],
                     leaders2: [
                         { cat: "PASSING", name: "BlondeGirls", val: "244.4 PTS<br>#100 of 165" },
-                        { cat: "RUSHING", name: "BlondeGirls", val: "106.7 PTS<br>#17 of 191" },
                         { cat: "RECEIVING", name: "jaxversi", val: "336.9 PTS<br>#6 of 715" }
                     ]
                 }
@@ -449,10 +440,7 @@
             for (let w = 10; w >= 1; w--) {
                 const card = document.createElement('div');
                 card.className = 'week-card';
-                card.innerHTML = `
-                    <h3>Week ${w}</h3>
-                    <span>View matches →</span>
-                `;
+                card.innerHTML = `<h3>Week ${w}</h3><span>View matches →</span>`;
                 card.addEventListener('click', () => openWeekMatchups(w));
                 container.appendChild(card);
             }
@@ -463,7 +451,6 @@
             document.getElementById('hubView').style.display = 'none';
             document.getElementById('matchupRecapView').style.display = 'none';
             document.getElementById('matchupsGridView').style.display = 'block';
-            
             document.getElementById('matchupsGridTitle').textContent = `Week ${weekNum} Matchups`;
             
             const container = document.getElementById('matchupsGridContainer');
@@ -481,22 +468,29 @@
                 matchCard.innerHTML = `
                     <div class="status-tag">FINAL</div>
                     <div class="scorecard-teams-row">
-                        <div class="scorecard-team-block">
+                        <!-- Clickable Team 1 Block linking to teams.html -->
+                        <a href="teams.html?team=${match.t1Slug}" class="scorecard-team-block">
                             <div class="name">${match.t1City}</div>
                             <div class="score">${match.t1Score}</div>
-                        </div>
+                        </a>
                         <div class="scorecard-divider">@</div>
-                        <div class="scorecard-team-block">
+                        <!-- Clickable Team 2 Block linking to teams.html -->
+                        <a href="teams.html?team=${match.t2Slug}" class="scorecard-team-block">
                             <div class="name">${match.t2City}</div>
                             <div class="score">${match.t2Score}</div>
-                        </div>
+                        </a>
                     </div>
                     <div style="text-align:left; margin-top:15px;">
-                        <span class="recap-trigger-text">Read recap context →</span>
+                        <span class="recap-trigger-btn" id="trigger-${match.id}">Read recap context →</span>
                     </div>
                 `;
-                matchCard.addEventListener('click', () => openMatchupRecap(match));
                 container.appendChild(matchCard);
+
+                // Prevent the inner button from clashing with the link blocks
+                document.getElementById(`trigger-${match.id}`).addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openMatchupRecap(match);
+                });
             });
         }
 
@@ -518,9 +512,9 @@
             document.getElementById('team1PageLink').textContent = `${match.t1City} ${match.t1Name} team page`;
             document.getElementById('team2PageLink').textContent = `${match.t2City} ${match.t2Name} team page`;
 
-            // --- ADDED DIRECT LINKS TO TEAMS.HTML USING PARAMETERS ---
-            document.getElementById('team1PageLink').href = `teams.html?team=${match.t1City.toLowerCase()}`;
-            document.getElementById('team2PageLink').href = `teams.html?team=${match.t2City.toLowerCase()}`;
+            // Updated Banner Dynamic Anchor Queries
+            document.getElementById('team1PageLink').href = `teams.html?team=${match.t1Slug}`;
+            document.getElementById('team2PageLink').href = `teams.html?team=${match.t2Slug}`;
 
             document.getElementById('recapHeadlineDisplay').textContent = match.headline;
             document.getElementById('recapMetaDisplay').textContent = `Week ${activeWeekSelected} · Final ${match.t1Score}–${match.t2Score}`;
@@ -538,7 +532,7 @@
             const block = document.getElementById(targetId);
             block.innerHTML = '';
             if(!leadersList || leadersList.length === 0) {
-                block.innerHTML = '<span style="font-size:0.85rem; color: var(--text-light);">No local entries listed.</span>';
+                block.innerHTML = '<span style="font-size:0.85rem; color: var(--text-light);">No entries listed.</span>';
                 return;
             }
             leadersList.forEach(item => {
