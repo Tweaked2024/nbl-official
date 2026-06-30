@@ -11,14 +11,20 @@ const dynamicMatchupData = {
                 status: "FINAL",
                 awayTeam: "San Francisco Miners",
                 awayShort: "MINERS",
-                awayLogo: "barbara_logo.png", // Replace with your exact asset file path
+                awayLogo: "barbara_logo.png", 
                 awayScore: 42,
-                awayRecord: "3-4",
+                awayRecord: "9-4",
+                // Pass the team identifier through the URL parameter
+                awayUrl: "teams.html?team=miners", 
+                
                 homeTeam: "Washington Timber",
                 homeShort: "TIMBER",
-                homeLogo: "washington_logo.png", // Replace with your exact asset file path
+                homeLogo: "washington_logo.png", 
                 homeScore: 45,
-                homeRecord: "5-2",
+                homeRecord: "11-2",
+                // Pass the team identifier through the URL parameter
+                homeUrl: "teams.html?team=timber", 
+                
                 recapTitle: "San Francisco Miners 42–45 at Washington Timber",
                 subTitle: "Week 1 • Final 42-45",
                 narrative: {
@@ -70,11 +76,13 @@ const dynamicMatchupData = {
                 awayLogo: "korblox_logo.png",
                 awayScore: 13,
                 awayRecord: "4-5",
+                awayUrl: "teams.html?team=korblox",
                 homeTeam: "Veracruz",
                 homeShort: "VERACRUZ",
                 homeLogo: "veracruz_logo.png",
                 homeScore: 51,
                 homeRecord: "8-1",
+                homeUrl: "teams.html?team=veracruz",
                 recapTitle: "Veracruz Dominates Korblox 51-13",
                 subTitle: "Week 1 • Final 13-51",
                 narrative: {
@@ -98,11 +106,13 @@ const dynamicMatchupData = {
                 awayLogo: "logo.png",
                 awayScore: 0,
                 awayRecord: "0-0",
+                awayUrl: "teams.html?team=placeholderaway",
                 homeTeam: "Home Team Name",
                 homeShort: "HOME",
                 homeLogo: "logo.png",
                 homeScore: 0,
                 homeRecord: "0-0",
+                homeUrl: "teams.html?team=placeholderhome",
                 recapTitle: "Game Title Preview",
                 subTitle: "Week 2 Preview",
                 narrative: {
