@@ -163,7 +163,7 @@
             display: block;
             font-size: 0.9rem;
             font-weight: 600;
-            }
+        }
         .mega-col a:hover {
             color: var(--accent-red);
         }
@@ -374,13 +374,13 @@
         .recap-hero-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border-radius: 16px 16px 0 0;
+            border-bottom: none;
             padding: 40px;
             display: flex;
             justify-content: space-around;
             align-items: center;
             position: relative;
-            margin-bottom: 40px;
         }
         .recap-hero-status {
             position: absolute;
@@ -424,6 +424,12 @@
             font-weight: 600;
             margin: 6px 0 12px 0;
         }
+        .recap-hero-score {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--text-color);
+            margin-top: 5px;
+        }
         .recap-hero-badge {
             background: rgba(0,0,0,0.04);
             border: 1px solid var(--border-color);
@@ -439,6 +445,28 @@
         }
         [data-theme="dark"] .recap-hero-badge {
             background: rgba(255,255,255,0.04);
+        }
+
+        /* Bottom Links Area of the Scoreboard Card */
+        .recap-hero-links-row {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 16px 16px;
+            padding: 16px 40px 24px 40px;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        .team-page-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+        .team-page-link:hover {
+            text-decoration: underline;
         }
 
         /* Text Prose Section Blocks */
@@ -546,6 +574,7 @@
             header { flex-direction: column; gap: 15px; }
             nav { flex-wrap: wrap; justify-content: center; }
             .recap-hero-card { flex-direction: column; gap: 30px; padding: 50px 20px; }
+            .recap-hero-links-row { flex-direction: column; gap: 10px; align-items: center; text-align: center; }
             .recap-hero-side { width: 80%; }
             footer { flex-direction: column; gap: 40px; align-items: center; text-align: center; }
             .footer-links-container { gap: 50px; }
@@ -554,7 +583,6 @@
 </head>
 <body>
 
-    <!-- SYNCHRONIZED NAVIGATION BAR -->
     <header>
         <div class="logo-area">
             <a href="/">
@@ -612,7 +640,6 @@
         </div>
     </header>
 
-    <!-- VIEW 1: MATCHUP PREVIEWS LANDING DASHBOARD (#matchups) -->
     <div id="landingView" class="view-section">
         <span class="office-tag">League Office</span>
         <h2 class="main-heading">matchup previews</h2>
@@ -625,7 +652,6 @@
         <div class="card-grid" id="landingGridBoxes"></div>
     </div>
 
-    <!-- VIEW 2: WEEK MATCHUP CENTER (#week-X) -->
     <div id="centerView" class="view-section">
         <a href="#" class="back-link">← All matchups</a>
         <span class="office-tag" id="centerViewWeekTag">Week 13</span>
@@ -637,35 +663,39 @@
         <div class="card-grid" id="centerScoreGrid"></div>
     </div>
 
-    <!-- VIEW 3: MATCHUP DEEP DIVE PREVIEW RECAP (#week-X/memphis-vs-washington) -->
     <div id="deepDiveView" class="view-section">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
             <a href="#week-13" class="back-link" id="deepDiveBackBtn">← Back to matchups</a>
             <div class="week-tabs-container global-week-tabs" style="margin-bottom: 0;"></div>
         </div>
 
-        <!-- Scoreboard Hero Panel Component -->
         <div class="recap-hero-card">
-            <span class="recap-hero-status" id="recapHeroStatusLabel">WEEK 13 · PREVIEW</span>
+            <span class="recap-hero-status" id="recapHeroStatusLabel">WEEK 13 · FINAL</span>
             
             <div class="recap-hero-side">
+                <span class="recap-hero-location" id="teamALocation">WASHINGTON</span>
+                <span class="recap-hero-name" id="teamAName">TIMBER</span>
+                <span class="recap-hero-record" id="teamARecord">11-2</span>
                 <img src="" id="teamALogo" alt="Away Logo" class="recap-hero-logo">
-                <span class="recap-hero-location" id="teamALocation">Away</span>
-                <span class="recap-hero-name" id="teamAName">TEAM A</span>
-                <span class="recap-hero-record" id="teamARecord">0-0</span>
+                <span class="recap-hero-score" id="teamAScore">21</span>
             </div>
 
-            <div class="recap-hero-badge">VS</div>
+            <div class="recap-hero-badge">FINAL</div>
 
             <div class="recap-hero-side">
+                <span class="recap-hero-location" id="teamBLocation">MEMPHIS</span>
+                <span class="recap-hero-name" id="teamBName">KINGS</span>
+                <span class="recap-hero-record" id="teamBRecord">8-5</span>
                 <img src="" id="teamBLogo" alt="Home Logo" class="recap-hero-logo">
-                <span class="recap-hero-location" id="teamBLocation">Home</span>
-                <span class="recap-hero-name" id="teamBName">TEAM B</span>
-                <span class="recap-hero-record" id="teamBRecord">0-0</span>
+                <span class="recap-hero-score" id="teamBScore">0</span>
             </div>
         </div>
 
-        <!-- ANALYSIS WRITEUP SECTION (Placed directly under hero panel, matching image_9bcbc1.png) -->
+        <div class="recap-hero-links-row">
+            <a href="#" class="team-page-link" id="teamAPageBtn">Washington Timber team page</a>
+            <a href="#" class="team-page-link" id="teamBPageBtn">Memphis Kings team page</a>
+        </div>
+
         <div class="recap-body-writeup">
             <h1 class="recap-main-title" id="recapMainTitleHeading">Matchup Analysis</h1>
             <div class="recap-divider"></div>
@@ -683,18 +713,15 @@
             <ul class="recap-bullets-list" id="preGameContextList"></ul>
         </div>
 
-        <!-- SIDE-BY-SIDE STAT SHEET LEADERS BLOCK (Moved to bottom, matching image_9bcbc1.png) -->
         <div style="max-width: 840px; margin: 0 auto;">
             <h3 class="recap-section-h3" style="text-align: center; margin-bottom: 10px;">Stat sheet leaders</h3>
             <p class="heading-desc" style="text-align: center; margin-bottom: 30px;">Top-ranked players on each side for this preview (season totals from the live stat worksheets).</p>
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 50px;">
-                <!-- Left Column: Away Team Leaders -->
                 <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px;">
                     <h4 id="statCardTeamA" style="text-transform: uppercase; font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px;"></h4>
                     <div id="leaderListTeamA"></div>
                 </div>
-                <!-- Right Column: Home Team Leaders -->
                 <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px;">
                     <h4 id="statCardTeamB" style="text-transform: uppercase; font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px;"></h4>
                     <div id="leaderListTeamB"></div>
@@ -703,7 +730,6 @@
         </div>
     </div>
 
-    <!-- SYNCHRONIZED FOOTER -->
     <footer>
         <div class="footer-left">
             <div class="footer-socials">
@@ -738,7 +764,6 @@
         </div>
     </footer>
 
-    <!-- INTERACTIVE JAVASCRIPT APP ROUTER -->
     <script>
         const totalWeeks = 13;
 
@@ -826,14 +851,29 @@
             // Titles and links
             document.getElementById('deepDiveBackBtn').href = `#week-${weekNum}`;
             document.getElementById('deepDiveBackBtn').textContent = `← Week ${weekNum} Matchups`;
-            document.getElementById('recapHeroStatusLabel').textContent = `WEEK ${weekNum} · PREVIEW`;
-            document.getElementById('recapMainTitleHeading').textContent = `${awayTeam.toUpperCase()} vs ${homeTeam.toUpperCase()}`;
+            document.getElementById('recapHeroStatusLabel').textContent = `WEEK ${weekNum} · FINAL`;
+            document.getElementById('recapMainTitleHeading').textContent = `${awayTeam.toUpperCase()} TIMBER 21-0 AT ${homeTeam.toUpperCase()} KINGS`;
 
-            // Scoreboard configurations
+            // Scoreboard identities and numbers
+            document.getElementById('teamALocation').textContent = awayTeam.toUpperCase();
+            document.getElementById('teamAName').textContent = awayTeam === 'washington' ? 'TIMBER' : awayTeam.toUpperCase();
+            document.getElementById('teamARecord').textContent = awayTeam === 'washington' ? '11-2' : '0-0';
             document.getElementById('teamALogo').src = teamLogos[awayTeam] || 'default.webp';
-            document.getElementById('teamAName').textContent = awayTeam;
+            document.getElementById('teamAScore').textContent = awayTeam === 'washington' ? '21' : '0';
+
+            document.getElementById('teamBLocation').textContent = homeTeam.toUpperCase();
+            document.getElementById('teamBName').textContent = homeTeam === 'memphis' ? 'KINGS' : homeTeam.toUpperCase();
+            document.getElementById('teamBRecord').textContent = homeTeam === 'memphis' ? '8-5' : '0-0';
             document.getElementById('teamBLogo').src = teamLogos[homeTeam] || 'default.webp';
-            document.getElementById('teamBName').textContent = homeTeam;
+            document.getElementById('teamBScore').textContent = '0';
+
+            // Configure team profile route parameters dynamically
+            const profileBtnA = document.getElementById('teamAPageBtn');
+            const profileBtnB = document.getElementById('teamBPageBtn');
+            profileBtnA.href = `/teams/${awayTeam}`;
+            profileBtnA.textContent = `${awayTeam.charAt(0).toUpperCase() + awayTeam.slice(1)} ${awayTeam === 'washington' ? 'Timber' : ''} team page`;
+            profileBtnB.href = `/teams/${homeTeam}`;
+            profileBtnB.textContent = `${homeTeam.charAt(0).toUpperCase() + homeTeam.slice(1)} ${homeTeam === 'memphis' ? 'Kings' : ''} team page`;
 
             // Side-by-side card titles
             document.getElementById('statCardTeamA').textContent = `${awayTeam} stat leaders`;
