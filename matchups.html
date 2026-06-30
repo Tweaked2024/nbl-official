@@ -303,7 +303,7 @@
         </div>
         <nav>
             <div class="nav-item"><a href="#">Standings</a></div>
-            <div class="nav-item"><a href="teams.html">Teams</a></div>
+            <div class="nav-item"><a href="/teams/california">Teams</a></div>
             <div class="nav-item"><a href="#" style="color: var(--accent-blue);">Matchups</a></div>
         </nav>
         <div class="right-actions">
@@ -405,29 +405,20 @@
     </footer>
 
     <script>
-        // Database contains explicit lowercase city slugs matching teams.html parameter expectations
         const matchupWeeksDatabase = {
             10: [
-                { id: "m10-1", t1City: "BARBARA", t1Slug: "barbara", t1Name: "BARBARIANS", t1Record: "7-2", t1Score: 42, t2City: "WASHINGTON", t2Slug: "washington", t2Name: "TIMBER", t2Record: "8-1", t2Score: 45, headline: "Barbarians Fall Short in Final Seconds at Washington", narrativeTitle: "Clutch Stop", narrativeText: "A defensive stand secures the win.", leaders1: [], leaders2: [] },
-                { id: "m10-2", t1City: "KORBLOX", t1Slug: "korblox", t1Name: "DEATH", t1Record: "3-6", t1Score: 13, t2City: "VERACRUZ", t2Slug: "veracruz", t2Name: "JAGUARS", t2Record: "6-3", t2Score: 51, headline: "Veracruz Dominates Korblox on the Road", narrativeTitle: "Blowout", narrativeText: "Jaguars ground out early leads.", leaders1: [], leaders2: [] }
+                { id: "m10-1", t1City: "CALIFORNIA", t1Slug: "california", t1Name: "GOLDEN BEARS", t1Record: "9-1", t1Score: 112, t2City: "OKLAHOMA", t2Slug: "oklahoma", t2Name: "SOONERS", t2Record: "6-4", t2Score: 95, headline: "California Locks Down Key Victory Against Oklahoma", narrativeTitle: "Conference Battle", narrativeText: "A stellar execution offensively pathing out the point margins.", leaders1: [], leaders2: [] }
             ],
             9: [], 8: [], 7: [], 6: [], 5: [], 4: [], 3: [], 2: [],
             1: [
                 {
                     id: "m1-1",
-                    t1City: "SAN FRANCISCO", t1Slug: "san francisco", t1Name: "MINERS", t1Record: "9-4", t1Score: 42,
+                    t1City: "SAN FRANCISCO", t1Slug: "san-francisco", t1Name: "MINERS", t1Record: "9-4", t1Score: 42,
                     t2City: "WASHINGTON", t2Slug: "washington", t2Name: "TIMBER", t2Record: "11-2", t2Score: 45,
                     headline: "San Francisco Miners 42–45 at Washington Timber",
                     narrativeTitle: "Nail-biter",
-                    narrativeText: "Week 1 came down to the wire: San Francisco Miners (9-4) and Washington Timber (11-2) finished 42–45, with Timber edging Miners in a one-score game. Below is how each roster stacked on the season stat sheet in the categories we track. That context shows how these teams were built entering the week.",
-                    leaders1: [
-                        { cat: "PASSING", name: "Nxmbsi", val: "26.7 PTS<br>#42 of 165" },
-                        { cat: "RUSHING", name: "TOYSWRLD", val: "36.2 PTS<br>#45 of 191" }
-                    ],
-                    leaders2: [
-                        { cat: "PASSING", name: "BlondeGirls", val: "244.4 PTS<br>#100 of 165" },
-                        { cat: "RECEIVING", name: "jaxversi", val: "336.9 PTS<br>#6 of 715" }
-                    ]
+                    narrativeText: "Week 1 came down to the wire...",
+                    leaders1: [], leaders2: []
                 }
             ]
         };
@@ -468,14 +459,13 @@
                 matchCard.innerHTML = `
                     <div class="status-tag">FINAL</div>
                     <div class="scorecard-teams-row">
-                        <!-- Clickable Team 1 Block linking to teams.html -->
-                        <a href="teams.html?team=${match.t1Slug}" class="scorecard-team-block">
+                        <!-- Clean URL Destination Formatting -->
+                        <a href="/teams/${match.t1Slug}" class="scorecard-team-block">
                             <div class="name">${match.t1City}</div>
                             <div class="score">${match.t1Score}</div>
                         </a>
                         <div class="scorecard-divider">@</div>
-                        <!-- Clickable Team 2 Block linking to teams.html -->
-                        <a href="teams.html?team=${match.t2Slug}" class="scorecard-team-block">
+                        <a href="/teams/${match.t2Slug}" class="scorecard-team-block">
                             <div class="name">${match.t2City}</div>
                             <div class="score">${match.t2Score}</div>
                         </a>
@@ -486,7 +476,6 @@
                 `;
                 container.appendChild(matchCard);
 
-                // Prevent the inner button from clashing with the link blocks
                 document.getElementById(`trigger-${match.id}`).addEventListener('click', (e) => {
                     e.stopPropagation();
                     openMatchupRecap(match);
@@ -512,9 +501,9 @@
             document.getElementById('team1PageLink').textContent = `${match.t1City} ${match.t1Name} team page`;
             document.getElementById('team2PageLink').textContent = `${match.t2City} ${match.t2Name} team page`;
 
-            // Updated Banner Dynamic Anchor Queries
-            document.getElementById('team1PageLink').href = `teams.html?team=${match.t1Slug}`;
-            document.getElementById('team2PageLink').href = `teams.html?team=${match.t2Slug}`;
+            // Formatting links cleanly
+            document.getElementById('team1PageLink').href = `/teams/${match.t1Slug}`;
+            document.getElementById('team2PageLink').href = `/teams/${match.t2Slug}`;
 
             document.getElementById('recapHeadlineDisplay').textContent = match.headline;
             document.getElementById('recapMetaDisplay').textContent = `Week ${activeWeekSelected} · Final ${match.t1Score}–${match.t2Score}`;
