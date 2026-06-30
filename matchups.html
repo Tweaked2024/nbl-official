@@ -163,7 +163,7 @@
             display: block;
             font-size: 0.9rem;
             font-weight: 600;
-        }
+            }
         .mega-col a:hover {
             color: var(--accent-red);
         }
@@ -444,7 +444,7 @@
         /* Text Prose Section Blocks */
         .recap-body-writeup {
             max-width: 840px;
-            margin: 0 auto;
+            margin: 0 auto 50px auto;
         }
         .recap-main-title {
             font-size: 2.1rem;
@@ -554,6 +554,7 @@
 </head>
 <body>
 
+    <!-- SYNCHRONIZED NAVIGATION BAR -->
     <header>
         <div class="logo-area">
             <a href="/">
@@ -611,6 +612,7 @@
         </div>
     </header>
 
+    <!-- VIEW 1: MATCHUP PREVIEWS LANDING DASHBOARD (#matchups) -->
     <div id="landingView" class="view-section">
         <span class="office-tag">League Office</span>
         <h2 class="main-heading">matchup previews</h2>
@@ -623,6 +625,7 @@
         <div class="card-grid" id="landingGridBoxes"></div>
     </div>
 
+    <!-- VIEW 2: WEEK MATCHUP CENTER (#week-X) -->
     <div id="centerView" class="view-section">
         <a href="#" class="back-link">← All matchups</a>
         <span class="office-tag" id="centerViewWeekTag">Week 13</span>
@@ -634,12 +637,14 @@
         <div class="card-grid" id="centerScoreGrid"></div>
     </div>
 
+    <!-- VIEW 3: MATCHUP DEEP DIVE PREVIEW RECAP (#week-X/memphis-vs-washington) -->
     <div id="deepDiveView" class="view-section">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
             <a href="#week-13" class="back-link" id="deepDiveBackBtn">← Back to matchups</a>
             <div class="week-tabs-container global-week-tabs" style="margin-bottom: 0;"></div>
         </div>
 
+        <!-- Scoreboard Hero Panel Component -->
         <div class="recap-hero-card">
             <span class="recap-hero-status" id="recapHeroStatusLabel">WEEK 13 · PREVIEW</span>
             
@@ -660,20 +665,7 @@
             </div>
         </div>
 
-        <h3 class="recap-section-h3" style="text-align: center; margin-bottom: 10px;">Stat sheet leaders</h3>
-        <p class="heading-desc" style="text-align: center; margin-bottom: 30px;">Top-ranked players on each side for this preview (season totals from the live stat worksheets).</p>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 50px;">
-            <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px;">
-                <h4 id="statCardTeamA" style="text-transform: uppercase; font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px;"></h4>
-                <div id="leaderListTeamA"></div>
-            </div>
-            <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px;">
-                <h4 id="statCardTeamB" style="text-transform: uppercase; font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px;"></h4>
-                <div id="leaderListTeamB"></div>
-            </div>
-        </div>
-
+        <!-- ANALYSIS WRITEUP SECTION (Placed directly under hero panel, matching image_9bcbc1.png) -->
         <div class="recap-body-writeup">
             <h1 class="recap-main-title" id="recapMainTitleHeading">Matchup Analysis</h1>
             <div class="recap-divider"></div>
@@ -690,8 +682,28 @@
             <p class="recap-paragraph" id="preGameContextIntro"></p>
             <ul class="recap-bullets-list" id="preGameContextList"></ul>
         </div>
+
+        <!-- SIDE-BY-SIDE STAT SHEET LEADERS BLOCK (Moved to bottom, matching image_9bcbc1.png) -->
+        <div style="max-width: 840px; margin: 0 auto;">
+            <h3 class="recap-section-h3" style="text-align: center; margin-bottom: 10px;">Stat sheet leaders</h3>
+            <p class="heading-desc" style="text-align: center; margin-bottom: 30px;">Top-ranked players on each side for this preview (season totals from the live stat worksheets).</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 50px;">
+                <!-- Left Column: Away Team Leaders -->
+                <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px;">
+                    <h4 id="statCardTeamA" style="text-transform: uppercase; font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px;"></h4>
+                    <div id="leaderListTeamA"></div>
+                </div>
+                <!-- Right Column: Home Team Leaders -->
+                <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px;">
+                    <h4 id="statCardTeamB" style="text-transform: uppercase; font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px;"></h4>
+                    <div id="leaderListTeamB"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <!-- SYNCHRONIZED FOOTER -->
     <footer>
         <div class="footer-left">
             <div class="footer-socials">
@@ -726,6 +738,7 @@
         </div>
     </footer>
 
+    <!-- INTERACTIVE JAVASCRIPT APP ROUTER -->
     <script>
         const totalWeeks = 13;
 
