@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>National Basketball League - Matchups & Previews</title>
+    <title>National Basketball League - Matchups</title>
     <style>
+        /* Sitewide Theme Settings Matching your Teams Page */
         :root {
             --bg-color: #fcfcfc;
             --card-bg: #ffffff;
@@ -13,9 +14,7 @@
             --border-color: #e0e0e0;
             --nav-bg: #ffffff;
             --accent-red: #e61e2b;
-            --accent-blue: #3b82f6;
-            --footer-bg: #11141a;
-            --footer-text: #8e99a8;
+            --modal-overlay: rgba(0, 0, 0, 0.4);
         }
 
         [data-theme="dark"] {
@@ -25,15 +24,17 @@
             --text-light: #8b949e;
             --border-color: #30363d;
             --nav-bg: #161b22;
+            --modal-overlay: rgba(0, 0, 0, 0.7);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
         }
+
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
@@ -42,7 +43,7 @@
             min-height: 100vh;
         }
 
-        /* --- HEADER & NAVIGATION --- */
+        /* Header Navigation */
         header {
             display: flex;
             justify-content: space-between;
@@ -51,6 +52,7 @@
             background: var(--nav-bg);
             border-bottom: 1px solid var(--border-color);
         }
+
         .logo-area a {
             text-decoration: none;
             color: var(--text-color);
@@ -59,10 +61,14 @@
             gap: 12px;
             font-weight: 800;
             font-size: 1.25rem;
-            letter-spacing: -0.5px;
         }
-        nav { display: flex; align-items: center; gap: 5px; }
-        .nav-item > a {
+
+        nav {
+            display: flex;
+            gap: 5px;
+        }
+
+        nav a {
             text-decoration: none;
             color: var(--text-color);
             font-weight: 600;
@@ -70,7 +76,20 @@
             padding: 8px 14px;
             border-radius: 6px;
         }
-        .right-actions { display: flex; align-items: center; gap: 16px; }
+
+        nav a:hover {
+            background-color: rgba(0,0,0,0.04);
+        }
+        [data-theme="dark"] nav a:hover {
+            background-color: rgba(255,255,255,0.04);
+        }
+
+        .right-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
         .theme-toggle-btn {
             width: 42px;
             height: 42px;
@@ -81,201 +100,139 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            color: var(--text-color);
             font-size: 1.15rem;
         }
 
-        /* --- GLOBAL CONTENT LAYOUT CONTAINER --- */
-        .main-container {
-            width: 92%;
+        /* Layout Container */
+        .container {
+            width: 90%;
             max-width: 1200px;
-            margin: 40px auto 80px auto;
+            margin: 45px auto;
             flex: 1;
         }
 
-        /* --- VIEW 1: MATCHUP PREVIEWS HUB (image_8e111d.png) --- */
-        .hub-title { font-size: 2.4rem; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 6px; }
-        .hub-desc { color: var(--text-light); font-size: 1rem; margin-bottom: 35px; font-weight: 500; }
-        
-        .weeks-grid {
+        .page-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            letter-spacing: -0.5px;
+        }
+
+        .week-section {
+            margin-bottom: 40px;
+        }
+
+        .week-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .matchups-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
         }
-        .week-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 24px;
-            text-decoration: none;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.01);
-        }
-        .week-card h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; color: var(--text-color); }
-        .week-card span { color: var(--accent-red); font-weight: 700; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 4px; }
 
-        /* --- VIEW 2: MATCHUPS SELECTION GRID (image_8e111e.png) --- */
-        .back-nav-link {
-            color: var(--accent-blue);
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.9rem;
-            margin-bottom: 30px;
-        }
-        .matchups-list-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
-            gap: 25px;
-        }
-        .matchup-scorecard {
+        .matchup-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 30px;
+            border-radius: 10px;
+            padding: 20px;
             cursor: pointer;
-            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.01);
         }
-        .status-tag {
-            font-size: 0.72rem;
-            color: var(--accent-blue);
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            position: absolute;
-            top: 20px;
-            left: 25px;
+
+        .matchup-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.04);
         }
-        .scorecard-teams-row {
+
+        .team-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .team-info {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin: 20px 0;
-            padding: 0 10px;
+            gap: 12px;
         }
-        .scorecard-team-block {
+
+        .team-logo {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .score {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* Modal Recap Popup */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--modal-overlay);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            text-align: center;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .recap-links {
+            margin-top: 25px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            width: 38%;
-            text-align: center;
+            gap: 10px;
         }
-        .scorecard-team-block img { width: 44px; height: 44px; object-fit: contain; margin-bottom: 12px; }
-        .scorecard-team-block .name { font-weight: 800; font-size: 1.05rem; margin-bottom: 10px; }
-        .scorecard-team-block .score { font-size: 2.2rem; font-weight: 900; letter-spacing: -1px; }
-        .scorecard-divider { font-weight: 600; color: var(--text-light); opacity: 0.5; font-size: 1.1rem; }
-        .recap-trigger-text { color: var(--accent-blue); font-size: 0.85rem; font-weight: 700; text-decoration: none; }
 
-        /* --- VIEW 3: MATCHUP SCORE BANNER (image_8e1217.png) --- */
-        .preview-header-card {
-            background: var(--card-bg);
+        .recap-links a {
+            display: block;
+            padding: 10px;
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 40px;
-            margin-bottom: 35px;
-            position: relative;
-        }
-        .banner-status-tag { font-size: 0.78rem; font-weight: 800; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.8px; }
-        .banner-vs-display {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 60px;
-            margin: 25px 0 35px 0;
-        }
-        .banner-team-info { text-align: center; width: 260px; }
-        .banner-team-info .city { font-size: 0.85rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
-        .banner-team-info .team-title { font-size: 1.9rem; font-weight: 900; text-transform: uppercase; margin: 4px 0; }
-        .banner-team-info .record { font-size: 0.85rem; color: var(--text-light); font-weight: 600; }
-        .banner-team-info .points { font-size: 3.8rem; font-weight: 900; margin-top: 15px; letter-spacing: -2px; }
-        .banner-center-badge {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background: #f1f5f9;
-            border: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            font-weight: 800;
-            color: var(--text-light);
-        }
-        [data-theme="dark"] .banner-center-badge { background: #21262d; }
-        .banner-team-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-        }
-        .banner-team-links a { font-size: 0.88rem; color: var(--accent-blue); font-weight: 700; text-decoration: none; }
-
-        /* --- VIEWS 4 & 5: RECAP TEXT SEGMENTS (image_8e1218.png & image_8e14fb.png) --- */
-        .recap-headline { font-size: 2.3rem; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 8px; }
-        .recap-sub-meta { color: var(--text-light); font-size: 0.9rem; font-weight: 600; margin-bottom: 25px; border-bottom: 1px solid var(--border-color); padding-bottom: 25px; }
-        
-        .recap-body-section { margin-bottom: 35px; max-width: 900px; }
-        .recap-body-section h4 { font-size: 1.3rem; font-weight: 800; margin-bottom: 14px; color: var(--text-color); }
-        .recap-body-section p { font-size: 1rem; color: var(--text-color); line-height: 1.6; margin-bottom: 18px; opacity: 0.95; }
-        
-        .recap-bullet-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
-        .recap-bullet-list li { font-size: 0.95rem; line-height: 1.5; padding-left: 20px; position: relative; color: var(--text-color); }
-        .recap-bullet-list li::before {
-            content: "•";
-            color: var(--text-light);
-            font-size: 1.2rem;
-            position: absolute;
-            left: 0;
-            top: -2px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 0.95rem;
+            background: rgba(0,0,0,0.02);
         }
 
-        /* --- VIEW 6: STAT SHEET LEADERS SIDE-BY-SIDE (image_8e1500.png) --- */
-        .leaders-comparison-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-top: 35px;
-        }
-        .leaders-card-container {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 30px;
-        }
-        .leaders-card-container h4 {
-            font-size: 1.05rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.2px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
-        }
-        .leader-stat-block {
-            margin-bottom: 20px;
-        }
-        .leader-stat-block:last-child { margin-bottom: 0; }
-        .leader-stat-cat { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--text-light); letter-spacing: 1px; margin-bottom: 4px; }
-        .leader-stat-pname { font-size: 0.95rem; font-weight: 800; color: var(--text-color); }
-        .leader-stat-val { font-size: 0.88rem; color: var(--text-light); margin-top: 2px; font-weight: 500; }
-
-        /* --- FOOTER --- */
-        footer {
-            background-color: var(--footer-bg);
-            color: var(--footer-text);
-            padding: 40px 6%;
-            margin-top: auto;
-            border-top: 1px solid #1f242e;
-            font-size: 0.88rem;
-            text-align: center;
-        }
-
-        @media (max-width: 768px) {
-            .matchups-list-grid { grid-template-columns: 1fr; }
-            .banner-vs-display { flex-direction: column; gap: 20px; }
-            .leaders-comparison-layout { grid-template-columns: 1fr; }
+        .recap-links a:hover {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
         }
     </style>
 </head>
@@ -283,307 +240,58 @@
 
     <header>
         <div class="logo-area">
-            <a href="#">
+            <a href="index.html">
+                <img src="e1abd0576f5f77741b1f5a27399462ff.webp" alt="NBL Logo" style="height: 40px; width: auto; margin-right: 12px;">
                 <span>National Basketball League</span>
             </a>
         </div>
         <nav>
-            <div class="nav-item"><a href="#">Standings</a></div>
-            <div class="nav-item"><a href="#">Teams</a></div>
-            <div class="nav-item"><a href="#">Matchups</a></div>
+            <a href="#">Standings</a>
+            <a href="teams.html">Teams</a>
+            <a href="matchups.html">Matchups</a>
         </nav>
         <div class="right-actions">
             <button class="theme-toggle-btn" id="themeToggleBtn">🌙</button>
         </div>
     </header>
 
-    <div class="main-container">
-        
-        <!-- ======================================================= -->
-        <!-- VIEW 1: MATCHUP PREVIEWS HUB                            -->
-        <!-- ======================================================= -->
-        <div id="hubView">
-            <h2 class="hub-title">matchup previews</h2>
-            <p class="hub-desc">Data-driven game previews for every regular season week.</p>
-            <div class="weeks-grid" id="weeksGridContainer"></div>
-        </div>
-
-        <!-- ======================================================= -->
-        <!-- VIEW 2: MATCHUPS SELECTION GRID                         -->
-        <!-- ======================================================= -->
-        <div id="matchupsGridView" style="display: none;">
-            <a href="#" class="back-nav-link" id="backToHubBtn">← back to matchup previews</a>
-            <h2 class="hub-title" id="matchupsGridTitle">Week Matchups</h2>
-            <p class="hub-desc" style="margin-bottom: 25px;">Select a matchup to pull up the complete data-driven recap.</p>
-            <div class="matchups-list-grid" id="matchupsGridContainer"></div>
-        </div>
-
-        <!-- ======================================================= -->
-        <!-- VIEWS 3-6: COMPLETE MATCHUP RECAP PROFILE SHEET         -->
-        <!-- ======================================================= -->
-        <div id="matchupRecapView" style="display: none;">
-            <a href="#" class="back-nav-link" id="backToMatchupsBtn">← back to week matchups</a>
-            
-            <!-- View 3: Matchup Score Banner -->
-            <div class="preview-header-card">
-                <div class="banner-status-tag" id="recapBannerStatus">WEEK 1 - FINAL</div>
-                <div class="banner-vs-display">
-                    <div class="banner-team-info">
-                        <span class="banner-city" id="team1City">SAN FRANCISCO</span>
-                        <h3 class="team-title" id="team1Name">MINERS</h3>
-                        <span class="record" id="team1Record">9-4</span>
-                        <div class="points" id="team1Score">42</div>
-                    </div>
-                    <div class="banner-center-badge">FINAL</div>
-                    <div class="banner-team-info">
-                        <span class="banner-city" id="team2City">WASHINGTON</span>
-                        <h3 class="team-title" id="team2Name">TIMBER</h3>
-                        <span class="record" id="team2Record">11-2</span>
-                        <div class="points" id="team2Score">45</div>
-                    </div>
-                </div>
-                <div class="banner-team-links">
-                    <a href="#" id="team1PageLink">San Francisco Miners team page</a>
-                    <a href="#" id="team2PageLink">Washington Timber team page</a>
-                </div>
-            </div>
-
-            <!-- View 4: Main Narrative Headline & Summary Block -->
-            <h1 class="recap-headline" id="recapHeadlineDisplay">San Francisco Miners 42–45 at Washington Timber</h1>
-            <div class="recap-sub-meta" id="recapMetaDisplay">Week 1 · Final 42–45</div>
-
-            <div class="recap-body-section">
-                <h4 id="narrativeTitle">Nail-biter</h4>
-                <p id="narrativeParagraph">Week 1 came down to the wire: San Francisco Miners (9-4) and Washington Timber (11-2) finished 42–45, with Timber edging Miners in a one-score game. Below is how each roster stacked on the season stat sheet in the categories we track. That context shows how these teams were built entering the week.</p>
-            </div>
-
-            <!-- View 4/5: Text Metrics Lists -->
-            <div class="recap-body-section">
-                <h4>By the sheet</h4>
-                <ul class="recap-bullet-list" id="byTheSheetList">
-                    <li>Washington Timber (11-2) · 7-0 · PD 161 · SOS 0.54</li>
-                    <li>San Francisco Miners (9-4) · 6-1 · PD 110 · SOS 0.47</li>
-                    <li>Timber top weapon: jaxversi (Receiving, top-10 (#6 of 715))</li>
-                    <li>Miners top weapon: Nxmbsi (Passing, #42 of 165)</li>
-                </ul>
-            </div>
-
-            <div class="recap-body-section">
-                <h4>QB matchup</h4>
-                <p id="qbMatchupParagraph">Nxmbsi (#42 of 165, 26.7 PTS) matches up with BlondeGirls (top-10 (#10 of 165), 244.4 PTS).</p>
-                <p>BlondeGirls carries a 32-rank advantage in the passing leaderboard. That is a gap Timber pass rush or Miners coverage must respect.</p>
-            </div>
-
-            <div class="recap-body-section">
-                <h4>Unit on unit</h4>
-                <p id="unitOnUnitParagraph">On the ground, BlondeGirls (106.7 PTS) tests Eraows (0 PTS).</p>
-                <ul class="recap-bullet-list" id="unitOnUnitList">
-                    <li>Timber rush: BlondeGirls, 106.7 PTS, top-20 (#17 of 191)</li>
-                    <li>Miners rush: TOYSWRLD, 36.2' PTS, #45 of 191</li>
-                    <li>Timber receiving: jaxversi, 336.9 PTS, top-10 (#6 of 715)</li>
-                </ul>
-            </div>
-
-            <div class="recap-body-section">
-                <h4>Stat-sheet stars</h4>
-                <p style="color: var(--text-light); margin-bottom: 12px;">Highest nationally ranked producers in this pairing:</p>
-                <ul class="recap-bullet-list" id="sheetStarsList">
-                    <li>jaxversi (Timber): Receiving, 336.9 PTS · top-10 (#6 of 715)</li>
-                    <li>BlondeGirls (Timber): Secondary, 0 PTS · top-10 (#7 of 662)</li>
-                </ul>
-            </div>
-
-            <div class="recap-body-section">
-                <h4>Stat sheet lens</h4>
-                <p>Timber lead our tracked categories 6–0. Washington has more paths to win on paper, but Miners need a disruption game from their playmakers.</p>
-                <ul class="recap-bullet-list" id="sheetLensList">
-                    <li>Timber Passing: BlondeGirls (top-10 (#10 of 165))</li>
-                    <li>Timber Rushing: BlondeGirls (top-20 (#17 of 191))</li>
-                </ul>
-            </div>
-
-            <!-- View 6: Side-by-Side Live Sheet Leaders Columns -->
-            <h3 style="font-size: 1.4rem; font-weight: 800; margin-top: 45px;">Stat sheet leaders</h3>
-            <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 4px;">Top-ranked players on each side for this preview (season totals from the live stat worksheets).</p>
-            
-            <div class="leaders-comparison-layout">
-                <div class="leaders-card-container">
-                    <h4 id="leaderColumn1Title">SAN FRANCISCO MINERS</h4>
-                    <div id="leaderColumn1Stats"></div>
-                </div>
-                <div class="leaders-card-container">
-                    <h4 id="leaderColumn2Title">WASHINGTON TIMBER</h4>
-                    <div id="leaderColumn2Stats"></div>
-                </div>
-            </div>
-
-        </div>
-
+    <div class="container">
+        <h2 class="page-title">League Matchups</h2>
+        <div id="scheduleContainer"></div>
     </div>
 
-    <footer>
-        &copy; 2026 National Basketball League. All rights reserved.
-    </footer>
+    <div class="modal" id="recapModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModalBtn">&times;</span>
+            <h3 style="margin-bottom: 15px;" id="modalTitle">Matchup Recap</h3>
+            <p id="modalScore" style="font-size: 1.4rem; font-weight: 800; margin-bottom: 20px;"></p>
+            
+            <div class="recap-links">
+                <a href="#" id="team1PageLink">Go to Team 1 Profile</a>
+                <a href="#" id="team2PageLink">Go to Team 2 Profile</a>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Mock Mockable Matchup Database Object mapping across weeks 1-10
-        const matchupWeeksDatabase = {
-            10: [
-                { id: "m10-1", t1City: "BARBARA", t1Name: "BARBARIANS", t1Record: "7-2", t1Score: 42, t1Logo: "barb.png", t2City: "WASHINGTON", t2Name: "TIMBER", t2Record: "8-1", t2Score: 45, t2Logo: "wash.png", headline: "Barbarians Fall Short in Final Seconds at Washington", narrativeTitle: "Clutch Stop", narrativeText: "A defensive stand inside the 5-yard line secures the win.", leaders1: [{cat:"PASSING", name:"Nxmbsi", val:"26.7 PTS"}], leaders2: [{cat:"PASSING", name:"BlondeGirls", val:"244.4 PTS"}] },
-                { id: "m10-2", t1City: "KORBLOX", t1Name: "DEATH", t1Record: "3-6", t1Score: 13, t1Logo: "korb.png", t2City: "VERACRUZ", t2Name: "JAGUARS", t2Record: "6-3", t2Score: 51, t2Logo: "vera.png", headline: "Veracruz Dominates Korblox on the Road", narrativeTitle: "Blowout", narrativeText: "Jaguars ground out early leads to seal off any comeback path.", leaders1: [], leaders2: [] }
-            ],
-            9: [], 8: [], 7: [], 6: [], 5: [], 4: [], 3: [], 2: [],
-            1: [
-                {
-                    id: "m1-1",
-                    t1City: "SAN FRANCISCO", t1Name: "MINERS", t1Record: "9-4", t1Score: 42, t1Logo: "miners.png",
-                    t2City: "WASHINGTON", t2Name: "TIMBER", t2Record: "11-2", t2Score: 45, t2Logo: "timber.png",
-                    headline: "San Francisco Miners 42–45 at Washington Timber",
-                    narrativeTitle: "Nail-biter",
-                    narrativeText: "Week 1 came down to the wire: San Francisco Miners (9-4) and Washington Timber (11-2) finished 42–45, with Timber edging Miners in a one-score game. Below is how each roster stacked on the season stat sheet in the categories we track. That context shows how these teams were built entering the week.",
-                    leaders1: [
-                        { cat: "PASSING", name: "Nxmbsi", val: "26.7 PTS<br>#42 of 165" },
-                        { cat: "RUSHING", name: "TOYSWRLD", val: "36.2 PTS<br>#45 of 191" },
-                        { cat: "RECEIVING", name: "bxk5", val: "90.7 PTS<br>#106 of 715" }
-                    ],
-                    leaders2: [
-                        { cat: "PASSING", name: "BlondeGirls", val: "244.4 PTS<br>#100 of 165" },
-                        { cat: "RUSHING", name: "BlondeGirls", val: "106.7 PTS<br>#17 of 191" },
-                        { cat: "RECEIVING", name: "jaxversi", val: "336.9 PTS<br>#6 of 715" }
-                    ]
-                }
-            ]
-        };
-
-        let activeWeekSelected = null;
-
-        // --- #1 SORT AND GENERATE WEEKS LIST IN REVERSE HIGHEST TO LOWEST ORDER ---
-        function generateWeeksGrid() {
-            const container = document.getElementById('weeksGridContainer');
-            container.innerHTML = '';
-            
-            // Forces generation array execution from 10 down to 1
-            for (let w = 10; w >= 1; w--) {
-                const card = document.createElement('div');
-                card.className = 'week-card';
-                card.innerHTML = `
-                    <h3>Week ${w}</h3>
-                    <span>View matches →</span>
-                `;
-                card.addEventListener('click', () => openWeekMatchups(w));
-                container.appendChild(card);
+        // Matchups Schedule Database Array
+        const matchupsData = [
+            {
+                week: "Week 1",
+                games: [
+                    { t1City: "California", t1Name: "Franchise", t1Logo: "california.webp", t1Score: 49, t2City: "Illinois", t2Name: "Fighting Illini", t2Logo: "illinois.webp", t2Score: 8 },
+                    { t1City: "Canada", t1Name: "Texans", t1Logo: "canada.webp", t1Score: 24, t2City: "Texas", t2Name: "Longhorns", t2Logo: "texas.webp", t2Score: 14 }
+                ]
+            },
+            {
+                week: "Week 2",
+                games: [
+                    { t1City: "California", t1Name: "Franchise", t1Logo: "california.webp", t1Score: 64, t2City: "Oklahoma", t2Name: "Sooners", t2Logo: "oklahoma.webp", t2Score: 22 }
+                ]
             }
-        }
+        ];
 
-        // --- #2 MATCHUPS LAYOUT LOOK AND LIST CONFIGURATION ---
-        function openWeekMatchups(weekNum) {
-            activeWeekSelected = weekNum;
-            document.getElementById('hubView').style.display = 'none';
-            document.getElementById('matchupRecapView').style.display = 'none';
-            document.getElementById('matchupsGridView').style.display = 'block';
-            
-            document.getElementById('matchupsGridTitle').textContent = `Week ${weekNum} Matchups`;
-            
-            const container = document.getElementById('matchupsGridContainer');
-            container.innerHTML = '';
-            
-            const matches = matchupWeeksDatabase[weekNum] || [];
-            if(matches.length === 0) {
-                container.innerHTML = `<div style="grid-column: 1/-1; padding: 20px; color: var(--text-light);">No scheduled matchups recorded for Week ${weekNum}.</div>`;
-                return;
-            }
-
-            matches.forEach(match => {
-                const matchCard = document.createElement('div');
-                matchCard.className = 'matchup-scorecard';
-                matchCard.innerHTML = `
-                    <div class="status-tag">FINAL</div>
-                    <div class="scorecard-teams-row">
-                        <div class="scorecard-team-block">
-                            <div class="name">${match.t1City}</div>
-                            <div class="score">${match.t1Score}</div>
-                        </div>
-                        <div class="scorecard-divider">@</div>
-                        <div class="scorecard-team-block">
-                            <div class="name">${match.t2City}</div>
-                            <div class="score">${match.t2Score}</div>
-                        </div>
-                    </div>
-                    <div style="text-align:left; margin-top:15px;">
-                        <span class="recap-trigger-text">Read recap context →</span>
-                    </div>
-                `;
-                matchCard.addEventListener('click', () => openMatchupRecap(match));
-                container.appendChild(matchCard);
-            });
-        }
-
-        // --- #3 POPULATING INTERACTIVE DRILL DOWN RECAP SCREENS ---
-        function openMatchupRecap(match) {
-            document.getElementById('matchupsGridView').style.display = 'none';
-            document.getElementById('matchupRecapView').style.display = 'block';
-
-            // Profile Core Setup Banner mapping values
-            document.getElementById('recapBannerStatus').textContent = `WEEK ${activeWeekSelected} - FINAL`;
-            document.getElementById('team1City').textContent = match.t1City;
-            document.getElementById('team1Name').textContent = match.t1Name;
-            document.getElementById('team1Record').textContent = match.t1Record;
-            document.getElementById('team1Score').textContent = match.t1Score;
-
-            document.getElementById('team2City').textContent = match.t2City;
-            document.getElementById('team2Name').textContent = match.t2Name;
-            document.getElementById('team2Record').textContent = match.t2Record;
-            document.getElementById('team2Score').textContent = match.t2Score;
-
-            document.getElementById('team1PageLink').textContent = `${match.t1City} ${match.t1Name} team page`;
-            document.getElementById('team2PageLink').textContent = `${match.t2City} ${match.t2Name} team page`;
-
-            // Text segments narrative insertions
-            document.getElementById('recapHeadlineDisplay').textContent = match.headline;
-            document.getElementById('recapMetaDisplay').textContent = `Week ${activeWeekSelected} · Final ${match.t1Score}–${match.t2Score}`;
-            document.getElementById('narrativeTitle').textContent = match.narrativeTitle;
-            document.getElementById('narrativeParagraph').textContent = match.narrativeText;
-
-            // Live metrics builders
-            document.getElementById('leaderColumn1Title').textContent = `${match.t1City} ${match.t1Name}`;
-            document.getElementById('leaderColumn2Title').textContent = `${match.t2City} ${match.t2Name}`;
-
-            buildLeaderStats(match.leaders1, 'leaderColumn1Stats');
-            buildLeaderStats(match.leaders2, 'leaderColumn2Stats');
-        }
-
-        function buildLeaderStats(leadersList, targetId) {
-            const block = document.getElementById(targetId);
-            block.innerHTML = '';
-            if(!leadersList || leadersList.length === 0) {
-                block.innerHTML = '<span style="font-size:0.85rem; color: var(--text-light);">No local entries listed.</span>';
-                return;
-            }
-            leadersList.forEach(item => {
-                block.innerHTML += `
-                    <div class="leader-stat-block">
-                        <div class="leader-stat-cat">${item.cat}</div>
-                        <div class="leader-stat-pname">${item.name}</div>
-                        <div class="leader-stat-val">${item.val}</div>
-                    </div>
-                `;
-            });
-        }
-
-        // --- UI TOGGLE ACTION INTERFACES ---
-        document.getElementById('backToHubBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('matchupsGridView').style.display = 'none';
-            document.getElementById('hubView').style.display = 'block';
-        });
-
-        document.getElementById('backToMatchupsBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('matchupRecapView').style.display = 'none';
-            document.getElementById('matchupsGridView').style.display = 'block';
-        });
-
-        // Theme controller toggle interface activation switches
+        // Theme Engine
         const themeToggleBtn = document.getElementById('themeToggleBtn');
         themeToggleBtn.addEventListener('click', () => {
             const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -596,8 +304,82 @@
             }
         });
 
-        // Initialize execution layout loading routines
-        window.addEventListener('DOMContentLoaded', generateWeeksGrid);
+        // Load Schedule and Grid
+        function generateSchedule() {
+            const container = document.getElementById('scheduleContainer');
+            container.innerHTML = '';
+
+            // Reverse scheduling orders to show the latest weeks first
+            const sortedSchedule = [...matchupsData].reverse();
+
+            sortedSchedule.forEach(weekData => {
+                const weekSection = document.createElement('div');
+                weekSection.className = 'week-section';
+                
+                weekSection.innerHTML = `<h3 class="week-title">${weekData.week}</h3>`;
+                
+                const grid = document.createElement('div');
+                grid.className = 'matchups-grid';
+
+                weekData.games.forEach(game => {
+                    const card = document.createElement('div');
+                    card.className = 'matchup-card';
+                    card.innerHTML = `
+                        <div class="team-row">
+                            <div class="team-info">
+                                <img src="${game.t1Logo}" class="team-logo" alt="">
+                                <span>${game.t1City}</span>
+                            </div>
+                            <span class="score">${game.t1Score}</span>
+                        </div>
+                        <div class="team-row">
+                            <div class="team-info">
+                                <img src="${game.t2Logo}" class="team-logo" alt="">
+                                <span>${game.t2City}</span>
+                            </div>
+                            <span class="score">${game.t2Score}</span>
+                        </div>
+                    `;
+
+                    card.addEventListener('click', () => openMatchupRecap(game));
+                    grid.appendChild(card);
+                });
+
+                weekSection.appendChild(grid);
+                container.appendChild(weekSection);
+            });
+        }
+
+        // Open Recap Popup Modal & Apply Dynamic URLs targeting teams.html
+        function openMatchupRecap(game) {
+            const modal = document.getElementById('recapModal');
+            document.getElementById('modalTitle').textContent = `${game.t1City} vs ${game.t2City} Recap`;
+            document.getElementById('modalScore').textContent = `${game.t1Score} - ${game.t2Score}`;
+
+            const link1 = document.getElementById('team1PageLink');
+            const link2 = document.getElementById('team2PageLink');
+
+            link1.textContent = `View ${game.t1City} Profile & Stats`;
+            link2.textContent = `View ${game.t2City} Profile & Stats`;
+
+            // CRITICAL: Appends custom parameter tags pointing to teams.html
+            link1.href = `teams.html?team=${game.t1City.toLowerCase()}`;
+            link2.href = `teams.html?team=${game.t2City.toLowerCase()}`;
+
+            modal.style.display = 'flex';
+        }
+
+        // Close Modal Controls
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            document.getElementById('recapModal').style.display = 'none';
+        });
+        window.addEventListener('click', (e) => {
+            const modal = document.getElementById('recapModal');
+            if (e.target === modal) modal.style.display = 'none';
+        });
+
+        // Run Build
+        generateSchedule();
     </script>
 </body>
 </html>
