@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>National Basketball League - Matchups & Previews</title>
+    <title>National Basketball League - Matchups</title>
     <style>
+        /* CSS Variables matching your exact sitewide theme settings */
         :root {
             --bg-color: #fcfcfc;
             --card-bg: #ffffff;
@@ -13,9 +14,8 @@
             --border-color: #e0e0e0;
             --nav-bg: #ffffff;
             --accent-red: #e61e2b;
-            --accent-blue: #3b82f6;
-            --footer-bg: #11141a;
-            --footer-text: #8e99a8;
+            --footer-bg: #161a22;
+            --footer-text: #8a94a6;
         }
 
         [data-theme="dark"] {
@@ -27,12 +27,13 @@
             --nav-bg: #161b22;
         }
 
+        /* Base Reset */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
         }
         body {
             background-color: var(--bg-color);
@@ -42,7 +43,7 @@
             min-height: 100vh;
         }
 
-        /* --- HEADER & NAVIGATION --- */
+        /* --- NAVIGATION BAR STYLES --- */
         header {
             display: flex;
             justify-content: space-between;
@@ -50,6 +51,8 @@
             padding: 15px 4%;
             background: var(--nav-bg);
             border-bottom: 1px solid var(--border-color);
+            position: relative;
+            z-index: 1000;
         }
         .logo-area a {
             text-decoration: none;
@@ -57,11 +60,21 @@
             display: flex;
             align-items: center;
             gap: 12px;
+        }
+        .logo-area span {
             font-weight: 800;
             font-size: 1.25rem;
             letter-spacing: -0.5px;
         }
-        nav { display: flex; align-items: center; gap: 5px; }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .nav-item {
+            position: relative;
+        }
         .nav-item > a {
             text-decoration: none;
             color: var(--text-color);
@@ -69,8 +82,97 @@
             font-size: 0.92rem;
             padding: 8px 14px;
             border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
-        .right-actions { display: flex; align-items: center; gap: 16px; }
+        .nav-item > a:hover {
+            background-color: rgba(0,0,0,0.04);
+        }
+        [data-theme="dark"] .nav-item > a:hover {
+            background-color: rgba(255,255,255,0.04);
+        }
+
+        /* Dropdowns & Mega Dropdown Menus */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--card-bg);
+            min-width: 160px;
+            box-shadow: 0px 8px 24px rgba(0,0,0,0.12);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            list-style: none;
+            padding: 6px 0;
+            margin-top: 5px;
+        }
+        .dropdown-menu a {
+            color: var(--text-color);
+            padding: 9px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 500;
+        }
+        .dropdown-menu a:hover {
+            background-color: rgba(0,0,0,0.04);
+        }
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* Mega Menu Configuration */
+        .nav-item:hover .dropdown-mega {
+            display: flex !important;
+        }
+        .dropdown-mega {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--card-bg);
+            min-width: 560px;
+            box-shadow: 0px 8px 24px rgba(0,0,0,0.12);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            gap: 32px;
+            list-style: none;
+            margin-top: 5px;
+        }
+        .mega-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .mega-col h4 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+        }
+        .mega-col a {
+            color: var(--text-color);
+            padding: 6px 0;
+            text-decoration: none;
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .mega-col a:hover {
+            color: var(--accent-red);
+        }
+
+        /* Right Actions */
+        .right-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
         .theme-toggle-btn {
             width: 42px;
             height: 42px;
@@ -81,472 +183,340 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            color: var(--text-color);
             font-size: 1.15rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
         }
-
-        /* --- GLOBAL CONTENT LAYOUT CONTAINER --- */
-        .main-container {
-            width: 92%;
-            max-width: 1200px;
-            margin: 40px auto 80px auto;
-            flex: 1;
-        }
-
-        /* --- VIEW 1: MATCHUP PREVIEWS HUB --- */
-        .hub-title { font-size: 2.4rem; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 6px; }
-        .hub-desc { color: var(--text-light); font-size: 1rem; margin-bottom: 35px; font-weight: 500; }
-        
-        .weeks-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 20px;
-        }
-        .week-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 24px;
+        .join-btn {
+            background-color: var(--accent-red);
+            color: white;
+            padding: 10px 22px;
+            border-radius: 6px;
             text-decoration: none;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.01);
-        }
-        .week-card h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; color: var(--text-color); }
-        .week-card span { color: var(--accent-red); font-weight: 700; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 4px; }
-
-        /* --- VIEW 2: MATCHUPS SELECTION GRID --- */
-        .back-nav-link {
-            color: var(--accent-blue);
             font-weight: 700;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.9rem;
-            margin-bottom: 30px;
+            font-size: 0.92rem;
+            letter-spacing: -0.2px;
         }
-        .matchups-list-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
-            gap: 25px;
+
+        /* --- CONTENT BODY LAYOUT --- */
+        .page-header-section {
+            width: 90%;
+            max-width: 1200px;
+            margin: 45px auto 10px auto;
         }
-        .matchup-scorecard {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 30px;
-            position: relative;
-        }
-        .status-tag {
-            font-size: 0.72rem;
-            color: var(--accent-blue);
-            font-weight: 800;
+        .subtitle-tag {
+            color: #3b82f6;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            position: absolute;
-            top: 20px;
-            left: 25px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+            display: block;
         }
-        .scorecard-teams-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 20px 0;
-            padding: 0 10px;
+        .page-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 10px;
         }
-        
-        /* TEAM LINK BLOCKS FOR SCORECARD GRID */
-        .scorecard-team-block {
+        .page-description {
+            color: var(--text-light);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .matchups-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto 60px auto;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            width: 38%;
-            text-align: center;
-            text-decoration: none;
-            color: inherit;
-        }
-        .scorecard-team-block:hover .name {
-            color: var(--accent-blue);
-        }
-        .scorecard-team-block img { width: 44px; height: 44px; object-fit: contain; margin-bottom: 12px; }
-        .scorecard-team-block .name { font-weight: 800; font-size: 1.05rem; margin-bottom: 10px; transition: color 0.15s; }
-        .scorecard-team-block .score { font-size: 2.2rem; font-weight: 900; letter-spacing: -1px; }
-        .scorecard-divider { font-weight: 600; color: var(--text-light); opacity: 0.5; font-size: 1.1rem; }
-        
-        .recap-trigger-btn { 
-            color: var(--accent-blue); 
-            font-size: 0.85rem; 
-            font-weight: 700; 
-            text-decoration: none; 
-            cursor: pointer;
-            display: inline-block;
-        }
-
-        /* --- VIEW 3: MATCHUP SCORE BANNER --- */
-        .preview-header-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 40px;
-            margin-bottom: 35px;
-            position: relative;
-        }
-        .banner-status-tag { font-size: 0.78rem; font-weight: 800; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.8px; }
-        .banner-vs-display {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 60px;
-            margin: 25px 0 35px 0;
-        }
-        .banner-team-info { text-align: center; width: 260px; }
-        .banner-team-info .city { font-size: 0.85rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
-        .banner-team-info .team-title { font-size: 1.9rem; font-weight: 900; text-transform: uppercase; margin: 4px 0; }
-        .banner-team-info .record { font-size: 0.85rem; color: var(--text-light); font-weight: 600; }
-        .banner-team-info .points { font-size: 3.8rem; font-weight: 900; margin-top: 15px; letter-spacing: -2px; }
-        .banner-center-badge {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background: #f1f5f9;
-            border: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            font-weight: 800;
-            color: var(--text-light);
-        }
-        [data-theme="dark"] .banner-center-badge { background: #21262d; }
-        .banner-team-links {
-            display: flex;
-            justify-content: center;
             gap: 20px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-        }
-        .banner-team-links a { font-size: 0.88rem; color: var(--accent-blue); font-weight: 700; text-decoration: none; }
-
-        /* --- VIEWS 4 & 5: RECAP TEXT SEGMENTS --- */
-        .recap-headline { font-size: 2.3rem; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 8px; }
-        .recap-sub-meta { color: var(--text-light); font-size: 0.9rem; font-weight: 600; margin-bottom: 25px; border-bottom: 1px solid var(--border-color); padding-bottom: 25px; }
-        
-        .recap-body-section { margin-bottom: 35px; max-width: 900px; }
-        .recap-body-section h4 { font-size: 1.3rem; font-weight: 800; margin-bottom: 14px; color: var(--text-color); }
-        .recap-body-section p { font-size: 1rem; color: var(--text-color); line-height: 1.6; margin-bottom: 18px; opacity: 0.95; }
-        
-        .recap-bullet-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
-        .recap-bullet-list li { font-size: 0.95rem; line-height: 1.5; padding-left: 20px; position: relative; color: var(--text-color); }
-        .recap-bullet-list li::before {
-            content: "•";
-            color: var(--text-light);
-            font-size: 1.2rem;
-            position: absolute;
-            left: 0;
-            top: -2px;
         }
 
-        /* --- VIEW 6: STAT SHEET LEADERS SIDE-BY-SIDE --- */
-        .leaders-comparison-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-top: 35px;
-        }
-        .leaders-card-container {
+        /* Dynamic Matchup Card Elements */
+        .matchup-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 30px;
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
-        .leaders-card-container h4 {
-            font-size: 1.05rem;
+
+        /* Clickable Team Banner Links */
+        .matchup-team-banner-link {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            border-radius: 10px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+        .matchup-team-banner-link:hover {
+            transform: scale(1.01);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+        
+        .banner-team-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .banner-team-logo {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+        }
+        .banner-team-title {
+            font-size: 1.6rem;
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 0.2px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
+            letter-spacing: -0.5px;
         }
-        .leader-stat-block {
-            margin-bottom: 20px;
+        .banner-team-record {
+            font-size: 1.6rem;
+            font-weight: 900;
+            opacity: 0.9;
         }
-        .leader-stat-block:last-child { margin-bottom: 0; }
-        .leader-stat-cat { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--text-light); letter-spacing: 1px; margin-bottom: 4px; }
-        .leader-stat-pname { font-size: 0.95rem; font-weight: 800; color: var(--text-color); }
-        .leader-stat-val { font-size: 0.88rem; color: var(--text-light); margin-top: 2px; font-weight: 500; }
+        .click-indicator {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
 
-        /* --- FOOTER --- */
-        footer {
-            background-color: var(--footer-bg);
-            color: var(--footer-text);
-            padding: 40px 6%;
-            margin-top: auto;
-            border-top: 1px solid #1f242e;
-            font-size: 0.88rem;
+        /* VS divider style details */
+        .vs-bar {
             text-align: center;
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            position: relative;
+            margin: 5px 0;
+        }
+        .vs-bar::before, .vs-bar::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 45%;
+            height: 1px;
+            background: var(--border-color);
+        }
+        .vs-bar::before { left: 0; }
+        .vs-bar::after { right: 0; }
+
+        /* --- FOOTER STYLES --- */
+        footer {
+            background-color: #11141a;
+            color: #8e99a8;
+            padding: 60px 8% 50px 8%;
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-top: 1px solid #1f242e;
+        }
+        .footer-left {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .footer-socials {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .footer-socials a {
+            color: #8e99a8;
+            font-size: 1.3rem;
+            text-decoration: none;
+        }
+        .footer-socials a:hover {
+            color: #ffffff;
+        }
+        .footer-logo img {
+            height: 55px;
+            width: auto;
+            display: block;
+        }
+        .footer-links-container {
+            display: flex;
+            gap: 100px;
+        }
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .footer-column a {
+            color: #8e99a8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: lowercase;
+        }
+        .footer-column a:hover {
+            color: #ffffff;
         }
 
         @media (max-width: 768px) {
-            .matchups-list-grid { grid-template-columns: 1fr; }
-            .banner-vs-display { flex-direction: column; gap: 20px; }
-            .leaders-comparison-layout { grid-template-columns: 1fr; }
+            header { flex-direction: column; gap: 15px; }
+            nav { flex-wrap: wrap; justify-content: center; }
+            .matchup-team-banner-link { flex-direction: column; gap: 15px; text-align: center; }
+            .banner-team-info { flex-direction: column; gap: 10px; }
+            footer { flex-direction: column; gap: 40px; align-items: center; text-align: center; }
+            .footer-links-container { gap: 50px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- SYNCHRONIZED NAVIGATION BAR -->
     <header>
         <div class="logo-area">
-            <a href="#">
+            <a href="/">
+                <img src="e1abd0576f5f77741b1f5a27399462ff.webp" alt="NBL Logo" style="height: 40px; width: auto;">
                 <span>National Basketball League</span>
             </a>
         </div>
         <nav>
             <div class="nav-item"><a href="#">Standings</a></div>
-            <div class="nav-item"><a href="/teams/california">Teams</a></div>
-            <div class="nav-item"><a href="#" style="color: var(--accent-blue);">Matchups</a></div>
+            <div class="nav-item"><a href="/teams">Teams</a></div>
+            <div class="nav-item"><a href="matchups.html">Matchups</a></div>
+            <div class="nav-item">
+                <a href="/scores">Scores ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/scores?series=1">Series I</a></li>
+                    <li><a href="/scores?series=2">Series II</a></li>
+                    <li><a href="/scores?series=3">Series III</a></li>
+                    <li><a href="/scores?series=4">Series IV</a></li>
+                    <li><a href="/scores?series=5">Series V</a></li>
+                </ul>
+            </div>
+            <div class="nav-item">
+                <a href="/stats">Stats ▾</a>
+                <div class="dropdown-menu dropdown-mega">
+                    <div class="mega-col">
+                        <h4>Offense</h4>
+                        <a href="/stats?cat=passing">Quarterbacks</a>
+                        <a href="/stats?cat=rushing">Running Backs</a>
+                        <a href="/stats?cat=receiving">Wide Receivers</a>
+                    </div>
+                    <div class="mega-col">
+                        <h4>Defense</h4>
+                        <a href="/stats?cat=defensiveends">Defensive Ends</a>
+                        <a href="/stats?cat=linebackers">Linebackers</a>
+                    </div>
+                    <div class="mega-col">
+                        <h4>Special Teams</h4>
+                        <a href="/stats?cat=kicking">Kickers</a>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-item"><a href="#">Rulebook</a></div>
+            <div class="nav-item">
+                <a href="#">Legacy ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">History</a></li>
+                    <li><a href="#">Hall of Fame</a></li>
+                    <li><a href="#">Past Seasons</a></li>
+                </ul>
+            </div>
         </nav>
         <div class="right-actions">
             <button class="theme-toggle-btn" id="themeToggleBtn">🌙</button>
+            <a href="#" class="join-btn">Join Now</a>
         </div>
     </header>
 
-    <div class="main-container">
+    <div class="page-header-section">
+        <span class="subtitle-tag">Schedule</span>
+        <h2 class="page-title">League Matchups</h2>
+        <p class="page-description">Click any team banner inside a matchup card to head straight to their roster, records, and profiles.</p>
+    </div>
+
+    <!-- MAIN MATCHUPS CONTAINER -->
+    <div class="matchups-container" id="matchupsContainer">
         
-        <!-- VIEW 1: MATCHUP PREVIEWS HUB -->
-        <div id="hubView">
-            <h2 class="hub-title">matchup previews</h2>
-            <p class="hub-desc">Data-driven game previews for every regular season week.</p>
-            <div class="weeks-grid" id="weeksGridContainer"></div>
-        </div>
-
-        <!-- VIEW 2: MATCHUPS SELECTION GRID -->
-        <div id="matchupsGridView" style="display: none;">
-            <a href="#" class="back-nav-link" id="backToHubBtn">← back to matchup previews</a>
-            <h2 class="hub-title" id="matchupsGridTitle">Week Matchups</h2>
-            <p class="hub-desc" style="margin-bottom: 25px;">Select a matchup to pull up the complete data-driven recap.</p>
-            <div class="matchups-list-grid" id="matchupsGridContainer"></div>
-        </div>
-
-        <!-- VIEWS 3-6: COMPLETE MATCHUP RECAP PROFILE SHEET -->
-        <div id="matchupRecapView" style="display: none;">
-            <a href="#" class="back-nav-link" id="backToMatchupsBtn">← back to week matchups</a>
+        <!-- MATCHUP CARD 1: CALIFORNIA VS OKLAHOMA -->
+        <div class="matchup-card">
             
-            <!-- View 3: Matchup Score Banner -->
-            <div class="preview-header-card">
-                <div class="banner-status-tag" id="recapBannerStatus">WEEK 1 - FINAL</div>
-                <div class="banner-vs-display">
-                    <div class="banner-team-info">
-                        <span class="banner-city" id="team1City">SAN FRANCISCO</span>
-                        <h3 class="team-title" id="team1Name">MINERS</h3>
-                        <span class="record" id="team1Record">9-4</span>
-                        <div class="points" id="team1Score">42</div>
-                    </div>
-                    <div class="banner-center-badge">FINAL</div>
-                    <div class="banner-team-info">
-                        <span class="banner-city" id="team2City">WASHINGTON</span>
-                        <h3 class="team-title" id="team2Name">TIMBER</h3>
-                        <span class="record" id="team2Record">11-2</span>
-                        <div class="points" id="team2Score">45</div>
-                    </div>
+            <!-- Clickable California Team Banner Link -->
+            <a href="/teams/california" class="matchup-team-banner-link" style="background-color: #003262;">
+                <div class="banner-team-info">
+                    <img src="california.webp" alt="California Logo" class="banner-team-logo">
+                    <span class="banner-team-title">California</span>
                 </div>
-                <div class="banner-team-links">
-                    <a href="/teams/california" id="team1PageLink">California Golden Bears team page</a>
-                    <a href="#" id="team2PageLink">Washington Timber team page</a>
+                <div class="banner-team-info">
+                    <span class="banner-team-record">9 - 1</span>
+                    <span class="click-indicator">View Profile →</span>
                 </div>
-            </div>
+            </a>
 
-            <!-- View 4: Main Narrative Headline & Summary Block -->
-            <h1 class="recap-headline" id="recapHeadlineDisplay">San Francisco Miners 42–45 at Washington Timber</h1>
-            <div class="recap-sub-meta" id="recapMetaDisplay">Week 1 · Final 42–45</div>
+            <div class="vs-bar">VS</div>
 
-            <div class="recap-body-section">
-                <h4 id="narrativeTitle">Nail-biter</h4>
-                <p id="narrativeParagraph">Week 1 came down to the wire...</p>
-            </div>
-
-            <!-- View 4/5: Text Metrics Lists -->
-            <div class="recap-body-section">
-                <h4>By the sheet</h4>
-                <ul class="recap-bullet-list" id="byTheSheetList"></ul>
-            </div>
-
-            <div class="recap-body-section">
-                <h4>QB matchup</h4>
-                <p id="qbMatchupParagraph"></p>
-            </div>
-
-            <div class="recap-body-section">
-                <h4>Unit on unit</h4>
-                <p id="unitOnUnitParagraph"></p>
-                <ul class="recap-bullet-list" id="unitOnUnitList"></ul>
-            </div>
-
-            <!-- Side-by-Side Live Sheet Leaders Columns -->
-            <h3 style="font-size: 1.4rem; font-weight: 800; margin-top: 45px;">Stat sheet leaders</h3>
-            
-            <div class="leaders-comparison-layout">
-                <div class="leaders-card-container">
-                    <h4 id="leaderColumn1Title">SAN FRANCISCO MINERS</h4>
-                    <div id="leaderColumn1Stats"></div>
+            <!-- Clickable Oklahoma Team Banner Link -->
+            <a href="/teams/oklahoma" class="matchup-team-banner-link" style="background-color: #841617;">
+                <div class="banner-team-info">
+                    <img src="oklahoma.webp" alt="Oklahoma Logo" class="banner-team-logo">
+                    <span class="banner-team-title">Oklahoma</span>
                 </div>
-                <div class="leaders-card-container">
-                    <h4 id="leaderColumn2Title">WASHINGTON TIMBER</h4>
-                    <div id="leaderColumn2Stats"></div>
+                <div class="banner-team-info">
+                    <span class="banner-team-record">6 - 4</span>
+                    <span class="click-indicator">View Profile →</span>
                 </div>
-            </div>
+            </a>
 
         </div>
 
     </div>
 
+    <!-- SYNCHRONIZED FOOTER -->
     <footer>
-        &copy; 2026 National Basketball League. All rights reserved.
+        <div class="footer-left">
+            <div class="footer-socials">
+                <a href="#" aria-label="Discord">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.578-.406.833a12.256 12.256 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032a.054.054 0 0 0 .022.035a13.271 13.271 0 0 0 3.984 2.016.054.054 0 0 0 .058-.019c.308-.42.582-.865.818-1.34a.05.05 0 0 0-.028-.069a8.726 8.726 0 0 1-1.253-.59a.054.054 0 0 1-.006-.09c.085-.063.17-.129.252-.196a.054.054 0 0 1 .056-.008c2.58 1.184 5.374 1.184 7.914 0a.054.054 0 0 1 .056.008c.082.067.166.133.252.196a.054.054 0 0 1-.006.09 8.2 8.2 0 0 1-1.253.59.05.05 0 0 0-.028.069c.237.475.511.92.817 1.34a.054.054 0 0 0 .058.02 13.281 13.281 0 0 0 3.984-2.016.056.056 0 0 0 .023-.035c.321-3.462-.239-6.474-1.649-9.107a.042.042 0 0 0-.021-.019zm-7.348 7.37c-.785 0-1.432-.718-1.432-1.604c0-.885.637-1.604 1.432-1.604c.795 0 1.44.724 1.432 1.604c0 .886-.637 1.604-1.432 1.604zm4.08 0c-.785 0-1.432-.718-1.432-1.604c0-.885.637-1.604 1.432-1.604c.795 0 1.44.724 1.432 1.604c0 .886-.637 1.604-1.432 1.604z"/>
+                    </svg>
+                </a>
+                <a href="#" aria-label="Twitter">
+                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.055-4.425 5.055H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.6.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z"/>
+                    </svg>
+                </a>
+            </div>
+            <div class="footer-logo">
+                <img src="e1abd0576f5f77741b1f5a27399462ff.webp" alt="NBL Branded Logo Footer">
+            </div>
+        </div>
+
+        <div class="footer-links-container">
+            <div class="footer-column">
+                <a href="/">home</a>
+                <a href="#">standings</a>
+                <a href="/stats">stats</a>
+                <a href="/scores">scores</a>
+            </div>
+            <div class="footer-column">
+                <a href="#">rulebook</a>
+                <a href="#">legacy</a>
+                <a href="#">documentation</a>
+            </div>
+        </div>
     </footer>
 
     <script>
-        const matchupWeeksDatabase = {
-            10: [
-                { id: "m10-1", t1City: "CALIFORNIA", t1Slug: "california", t1Name: "GOLDEN BEARS", t1Record: "9-1", t1Score: 112, t2City: "OKLAHOMA", t2Slug: "oklahoma", t2Name: "SOONERS", t2Record: "6-4", t2Score: 95, headline: "California Locks Down Key Victory Against Oklahoma", narrativeTitle: "Conference Battle", narrativeText: "A stellar execution offensively pathing out the point margins.", leaders1: [], leaders2: [] }
-            ],
-            9: [], 8: [], 7: [], 6: [], 5: [], 4: [], 3: [], 2: [],
-            1: [
-                {
-                    id: "m1-1",
-                    t1City: "SAN FRANCISCO", t1Slug: "san-francisco", t1Name: "MINERS", t1Record: "9-4", t1Score: 42,
-                    t2City: "WASHINGTON", t2Slug: "washington", t2Name: "TIMBER", t2Record: "11-2", t2Score: 45,
-                    headline: "San Francisco Miners 42–45 at Washington Timber",
-                    narrativeTitle: "Nail-biter",
-                    narrativeText: "Week 1 came down to the wire...",
-                    leaders1: [], leaders2: []
-                }
-            ]
-        };
-
-        let activeWeekSelected = null;
-
-        function generateWeeksGrid() {
-            const container = document.getElementById('weeksGridContainer');
-            container.innerHTML = '';
-            for (let w = 10; w >= 1; w--) {
-                const card = document.createElement('div');
-                card.className = 'week-card';
-                card.innerHTML = `<h3>Week ${w}</h3><span>View matches →</span>`;
-                card.addEventListener('click', () => openWeekMatchups(w));
-                container.appendChild(card);
-            }
-        }
-
-        function openWeekMatchups(weekNum) {
-            activeWeekSelected = weekNum;
-            document.getElementById('hubView').style.display = 'none';
-            document.getElementById('matchupRecapView').style.display = 'none';
-            document.getElementById('matchupsGridView').style.display = 'block';
-            document.getElementById('matchupsGridTitle').textContent = `Week ${weekNum} Matchups`;
-            
-            const container = document.getElementById('matchupsGridContainer');
-            container.innerHTML = '';
-            
-            const matches = matchupWeeksDatabase[weekNum] || [];
-            if(matches.length === 0) {
-                container.innerHTML = `<div style="grid-column: 1/-1; padding: 20px; color: var(--text-light);">No scheduled matchups recorded for Week ${weekNum}.</div>`;
-                return;
-            }
-
-            matches.forEach(match => {
-                const matchCard = document.createElement('div');
-                matchCard.className = 'matchup-scorecard';
-                matchCard.innerHTML = `
-                    <div class="status-tag">FINAL</div>
-                    <div class="scorecard-teams-row">
-                        <!-- Clean URL Destination Formatting -->
-                        <a href="/teams/${match.t1Slug}" class="scorecard-team-block">
-                            <div class="name">${match.t1City}</div>
-                            <div class="score">${match.t1Score}</div>
-                        </a>
-                        <div class="scorecard-divider">@</div>
-                        <a href="/teams/${match.t2Slug}" class="scorecard-team-block">
-                            <div class="name">${match.t2City}</div>
-                            <div class="score">${match.t2Score}</div>
-                        </a>
-                    </div>
-                    <div style="text-align:left; margin-top:15px;">
-                        <span class="recap-trigger-btn" id="trigger-${match.id}">Read recap context →</span>
-                    </div>
-                `;
-                container.appendChild(matchCard);
-
-                document.getElementById(`trigger-${match.id}`).addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    openMatchupRecap(match);
-                });
-            });
-        }
-
-        function openMatchupRecap(match) {
-            document.getElementById('matchupsGridView').style.display = 'none';
-            document.getElementById('matchupRecapView').style.display = 'block';
-
-            document.getElementById('recapBannerStatus').textContent = `WEEK ${activeWeekSelected} - FINAL`;
-            document.getElementById('team1City').textContent = match.t1City;
-            document.getElementById('team1Name').textContent = match.t1Name;
-            document.getElementById('team1Record').textContent = match.t1Record;
-            document.getElementById('team1Score').textContent = match.t1Score;
-
-            document.getElementById('team2City').textContent = match.t2City;
-            document.getElementById('team2Name').textContent = match.t2Name;
-            document.getElementById('team2Record').textContent = match.t2Record;
-            document.getElementById('team2Score').textContent = match.t2Score;
-
-            document.getElementById('team1PageLink').textContent = `${match.t1City} ${match.t1Name} team page`;
-            document.getElementById('team2PageLink').textContent = `${match.t2City} ${match.t2Name} team page`;
-
-            // Formatting links cleanly
-            document.getElementById('team1PageLink').href = `/teams/${match.t1Slug}`;
-            document.getElementById('team2PageLink').href = `/teams/${match.t2Slug}`;
-
-            document.getElementById('recapHeadlineDisplay').textContent = match.headline;
-            document.getElementById('recapMetaDisplay').textContent = `Week ${activeWeekSelected} · Final ${match.t1Score}–${match.t2Score}`;
-            document.getElementById('narrativeTitle').textContent = match.narrativeTitle;
-            document.getElementById('narrativeParagraph').textContent = match.narrativeText;
-
-            document.getElementById('leaderColumn1Title').textContent = `${match.t1City} ${match.t1Name}`;
-            document.getElementById('leaderColumn2Title').textContent = `${match.t2City} ${match.t2Name}`;
-
-            buildLeaderStats(match.leaders1, 'leaderColumn1Stats');
-            buildLeaderStats(match.leaders2, 'leaderColumn2Stats');
-        }
-
-        function buildLeaderStats(leadersList, targetId) {
-            const block = document.getElementById(targetId);
-            block.innerHTML = '';
-            if(!leadersList || leadersList.length === 0) {
-                block.innerHTML = '<span style="font-size:0.85rem; color: var(--text-light);">No entries listed.</span>';
-                return;
-            }
-            leadersList.forEach(item => {
-                block.innerHTML += `
-                    <div class="leader-stat-block">
-                        <div class="leader-stat-cat">${item.cat}</div>
-                        <div class="leader-stat-pname">${item.name}</div>
-                        <div class="leader-stat-val">${item.val}</div>
-                    </div>
-                `;
-            });
-        }
-
-        document.getElementById('backToHubBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('matchupsGridView').style.display = 'none';
-            document.getElementById('hubView').style.display = 'block';
-        });
-
-        document.getElementById('backToMatchupsBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('matchupRecapView').style.display = 'none';
-            document.getElementById('matchupsGridView').style.display = 'block';
-        });
-
+        // --- SYNCHRONIZED THEME ENGINE ---
         const themeToggleBtn = document.getElementById('themeToggleBtn');
         themeToggleBtn.addEventListener('click', () => {
             const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -558,8 +528,6 @@
                 themeToggleBtn.textContent = '☀️';
             }
         });
-
-        window.addEventListener('DOMContentLoaded', generateWeeksGrid);
     </script>
 </body>
 </html>
