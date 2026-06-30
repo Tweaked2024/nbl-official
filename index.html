@@ -275,7 +275,7 @@
             font-size: 0.95rem;
         }
         .row-item:last-child { border: none; }
-        
+         
         .match-score {
             font-weight: bold;
             background: var(--bg-color);
@@ -338,7 +338,7 @@
         <div class="logo-area">
             <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;">
                 <img src="e1abd0576f5f77741b1f5a27399462ff.webp" alt="NBL Logo" style="height: 45px; width: auto; display: block;">
-                
+                 
                 <span style="font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px;">National Basketball League</span>
             </a>
         </div>
@@ -346,7 +346,7 @@
             <div class="nav-item"><a href="#">Standings</a></div>
             <div class="nav-item"><a href="teams.html">Teams</a></div>
             <div class="nav-item"><a href="#">Matchups</a></div>
-            
+             
             <!-- Scores Hover Dropdown -->
             <div class="nav-item">
                 <a href="scores.html">Scores ▾</a>
@@ -358,7 +358,7 @@
                     <li><a href="scores.html?series=5">Series V</a></li>
                 </ul>
             </div>
-            
+             
             <!-- Added Stats Mega Hover Dropdown Split Layout -->
             <div class="nav-item">
                 <a href="stats.html">Stats ▾</a>
@@ -388,9 +388,9 @@
                     </div>
                 </div>
             </div>
-            
+             
             <div class="nav-item"><a href="#">Rulebook</a></div>
-            
+             
             <!-- Legacy Hover Dropdown -->
             <div class="nav-item">
                 <a href="#">Legacy ▾</a>
@@ -400,7 +400,7 @@
                 </ul>
             </div>
         </nav>
-        
+         
         <div class="right-actions">
             <!-- Functional Light/Dark circle button -->
             <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Mode">🌙</button>
@@ -415,10 +415,10 @@
 
     <!-- Main Content Panels -->
     <div class="dashboard-container">
-        
+         
         <!-- Left Column: Matchups and Highlights -->
         <div style="display: flex; flex-direction: column; gap: 20px;">
-            
+             
             <!-- Award Watch -->
             <div class="card">
                 <div class="card-header-group">
@@ -451,7 +451,7 @@
                         <select><option>All Scores →</option></select>
                     </div>
                 </div>
-                
+                 
                 <div class="row-item">
                     <span>COMMANDERS</span>
                     <div class="match-score">42 - 40</div>
@@ -482,7 +482,7 @@
 
         <!-- Right Column: Sidebar Stats & Standings -->
         <div style="display: flex; flex-direction: column; gap: 20px;">
-            
+             
             <!-- Stat Leaders -->
             <div class="card">
                 <div class="card-header-group">
@@ -501,13 +501,15 @@
                 <div class="card-header-group">
                     <div class="card-title">Standings</div>
                     <div class="card-filters">
-                        <select><option>Big 10</option><option>SEC</option></select>
+                        <select id="conferenceSelect">
+                            <option value="Big 10">Big 10</option>
+                            <option value="SEC">SEC</option>
+                        </select>
                     </div>
                 </div>
-                <div class="row-item"><span>1. California</span> <strong>8 - 2</strong></div>
-                <div class="row-item"><span>2. Canada</span> <strong>7 - 3</strong></div>
-                <div class="row-item"><span>3. Texas</span> <strong>5 - 5</strong></div>
-                <div class="row-item"><span>4. Illinois</span> <strong>2 - 8</strong></div>
+                <div id="standingsContainer">
+                    <!-- Javascript populates data rows smoothly here -->
+                </div>
             </div>
         </div>
 
@@ -532,10 +534,11 @@
         </div>
     </footer>
 
-    <!-- Theme Control Logic Script -->
+    <!-- Script Section for Theme and Standings Control Logic -->
     <script>
+        // --- 1. Theme Control Logic ---
         const toggleBtn = document.getElementById('themeToggleBtn');
-    
+     
         toggleBtn.addEventListener('click', () => {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             if (currentTheme === 'dark') {
@@ -545,6 +548,40 @@
                 document.documentElement.setAttribute('data-theme', 'dark');
                 toggleBtn.textContent = '☀️'; 
             }
+        });
+
+        // --- 2. Dynamic Standings Controller Logic ---
+        const standingsData = [
+            { name: "California", record: "9 - 1", conf: "Big 10" },
+            { name: "Canada", record: "6 - 4", conf: "Big 10" },
+            { name: "Texas", record: "4 - 6", conf: "Big 10" },
+            { name: "Illinois", record: "3 - 7", conf: "Big 10" },
+            { name: "Florida", record: "6 - 4", conf: "SEC" },
+            { name: "Michigan", record: "6 - 4", conf: "SEC" },
+            { name: "Oklahoma", record: "6 - 4", conf: "SEC" },
+            { name: "Carolina", record: "0 - 10", conf: "SEC" }
+        ];
+
+        function renderStandings(selectedConf) {
+            const container = document.getElementById('standingsContainer');
+            container.innerHTML = ''; 
+
+            const filteredTeams = standingsData.filter(team => team.conf === selectedConf);
+
+            filteredTeams.forEach((team, index) => {
+                const row = document.createElement('div');
+                row.className = 'row-item';
+                row.innerHTML = `<span>${index + 1}. ${team.name}</span> <strong>${team.record}</strong>`;
+                container.appendChild(row);
+            });
+        }
+
+        document.getElementById('conferenceSelect').addEventListener('change', (e) => {
+            renderStandings(e.target.value);
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderStandings('Big 10');
         });
     </script>
 </body>
