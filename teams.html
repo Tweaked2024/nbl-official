@@ -626,7 +626,7 @@
     <div class="teams-grid" id="teamsGridContainer"></div>
 
     <div class="profile-container" id="teamProfileView" style="display: none;">
-        <a href="#" class="back-btn" id="closeProfileBtn">← back to standings</a>
+        <a href="/teams" class="back-btn" id="closeProfileBtn">← back to teams</a>
         
         <div class="team-banner" id="teamBanner">
             <div class="banner-left">
@@ -821,6 +821,8 @@
                 `;
                 
                 card.addEventListener('click', () => {
+                    // Update URL display without reloading page when user clicks a card manually
+                    window.history.pushState({}, '', `/teams/${team.slug}`);
                     showTeamProfile(team);
                 });
 
@@ -862,30 +864,33 @@
                                 <span class="sched-wk">${game.week}</span>
                                 <span class="sched-type">${game.type}</span>
                                 <div class="sched-opp">
-                                    <img src="${game.oppLogo}" alt="">
+                                    <img src="${game.oppLogo}" alt="${game.oppName} Logo">
                                     <span>${game.oppName}</span>
                                 </div>
                             </div>
                             <div class="sched-right">
-                                <div class="outcome-badge ${game.win ? 'outcome-w' : 'outcome-l'}">${game.win ? 'W' : 'L'}</div>
                                 <span>${game.score}</span>
+                                <span class="outcome-badge ${game.win ? 'outcome-w' : 'outcome-l'}">${game.win ? 'W' : 'L'}</span>
                             </div>
                         </div>
                     `;
                 });
             }
 
-            // Populate Passing Table
+            // Populate Passing Stats
             const passingBody = document.getElementById('passingTableBody');
             passingBody.innerHTML = '';
-            if(!team.passing || team.passing.length === 0) {
-                passingBody.innerHTML = '<tr><td colspan="11" style="text-align: center; padding: 20px;">No passing stats available.</td></tr>';
-            } else {
+            if (team.passing && team.passing.length > 0) {
                 team.passing.forEach(p => {
                     passingBody.innerHTML += `
                         <tr>
                             <td>${p.rk}</td>
-                            <td class="player-cell"><div class="player-avatar"></div>${p.name}</td>
+                            <td>
+                                <div class="player-cell">
+                                    <img src="${p.avatar}" alt="" class="player-avatar">
+                                    <span>${p.name}</span>
+                                </div>
+                            </td>
                             <td>${p.pts}</td>
                             <td>${p.yds}</td>
                             <td>${p.pct}</td>
@@ -898,22 +903,27 @@
                         </tr>
                     `;
                 });
+            } else {
+                passingBody.innerHTML = `<tr><td colspan="11" style="text-align:center;">No player passing statistics.</td></tr>`;
             }
 
-            // Populate Rushing Table
+            // Populate Rushing Stats
             const rushingBody = document.getElementById('rushingTableBody');
             rushingBody.innerHTML = '';
-            if(!team.rushing || team.rushing.length === 0) {
-                rushingBody.innerHTML = '<tr><td colspan="13" style="text-align: center; padding: 20px;">No rushing stats available.</td></tr>';
-            } else {
+            if (team.rushing && team.rushing.length > 0) {
                 team.rushing.forEach(r => {
                     rushingBody.innerHTML += `
                         <tr>
                             <td>${r.rk}</td>
-                            <td class="player-cell"><div class="player-avatar"></div>${r.name}</td>
+                            <td>
+                                <div class="player-cell">
+                                    <img src="${r.avatar}" alt="" class="player-avatar">
+                                    <span>${r.name}</span>
+                                </div>
+                            </td>
                             <td>${r.pts}</td>
                             <td>${r.yds}</td>
-                            <td>${r.yatt}</td>
+                            <td>${r.yatt.toFixed(1)}</td>
                             <td>${r.att}</td>
                             <td>${r.td}</td>
                             <td>${r.fum}</td>
@@ -925,19 +935,36 @@
                         </tr>
                     `;
                 });
+            } else {
+                rushingBody.innerHTML = `<tr><td colspan="13" style="text-align:center;">No player rushing statistics.</td></tr>`;
             }
         }
 
-        // --- INITIAL CLOSE EVENT HANDLER ---
-        document.getElementById('closeProfileBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('teamProfileView').style.display = 'none';
+        // --- CHECK ON LOAD ENGINE ---
+        function checkUrlRoute() {
+            // Check for Vercel rewritten dynamic query param (?team=something)
+            const params = new URLSearchParams(window.location.search);
+            const teamQuery = params.get('team');
+
+            if (teamQuery) {
+                const foundTeam = teamsData.find(t => t.slug === teamQuery);
+                if (foundTeam) {
+                    showTeamProfile(foundTeam);
+                    return;
+                }
+            }
+            
+            // Layout default fallback: if no query, make sure grid is showing
             document.getElementById('teamsGridContainer').style.display = 'grid';
             document.getElementById('pageHeader').style.display = 'block';
-        });
+            document.getElementById('teamProfileView').style.display = 'none';
+        }
 
-        // Initialize execution setup on load
-        window.addEventListener('DOMContentLoaded', loadTeamsGrid);
+        // Run functions when DOM Content completes loading
+        window.addEventListener('DOMContentLoaded', () => {
+            loadTeamsGrid();
+            checkUrlRoute();
+        });
     </script>
 </body>
 </html>
