@@ -14,6 +14,7 @@
             --border-color: #e0e0e0;
             --nav-bg: #ffffff;
             --accent-red: #e61e2b;
+            --accent-blue: #2563eb;
             --footer-bg: #161a22;
             --footer-text: #8a94a6;
         }
@@ -93,7 +94,7 @@
             background-color: rgba(255,255,255,0.04);
         }
 
-        /* Dropdowns & Mega Dropdown Menus */
+        /* Dropdowns */
         .dropdown-menu {
             display: none;
             position: absolute;
@@ -123,7 +124,7 @@
             display: block;
         }
 
-        /* Mega Menu Configuration */
+        /* Mega Menu */
         .nav-item:hover .dropdown-mega {
             display: flex !important;
         }
@@ -167,7 +168,6 @@
             color: var(--accent-red);
         }
 
-        /* Right Actions */
         .right-actions {
             display: flex;
             align-items: center;
@@ -185,7 +185,6 @@
             justify-content: center;
             color: var(--text-color);
             font-size: 1.15rem;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
         }
         .join-btn {
             background-color: var(--accent-red);
@@ -195,17 +194,33 @@
             text-decoration: none;
             font-weight: 700;
             font-size: 0.92rem;
-            letter-spacing: -0.2px;
         }
 
-        /* --- CONTENT BODY LAYOUT --- */
-        .page-header-section {
+        /* --- ROUTED VIEWS AND SHARED LAYOUTS --- */
+        .view-section {
+            display: none;
             width: 90%;
             max-width: 1200px;
-            margin: 45px auto 10px auto;
+            margin: 40px auto 60px auto;
         }
-        .subtitle-tag {
-            color: #3b82f6;
+        .view-section.active {
+            display: block;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .back-link:hover {
+            color: var(--text-color);
+        }
+
+        .office-tag {
+            color: var(--accent-blue);
             font-size: 0.75rem;
             text-transform: uppercase;
             font-weight: 700;
@@ -213,106 +228,295 @@
             margin-bottom: 6px;
             display: block;
         }
-        .page-title {
+        .main-heading {
             font-size: 2.2rem;
             font-weight: 800;
             letter-spacing: -0.5px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
-        .page-description {
+        .heading-desc {
             color: var(--text-light);
-            font-size: 1rem;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
             font-weight: 500;
         }
 
-        .matchups-container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 30px auto 60px auto;
+        /* Week Picker Row Button Layout */
+        .week-tabs-container {
             display: flex;
-            flex-direction: column;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+        .week-tab {
+            padding: 8px 16px;
+            background: rgba(0,0,0,0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        [data-theme="dark"] .week-tab {
+            background: rgba(255,255,255,0.03);
+        }
+        .week-tab.active {
+            background: #e6f0ff;
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+        [data-theme="dark"] .week-tab.active {
+            background: #1e293b;
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+
+        .jump-text {
+            font-size: 0.88rem;
+            color: var(--text-light);
+            margin-bottom: 35px;
+        }
+        .jump-text a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        /* --- GRID STYLES FOR LANDING & CENTER --- */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             gap: 20px;
         }
 
-        /* Dynamic Matchup Card Elements */
-        .matchup-card {
+        /* General Overview Navigation Box */
+        .overview-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 14px;
+            border-radius: 12px;
             padding: 24px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01);
+            text-decoration: none;
+            color: var(--text-color);
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+        }
+        .overview-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+        .overview-card span {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        .overview-card:hover {
+            border-color: var(--text-light);
         }
 
-        /* Clickable Team Banner Links */
-        .matchup-team-banner-link {
-            text-decoration: none;
-            color: white;
+        /* Score Card Grid Blocks */
+        .score-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .card-status {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+        .card-teams-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 30px;
-            border-radius: 10px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            cursor: pointer;
+            margin-bottom: 20px;
+            padding: 0 10px;
         }
-        .matchup-team-banner-link:hover {
-            transform: scale(1.01);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-        }
-        
-        .banner-team-info {
+        .card-team-sub {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 8px;
+            width: 35%;
         }
-        .banner-team-logo {
-            height: 50px;
-            width: auto;
+        .card-team-logo {
+            width: 42px;
+            height: 42px;
             object-fit: contain;
         }
-        .banner-team-title {
-            font-size: 1.6rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
-        }
-        .banner-team-record {
-            font-size: 1.6rem;
-            font-weight: 900;
-            opacity: 0.9;
-        }
-        .click-indicator {
-            font-size: 0.8rem;
+        .card-team-name {
+            font-size: 0.88rem;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 6px 12px;
-            border-radius: 4px;
+            text-align: center;
+        }
+        .card-team-score {
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin-top: 4px;
+        }
+        .card-vs-sign {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        .card-recap-link {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-top: auto;
         }
 
-        /* VS divider style details */
-        .vs-bar {
-            text-align: center;
-            font-weight: 800;
-            font-size: 0.9rem;
-            color: var(--text-light);
+        /* --- DEEP DIVE RECAP MODULE STYLES --- */
+        .recap-hero-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
             position: relative;
-            margin: 5px 0;
+            margin-bottom: 40px;
         }
-        .vs-bar::before, .vs-bar::after {
-            content: '';
+        .recap-hero-status {
             position: absolute;
-            top: 50%;
-            width: 45%;
+            top: 24px;
+            left: 40px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            letter-spacing: 1px;
+        }
+        .recap-hero-side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 30%;
+        }
+        .recap-hero-logo {
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
+            margin-bottom: 16px;
+        }
+        .recap-hero-location {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            color: var(--text-light);
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .recap-hero-name {
+            font-size: 1.9rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+        }
+        .recap-hero-record {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 600;
+            margin: 6px 0 12px 0;
+        }
+        .recap-hero-score {
+            font-size: 2.3rem;
+            font-weight: 900;
+        }
+        .recap-hero-badge {
+            background: rgba(0,0,0,0.04);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 54px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--text-light);
+        }
+        [data-theme="dark"] .recap-hero-badge {
+            background: rgba(255,255,255,0.04);
+        }
+
+        .recap-team-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            position: absolute;
+            bottom: 24px;
+        }
+        .recap-team-links a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        /* Text Prose Section Blocks */
+        .recap-body-writeup {
+            max-width: 840px;
+            margin: 0 auto;
+        }
+        .recap-main-title {
+            font-size: 2.1rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+        .recap-meta-line {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        .recap-divider {
             height: 1px;
             background: var(--border-color);
+            margin-bottom: 35px;
         }
-        .vs-bar::before { left: 0; }
-        .vs-bar::after { right: 0; }
+        .recap-section-h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin: 30px 0 12px 0;
+        }
+        .recap-paragraph {
+            font-size: 0.98rem;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+        .recap-bullets-list {
+            list-style: none;
+            padding-left: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .recap-bullets-list li {
+            font-size: 0.95rem;
+            position: relative;
+            padding-left: 20px;
+            color: var(--text-color);
+        }
+        .recap-bullets-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--text-light);
+        }
 
         /* --- FOOTER STYLES --- */
         footer {
@@ -371,8 +575,9 @@
         @media (max-width: 768px) {
             header { flex-direction: column; gap: 15px; }
             nav { flex-wrap: wrap; justify-content: center; }
-            .matchup-team-banner-link { flex-direction: column; gap: 15px; text-align: center; }
-            .banner-team-info { flex-direction: column; gap: 10px; }
+            .recap-hero-card { flex-direction: column; gap: 30px; padding: 50px 20px; }
+            .recap-hero-side { width: 80%; }
+            .recap-team-links { position: relative; bottom: 0; margin-top: 20px; }
             footer { flex-direction: column; gap: 40px; align-items: center; text-align: center; }
             .footer-links-container { gap: 50px; }
         }
@@ -391,7 +596,7 @@
         <nav>
             <div class="nav-item"><a href="#">Standings</a></div>
             <div class="nav-item"><a href="/teams">Teams</a></div>
-            <div class="nav-item"><a href="matchups.html">Matchups</a></div>
+            <div class="nav-item"><a href="/matchups">Matchups</a></div>
             <div class="nav-item">
                 <a href="/scores">Scores ▾</a>
                 <ul class="dropdown-menu">
@@ -438,46 +643,292 @@
         </div>
     </header>
 
-    <div class="page-header-section">
-        <span class="subtitle-tag">Schedule</span>
-        <h2 class="page-title">League Matchups</h2>
-        <p class="page-description">Click any team banner inside a matchup card to head straight to their roster, records, and profiles.</p>
-    </div>
+    <!-- VIEW 1: MATCHUP PREVIEWS LANDING DASHBOARD (#matchups) -->
+    <div id="landingView" class="view-section">
+        <span class="office-tag">League Office</span>
+        <h2 class="main-heading">matchup previews</h2>
+        <p class="heading-desc">Data-driven game previews for every Week — records, stat-sheet leaders, and matchup analysis generated from live ACFL worksheets.</p>
 
-    <!-- MAIN MATCHUPS CONTAINER -->
-    <div class="matchups-container" id="matchupsContainer">
-        
-        <!-- MATCHUP CARD 1: CALIFORNIA VS OKLAHOMA -->
-        <div class="matchup-card">
-            
-            <!-- Clickable California Team Banner Link -->
-            <a href="/teams/california" class="matchup-team-banner-link" style="background-color: #003262;">
-                <div class="banner-team-info">
-                    <img src="california.webp" alt="California Logo" class="banner-team-logo">
-                    <span class="banner-team-title">California</span>
-                </div>
-                <div class="banner-team-info">
-                    <span class="banner-team-record">9 - 1</span>
-                    <span class="click-indicator">View Profile →</span>
-                </div>
-            </a>
-
-            <div class="vs-bar">VS</div>
-
-            <!-- Clickable Oklahoma Team Banner Link -->
-            <a href="/teams/oklahoma" class="matchup-team-banner-link" style="background-color: #841617;">
-                <div class="banner-team-info">
-                    <img src="oklahoma.webp" alt="Oklahoma Logo" class="banner-team-logo">
-                    <span class="banner-team-title">Oklahoma</span>
-                </div>
-                <div class="banner-team-info">
-                    <span class="banner-team-record">6 - 4</span>
-                    <span class="click-indicator">View Profile →</span>
-                </div>
-            </a>
-
+        <div class="week-tabs-container">
+            <a href="#week-1" class="week-tab">Week 1</a>
+            <a href="#week-2" class="week-tab">Week 2</a>
+            <a href="#week-3" class="week-tab">Week 3</a>
+            <a href="#week-4" class="week-tab">Week 4</a>
+            <a href="#week-5" class="week-tab">Week 5</a>
+            <a href="#week-6" class="week-tab">Week 6</a>
+            <a href="#week-7" class="week-tab">Week 7</a>
+            <a href="#week-8" class="week-tab">Week 8</a>
+            <a href="#week-9" class="week-tab">Week 9</a>
+            <a href="#week-10" class="week-tab">Week 10</a>
+            <a href="#week-11" class="week-tab">Week 11</a>
+            <a href="#week-12" class="week-tab">Week 12</a>
+            <a href="#week-13" class="week-tab active">Week 13</a>
         </div>
 
+        <p class="jump-text">Jump to <a href="#week-13">Week 13</a> or pick a week above.</p>
+
+        <div class="card-grid">
+            <a href="#week-13" class="overview-card">
+                <h3>Week 13</h3>
+                <span>View matchups →</span>
+            </a>
+            <a href="#week-12" class="overview-card">
+                <h3>Week 12</h3>
+                <span>View matchups →</span>
+            </a>
+            <a href="#week-11" class="overview-card">
+                <h3>Week 11</h3>
+                <span>View matchups →</span>
+            </a>
+            <a href="#week-10" class="overview-card">
+                <h3>Week 10</h3>
+                <span>View matchups →</span>
+            </a>
+            <a href="#week-9" class="overview-card">
+                <h3>Week 9</h3>
+                <span>View matchups →</span>
+            </a>
+            <a href="#week-8" class="overview-card">
+                <h3>Week 8</h3>
+                <span>View matchups →</span>
+            </a>
+            <a href="#week-7" class="overview-card">
+                <h3>Week 7</h3>
+                <span>View matchups →</span>
+            </a>
+            <a href="#week-6" class="overview-card">
+                <h3>Week 6</h3>
+                <span>View matchups →</span>
+            </a>
+            <a href="#week-5" class="overview-card">
+                <h3>Week 5</h3>
+                <span>View matchups →</span>
+            </a>
+            <a href="#week-4" class="overview-card">
+                <h3>Week 4</h3>
+                <span>View matchups →</span>
+            </a>
+            <a href="#week-3" class="overview-card">
+                <h3>Week 3</h3>
+                <span>View matchups →</span>
+            </a>
+            <a href="#week-2" class="overview-card">
+                <h3>Week 2</h3>
+                <span>View matchups →</span>
+            </a>
+            <a href="#week-1" class="overview-card">
+                <h3>Week 1</h3>
+                <span>View matchups →</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- VIEW 2: WEEK MATCHUP CENTER (#week-13) -->
+    <div id="centerView" class="view-section">
+        <a href="#" class="back-link">← All matchups</a>
+        <span class="office-tag">Week 13</span>
+        <h2 class="main-heading">matchup center</h2>
+        <p class="heading-desc">Every game this week with a full preview article — tap a card to read the breakdown.</p>
+
+        <div class="week-tabs-container">
+            <a href="#week-1" class="week-tab">Week 1</a>
+            <a href="#week-2" class="week-tab">Week 2</a>
+            <a href="#week-3" class="week-tab">Week 3</a>
+            <a href="#week-4" class="week-tab">Week 4</a>
+            <a href="#week-5" class="week-tab">Week 5</a>
+            <a href="#week-6" class="week-tab">Week 6</a>
+            <a href="#week-7" class="week-tab">Week 7</a>
+            <a href="#week-8" class="week-tab">Week 8</a>
+            <a href="#week-9" class="week-tab">Week 9</a>
+            <a href="#week-10" class="week-tab">Week 10</a>
+            <a href="#week-11" class="week-tab">Week 11</a>
+            <a href="#week-12" class="week-tab">Week 12</a>
+            <a href="#week-13" class="week-tab active">Week 13</a>
+        </div>
+
+        <div class="card-grid">
+            <!-- Washington vs Memphis Card -->
+            <div class="score-card">
+                <span class="card-status">FINAL</span>
+                <div class="card-teams-row">
+                    <div class="card-team-sub">
+                        <img src="california.webp" alt="Washington Logo" class="card-team-logo">
+                        <span class="card-team-name">Washington</span>
+                        <span class="card-team-score">21</span>
+                    </div>
+                    <span class="card-vs-sign">@</span>
+                    <div class="card-team-sub">
+                        <img src="memphis.webp" alt="Memphis Logo" class="card-team-logo">
+                        <span class="card-team-name">Memphis</span>
+                        <span class="card-team-score">0</span>
+                    </div>
+                </div>
+                <a href="#week-13/memphis-vs-washington" class="card-recap-link">Read recap context →</a>
+            </div>
+
+            <!-- Scottsdale vs Veracruz Card -->
+            <div class="score-card">
+                <span class="card-status">FINAL</span>
+                <div class="card-teams-row">
+                    <div class="card-team-sub">
+                        <img src="scottsdale.webp" alt="Scottsdale Logo" class="card-team-logo">
+                        <span class="card-team-name">Scottsdale</span>
+                        <span class="card-team-score">43</span>
+                    </div>
+                    <span class="card-vs-sign">@</span>
+                    <div class="card-team-sub">
+                        <img src="veracruz.webp" alt="Veracruz Logo" class="card-team-logo">
+                        <span class="card-team-name">Veracruz</span>
+                        <span class="card-team-score">38</span>
+                    </div>
+                </div>
+                <a href="#" class="card-recap-link">Read recap context →</a>
+            </div>
+
+            <!-- Alabama vs Baltimore Card -->
+            <div class="score-card">
+                <span class="card-status">FINAL</span>
+                <div class="card-teams-row">
+                    <div class="card-team-sub">
+                        <img src="alabama.webp" alt="Alabama Logo" class="card-team-logo">
+                        <span class="card-team-name">Alabama</span>
+                        <span class="card-team-score">40</span>
+                    </div>
+                    <span class="card-vs-sign">@</span>
+                    <div class="card-team-sub">
+                        <img src="baltimore.webp" alt="Baltimore Logo" class="card-team-logo">
+                        <span class="card-team-name">Baltimore</span>
+                        <span class="card-team-score">55</span>
+                    </div>
+                </div>
+                <a href="#" class="card-recap-link">Read recap context →</a>
+            </div>
+
+            <!-- Buffalo vs Glendale Card -->
+            <div class="score-card">
+                <span class="card-status">FINAL</span>
+                <div class="card-teams-row">
+                    <div class="card-team-sub">
+                        <img src="buffalo.webp" alt="Buffalo Logo" class="card-team-logo">
+                        <span class="card-team-name">Buffalo</span>
+                        <span class="card-team-score">9</span>
+                    </div>
+                    <span class="card-vs-sign">@</span>
+                    <div class="card-team-sub">
+                        <img src="glendale.webp" alt="Glendale Logo" class="card-team-logo">
+                        <span class="card-team-name">Glendale</span>
+                        <span class="card-team-score">48</span>
+                    </div>
+                </div>
+                <a href="#" class="card-recap-link">Read recap context →</a>
+            </div>
+
+            <!-- Jose vs St. Card -->
+            <div class="score-card">
+                <span class="card-status">FINAL</span>
+                <div class="card-teams-row">
+                    <div class="card-team-sub">
+                        <img src="jose.webp" alt="Jose Logo" class="card-team-logo">
+                        <span class="card-team-name">Jose</span>
+                        <span class="card-team-score">51</span>
+                    </div>
+                    <span class="card-vs-sign">@</span>
+                    <div class="card-team-sub">
+                        <img src="st.webp" alt="St. Logo" class="card-team-logo">
+                        <span class="card-team-name">St.</span>
+                        <span class="card-team-score">43</span>
+                    </div>
+                </div>
+                <a href="#" class="card-recap-link">Read recap context →</a>
+            </div>
+
+            <!-- Rushmore vs Pittsburgh Card -->
+            <div class="score-card">
+                <span class="card-status">FINAL</span>
+                <div class="card-teams-row">
+                    <div class="card-team-sub">
+                        <img src="rushmore.webp" alt="Rushmore Logo" class="card-team-logo">
+                        <span class="card-team-name">Rushmore</span>
+                        <span class="card-team-score">38</span>
+                    </div>
+                    <span class="card-vs-sign">@</span>
+                    <div class="card-team-sub">
+                        <img src="pittsburgh.webp" alt="Pittsburgh Logo" class="card-team-logo">
+                        <span class="card-team-name">Pittsburgh</span>
+                        <span class="card-team-score">36</span>
+                    </div>
+                </div>
+                <a href="#" class="card-recap-link">Read recap context →</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW 3: MATCHUP DEEP DIVE PREVIEW RECAP (#week-13/memphis-vs-washington) -->
+    <div id="deepDiveView" class="view-section">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+            <a href="#week-13" class="back-link">← Week 13 matchups</a>
+            <div class="week-tabs-container" style="margin-bottom: 0;">
+                <a href="#week-1" class="week-tab">Week 1</a>
+                <a href="#week-2" class="week-tab">Week 2</a>
+                <a href="#week-3" class="week-tab">Week 3</a>
+                <a href="#week-4" class="week-tab">Week 4</a>
+                <a href="#week-5" class="week-tab">Week 5</a>
+                <a href="#week-6" class="week-tab">Week 6</a>
+                <a href="#week-7" class="week-tab">Week 7</a>
+                <a href="#week-8" class="week-tab">Week 8</a>
+                <a href="#week-9" class="week-tab">Week 9</a>
+                <a href="#week-10" class="week-tab">Week 10</a>
+                <a href="#week-11" class="week-tab">Week 11</a>
+                <a href="#week-12" class="week-tab">Week 12</a>
+                <a href="#week-13" class="week-tab active">Week 13</a>
+            </div>
+        </div>
+
+        <!-- Scoreboard Panel Component -->
+        <div class="recap-hero-card">
+            <span class="recap-hero-status">WEEK 13 · FINAL</span>
+            
+            <div class="recap-hero-side">
+                <img src="california.webp" alt="Washington Logo" class="recap-hero-logo">
+                <span class="recap-hero-location">Washington</span>
+                <span class="recap-hero-name">Timber</span>
+                <span class="recap-hero-record">11-2</span>
+                <span class="recap-hero-score">21</span>
+            </div>
+
+            <div class="recap-hero-badge">FINAL</div>
+
+            <div class="recap-hero-side">
+                <img src="memphis.webp" alt="Memphis Logo" class="recap-hero-logo">
+                <span class="recap-hero-location">Memphis</span>
+                <span class="recap-hero-name">Kings</span>
+                <span class="recap-hero-record">8-5</span>
+                <span class="recap-hero-score">0</span>
+            </div>
+
+            <div class="recap-team-links">
+                <a href="/teams/california">Washington Timber team page</a>
+                <a href="/teams/memphis">Memphis Kings team page</a>
+            </div>
+        </div>
+
+        <!-- Article Prose Layout Section -->
+        <div class="recap-body-writeup">
+            <h1 class="recap-main-title">Washington Timber 21–0 at Memphis Kings</h1>
+            <p class="recap-meta-line">Week 13 · Final 21–0</p>
+            <div class="recap-divider"></div>
+
+            <h3 class="recap-section-h3">Statement win</h3>
+            <p class="recap-paragraph">Timber rolled in Week 13, dropping 21 points on Kings in a 21–0 final (Timber–Kings on the road scoreboard). Timber move to 11–2 with a result that jumps off the page. Below is how each roster stacked on the season stat sheet in the categories we track. That context shows how these teams were built entering the week.</p>
+
+            <h3 class="recap-section-h3">By the sheet</h3>
+            <ul class="recap-bullets-list">
+                <li>Memphis Kings (8-5) · 6-1 · PD 63 · SOS 0.55</li>
+                <li>Washington Timber (11-2) · 7-0 · PD 161 · SOS 0.54</li>
+                <li>Kings top weapon: Skullatis1 (Defensive Line, top-10 (#7 of 478))</li>
+                <li>Timber top weapon: jaxversi (Receiving, top-10 (#6 of 715))</li>
+            </ul>
+        </div>
     </div>
 
     <!-- SYNCHRONIZED FOOTER -->
@@ -516,6 +967,37 @@
     </footer>
 
     <script>
+        // --- MULTI-VIEW CLIENT ROUTER SYSTEM ---
+        function handleRouting() {
+            const hash = window.location.hash;
+            
+            // Hide all views completely first
+            document.getElementById('landingView').classList.remove('active');
+            document.getElementById('centerView').classList.remove('active');
+            document.getElementById('deepDiveView').classList.remove('active');
+
+            if (!hash || hash === '' || hash === '#matchups') {
+                // Route to Matchup Previews landing view (image_9ade69.png)
+                document.getElementById('landingView').classList.add('active');
+                window.scrollTo(0, 0);
+            } else if (hash === '#week-13') {
+                // Route to Week 13 Matchup Center board (image_9adea8.png)
+                document.getElementById('centerView').classList.add('active');
+                window.scrollTo(0, 0);
+            } else if (hash === '#week-13/memphis-vs-washington') {
+                // Route to specific text breakdown recap view (image_9adefd.png)
+                document.getElementById('deepDiveView').classList.add('active');
+                window.scrollTo(0, 0);
+            } else {
+                // Default fallback if an unbuilt route/week is selected
+                document.getElementById('landingView').classList.add('active');
+            }
+        }
+
+        // Listen for back/forward browser navigation or link hash shifts
+        window.addEventListener('hashchange', handleRouting);
+        window.addEventListener('load', handleRouting);
+
         // --- SYNCHRONIZED THEME ENGINE ---
         const themeToggleBtn = document.getElementById('themeToggleBtn');
         themeToggleBtn.addEventListener('click', () => {
