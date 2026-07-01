@@ -884,11 +884,16 @@
                     <div class="recap-hero-record">${game.awayTeam.record}</div>
                     <div class="recap-hero-score">${game.awayTeam.score}</div>
                 </div>
+                <div class="recap-team-links">
+                    <a href="${game.homeTeam.link}">View ${game.homeTeam.name} Page →</a>
+                    <a href="${game.awayTeam.link}">View ${game.awayTeam.name} Page →</a>
+                </div>
             `;
 
-            // Article body writeup
+            // Prose Article Writeup Layout Builder
+            const art = game.article || { headline: "", subhead: "", sections: [], statsList: [] };
             let sectionsHTML = '';
-            game.article.sections.forEach(s => {
+            (art.sections || []).forEach(s => {
                 sectionsHTML += `
                     <h3 class="recap-section-h3">${s.heading}</h3>
                     <p class="recap-paragraph">${s.paragraph}</p>
@@ -896,68 +901,68 @@
             });
 
             let bulletsHTML = '';
-            game.article.statsList.forEach(bullet => {
-                bulletsHTML += `<li>${bullet}</li>`;
+            (art.statsList || []).forEach(b => {
+                bulletsHTML += `<li>${b}</li>`;
             });
 
             document.getElementById('recapBodyWriteupContainer').innerHTML = `
-                <h1 class="recap-main-title">${game.article.headline}</h1>
-                <div class="recap-meta-line">${game.article.subhead}</div>
+                <h1 class="recap-main-title">${art.headline}</h1>
+                <div class="recap-meta-line">${art.subhead}</div>
                 <div class="recap-divider"></div>
                 ${sectionsHTML}
-                <h3 class="recap-section-h3">Team Sheets Data</h3>
-                <ul class="recap-bullets-list">${bulletsHTML}</ul>
+                <h3 class="recap-section-h3" style="margin-top:40px;">Stat Sheet Context</h3>
+                <ul class="recap-bullets-list">
+                    ${bulletsHTML}
+                </ul>
             `;
         }
 
-        // Hash Routing Layout Toggle
-        function handleNavigationRouting() {
-            const hash = window.location.hash;
+        // =========================================================================
+        //  INITIALIZATION & ROUTING DISPATCHER
+        // =========================================================================
+        function router() {
+            const hash = window.location.hash || '#home';
             
-            // Hide all layout views
-            document.getElementById('landingView').classList.remove('active');
-            document.getElementById('centerView').classList.remove('active');
-            document.getElementById('deepDiveView').classList.remove('active');
-            
-            if (!hash || hash === '#') {
-                // Landing Dashboard view with Grid Boxes (as seen in image_aad300.png)
+            // Deactivate all sections first
+            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+
+            if (hash === '#home' || hash === '') {
                 document.getElementById('landingView').classList.add('active');
-                populateWeekUIComponents(0);
+                populateWeekUIComponents(TOTAL_WEEKS);
                 renderLandingDashboard();
-            } else if (hash.match(/^#week-\d+\/.+$/)) {
-                // Matchup Breakdown Article Deep Dive view
+            } else if (hash.startsWith('#week-')) {
                 const parts = hash.replace('#week-', '').split('/');
-                const weekNum = parseInt(parts[0]);
+                const weekNum = parseInt(parts[0], 10);
                 const matchId = parts[1];
-                
-                document.getElementById('deepDiveView').classList.add('active');
-                populateWeekUIComponents(weekNum);
-                renderDeepDive(weekNum, matchId);
-            } else if (hash.match(/^#week-\d+$/)) {
-                // Matchup Center list view for a selected week
-                const weekNum = parseInt(hash.replace('#week-', ''));
-                
-                document.getElementById('centerView').classList.add('active');
-                populateWeekUIComponents(weekNum);
-                renderMatchupsGrid(weekNum);
+
+                if (matchId) {
+                    document.getElementById('deepDiveView').classList.add('active');
+                    populateWeekUIComponents(weekNum);
+                    renderDeepDive(weekNum, matchId);
+                } else {
+                    document.getElementById('centerView').classList.add('active');
+                    populateWeekUIComponents(weekNum);
+                    renderMatchupsGrid(weekNum);
+                }
             }
         }
 
-        // Dark/Light Sitewide Theme Engine
-        const themeToggleBtn = document.getElementById('themeToggleBtn');
-        themeToggleBtn.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            if (currentTheme === 'dark') {
-                document.documentElement.removeAttribute('data-theme');
-                themeToggleBtn.innerText = '🌙';
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                themeToggleBtn.innerText = '☀️';
-            }
+        window.addEventListener('hashchange', router);
+        window.addEventListener('DOMContentLoaded', () => {
+            router();
+            // Dark Mode toggle utility feature
+            const btn = document.getElementById('themeToggleBtn');
+            btn.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                if (currentTheme === 'dark') {
+                    document.documentElement.removeAttribute('data-theme');
+                    btn.innerText = '🌙';
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    btn.innerText = '☀️';
+                }
+            });
         });
-
-        window.addEventListener('hashchange', handleNavigationRouting);
-        window.addEventListener('DOMContentLoaded', handleNavigationRouting);
     </script>
 </body>
 </html>
