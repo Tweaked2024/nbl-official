@@ -290,32 +290,6 @@
             gap: 20px;
         }
 
-        /* General Overview Navigation Box */
-        .overview-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 24px;
-            text-decoration: none;
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.01);
-        }
-        .overview-card h3 {
-            font-size: 1.15rem;
-            font-weight: 700;
-        }
-        .overview-card span {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            font-weight: 500;
-        }
-        .overview-card:hover {
-            border-color: var(--text-light);
-        }
-
         /* Score Card Grid Blocks */
         .score-card {
             background: var(--card-bg);
@@ -325,6 +299,12 @@
             display: flex;
             flex-direction: column;
             position: relative;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        .score-card:hover {
+            border-color: var(--text-light);
         }
         .card-status {
             font-size: 0.72rem;
@@ -585,7 +565,6 @@
 </head>
 <body>
 
-    <!-- SYNCHRONIZED NAVIGATION BAR -->
     <header>
         <div class="logo-area">
             <a href="#">
@@ -643,7 +622,6 @@
         </div>
     </header>
 
-    <!-- VIEW 1: MATCHUP PREVIEWS LANDING DASHBOARD (#matchups) -->
     <div id="landingView" class="view-section">
         <span class="office-tag">League Office</span>
         <h2 class="main-heading">matchup previews</h2>
@@ -651,15 +629,14 @@
 
         <div class="week-tabs-container global-week-tabs"></div>
 
-        <p class="jump-text">Jump to <a href="#week-13">Week 13</a> or pick a week above.</p>
+        <p class="jump-text">Jump to <a href="#week-10">Week 10</a> or pick a week above.</p>
 
         <div class="card-grid" id="landingGridBoxes"></div>
     </div>
 
-    <!-- VIEW 2: WEEK MATCHUP CENTER (#week-X) -->
     <div id="centerView" class="view-section">
         <a href="#" class="back-link">← All matchups</a>
-        <span class="office-tag" id="centerViewWeekTag">Week 13</span>
+        <span class="office-tag" id="centerViewWeekTag">Week 10</span>
         <h2 class="main-heading">matchup center</h2>
         <p class="heading-desc">Every game this week with a full preview article — tap a card to read the breakdown.</p>
 
@@ -668,21 +645,17 @@
         <div class="card-grid" id="centerScoreGrid"></div>
     </div>
 
-    <!-- VIEW 3: MATCHUP DEEP DIVE PREVIEW RECAP (#week-X/match-id) -->
     <div id="deepDiveView" class="view-section">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
-            <a href="#week-13" class="back-link" id="deepDiveBackBtn">← Week 13 matchups</a>
+            <a href="#week-10" class="back-link" id="deepDiveBackBtn">← Week 10 matchups</a>
             <div class="week-tabs-container global-week-tabs" style="margin-bottom: 0;"></div>
         </div>
 
-        <!-- Dynamic Scoreboard Panel -->
         <div class="recap-hero-card" id="recapHeroCardContainer"></div>
 
-        <!-- Dynamic Article Content & Stats -->
         <div class="recap-body-writeup" id="recapBodyWriteupContainer"></div>
     </div>
 
-    <!-- SYNCHRONIZED FOOTER -->
     <footer>
         <div class="footer-left">
             <div class="footer-socials">
@@ -721,10 +694,10 @@
         // =========================================================================
         //  EASY DATA CONFIGURATION ENGINE - EDIT SCORES, LINKS, AND ARTICLES HERE
         // =========================================================================
-        const TOTAL_WEEKS = 10;
+        const TOTAL_WEEKS = 13;
 
         const MATCHUPS_DATA = {
-            // WEEK 13 GAMES
+            // WEEK 10 GAMES
             10: [
                 {
                     id: "california-vs-oklahoma",
@@ -771,7 +744,7 @@
                     awayTeam: { location: "Veracruz", name: "Outlaws", score: 38, record: "6-7", logo: "veracruz.webp", link: "/teams/veracruz" },
                     article: {
                         headline: "Scottsdale Outlasts Veracruz in High-Scoring Shootout",
-                        subhead: "Week 13 · Final 43–38",
+                        subhead: "Week 10 · Final 43–38",
                         sections: [
                             { heading: "Offensive Explosion", paragraph: "A high-octane offensive showcase left fans breathless as Scottsdale narrowly held off a late-game surge from Veracruz." }
                         ],
@@ -783,7 +756,7 @@
                 }
             ],
 
-            // WEEK 12 GAMES (Copy/paste rows like below to fill up older weeks easily)
+            // WEEK 12 GAMES
             12: [
                 {
                     id: "baltimore-vs-alabama",
@@ -802,53 +775,19 @@
                         ]
                     }
                 }
-                {
-                    id: "baltimore-vs-alabama",
-                    status: "FINAL",
-                    badge: "FINAL",
-                    homeTeam: { location: "Baltimore", name: "Crabs", score: 55, record: "10-2", logo: "baltimore.webp", link: "/teams/baltimore" },
-                    awayTeam: { location: "Alabama", name: "Tide", score: 40, record: "7-5", logo: "alabama.webp", link: "/teams/alabama" },
-                    article: {
-                        headline: "Baltimore Pours On Points Against Alabama",
-                        subhead: "Week 12 · Final 55–40",
-                        sections: [
-                            { heading: "Track Meet", paragraph: "Baltimore absolute dominated the ground game, matching down the field with ease to put away a high-powered Alabama squad." }
-                        ],
-                        statsList: [
-                            "Total Offensive Yards: Baltimore 510, Alabama 420"
-                        ]
-                    }
-                }
-            ]
+            ],
+            
             // WEEK 11 GAMES
             11: [
                 {
-                    id: "baltimore-vs-alabama",
+                    id: "baltimore-vs-alabama-w11",
                     status: "FINAL",
                     badge: "FINAL",
                     homeTeam: { location: "Baltimore", name: "Crabs", score: 55, record: "10-2", logo: "baltimore.webp", link: "/teams/baltimore" },
                     awayTeam: { location: "Alabama", name: "Tide", score: 40, record: "7-5", logo: "alabama.webp", link: "/teams/alabama" },
                     article: {
                         headline: "Baltimore Pours On Points Against Alabama",
-                        subhead: "Week 12 · Final 55–40",
-                        sections: [
-                            { heading: "Track Meet", paragraph: "Baltimore absolute dominated the ground game, matching down the field with ease to put away a high-powered Alabama squad." }
-                        ],
-                        statsList: [
-                            "Total Offensive Yards: Baltimore 510, Alabama 420"
-                        ]
-                    }
-                }
-            12: [
-                {
-                    id: "baltimore-vs-alabama",
-                    status: "FINAL",
-                    badge: "FINAL",
-                    homeTeam: { location: "Baltimore", name: "Crabs", score: 55, record: "10-2", logo: "baltimore.webp", link: "/teams/baltimore" },
-                    awayTeam: { location: "Alabama", name: "Tide", score: 40, record: "7-5", logo: "alabama.webp", link: "/teams/alabama" },
-                    article: {
-                        headline: "Baltimore Pours On Points Against Alabama",
-                        subhead: "Week 12 · Final 55–40",
+                        subhead: "Week 11 · Final 55–40",
                         sections: [
                             { heading: "Track Meet", paragraph: "Baltimore absolute dominated the ground game, matching down the field with ease to put away a high-powered Alabama squad." }
                         ],
@@ -861,7 +800,7 @@
         };
 
         // =========================================================================
-        //  AUTOMATIC ROUTING ENGINE - DO NOT NEED TO MANUALLY EDIT BELOW THIS LINE
+        //  AUTOMATIC ROUTING ENGINE - RESTORED & FUNCTIONAL
         // =========================================================================
         
         function populateWeekUIComponents(activeWeekNum) {
@@ -869,165 +808,168 @@
             tabContainers.forEach(container => {
                 container.innerHTML = '';
                 for(let i = 1; i <= TOTAL_WEEKS; i++) {
-                    const tabLink = document.createElement('a');
-                    tabLink.href = `#week-${i}`;
-                    tabLink.className = `week-tab ${i === activeWeekNum ? 'active' : ''}`;
-                    tabLink.textContent = `Week ${i}`;
-                    container.appendChild(tabLink);
+                    const tab = document.createElement('a');
+                    tab.href = `#week-${i}`;
+                    tab.className = `week-tab ${i === activeWeekNum ? 'active' : ''}`;
+                    tab.innerText = `Week ${i}`;
+                    container.appendChild(tab);
                 }
             });
-
-            const landingGrid = document.getElementById('landingGridBoxes');
-            if(landingGrid) {
-                landingGrid.innerHTML = '';
-                for(let i = TOTAL_WEEKS; i >= 1; i--) {
-                    const card = document.createElement('a');
-                    card.href = `#week-${i}`;
-                    card.className = 'overview-card';
-                    card.innerHTML = `<h3>Week ${i}</h3><span>View matchups →</span>`;
-                    landingGrid.appendChild(card);
-                }
-            }
         }
 
-        function generateCenterMatchCards(weekNum) {
+        function renderMatchupsGrid(weekNum) {
+            const landingGrid = document.getElementById('landingGridBoxes');
             const centerGrid = document.getElementById('centerScoreGrid');
-            if(!centerGrid) return;
-
+            
+            landingGrid.innerHTML = '';
+            centerGrid.innerHTML = '';
+            
             const games = MATCHUPS_DATA[weekNum] || [];
             
-            if (games.length === 0) {
-                centerGrid.innerHTML = `<p class="heading-desc">No matchup data logged for Week ${weekNum} yet.</p>`;
+            if(games.length === 0) {
+                const noGamesMsg = `<p style="grid-column: 1/-1; color: var(--text-light); font-weight: 500;">No matchups scheduled or data entered for Week ${weekNum}.</p>`;
+                landingGrid.innerHTML = noGamesMsg;
+                centerGrid.innerHTML = noGamesMsg;
                 return;
             }
 
-            centerGrid.innerHTML = games.map(game => `
-                <div class="score-card">
-                    <span class="card-status">${game.status}</span>
-                    <div class="card-teams-row">
-                        <div class="card-team-sub">
-                            <img src="${game.homeTeam.logo}" alt="${game.homeTeam.name}" class="card-team-logo">
-                            <span class="card-team-name">${game.homeTeam.name}</span>
-                            <span class="card-team-score">${game.homeTeam.score}</span>
+            games.forEach(game => {
+                const cardHTML = `
+                    <a href="#week-${weekNum}/${game.id}" class="score-card">
+                        <div class="card-status">${game.status}</div>
+                        <div class="card-teams-row">
+                            <div class="card-team-sub">
+                                <img src="${game.homeTeam.logo}" alt="" class="card-team-logo" onerror="this.style.display='none'">
+                                <div class="card-team-name">${game.homeTeam.name}</div>
+                                <div class="card-team-score">${game.homeTeam.score}</div>
+                            </div>
+                            <div class="card-vs-sign">VS</div>
+                            <div class="card-team-sub">
+                                <img src="${game.awayTeam.logo}" alt="" class="card-team-logo" onerror="this.style.display='none'">
+                                <div class="card-team-name">${game.awayTeam.name}</div>
+                                <div class="card-team-score">${game.awayTeam.score}</div>
+                            </div>
                         </div>
-                        <span class="card-vs-sign">@</span>
-                        <div class="card-team-sub">
-                            <img src="${game.awayTeam.logo}" alt="${game.awayTeam.name}" class="card-team-logo">
-                            <span class="card-team-name">${game.awayTeam.name}</span>
-                            <span class="card-team-score">${game.awayTeam.score}</span>
-                        </div>
-                    </div>
-                    <a href="#week-${weekNum}/${game.id}" class="card-recap-link">Read recap context →</a>
-                </div>
-            `).join('');
+                        <div class="card-recap-link">Read Game Breakdown →</div>
+                    </a>
+                `;
+                landingGrid.insertAdjacentHTML('beforeend', cardHTML);
+                centerGrid.insertAdjacentHTML('beforeend', cardHTML);
+            });
         }
 
-        function loadDeepDiveRecap(weekNum, matchId) {
+        function renderDeepDive(weekNum, matchId) {
             const games = MATCHUPS_DATA[weekNum] || [];
             const game = games.find(g => g.id === matchId);
-
-            const heroContainer = document.getElementById('recapHeroCardContainer');
-            const bodyContainer = document.getElementById('recapBodyWriteupContainer');
-
+            
             if(!game) {
-                heroContainer.innerHTML = `<span class="recap-hero-status">ERROR</span><h2>Matchup not found</h2>`;
-                bodyContainer.innerHTML = '';
+                document.getElementById('recapHeroCardContainer').innerHTML = `<p>Matchup data not found.</p>`;
                 return;
             }
 
-            // Populate Top Scoreboard Panel Components
-            heroContainer.innerHTML = `
-                <span class="recap-hero-status">WEEK ${weekNum} · ${game.status}</span>
+            // Update header breadcrumbs/back links
+            document.getElementById('deepDiveBackBtn').href = `#week-${weekNum}`;
+            document.getElementById('deepDiveBackBtn').innerText = `← Week ${weekNum} Matchups`;
+
+            // Scoreboard Panel
+            document.getElementById('recapHeroCardContainer').innerHTML = `
+                <div class="recap-hero-status">${game.status}</div>
                 <div class="recap-hero-side">
-                    <img src="${game.homeTeam.logo}" alt="${game.homeTeam.name}" class="recap-hero-logo">
-                    <span class="recap-hero-location">${game.homeTeam.location}</span>
-                    <span class="recap-hero-name">${game.homeTeam.name}</span>
-                    <span class="recap-hero-record">${game.homeTeam.record}</span>
-                    <span class="recap-hero-score">${game.homeTeam.score}</span>
+                    <img src="${game.homeTeam.logo}" alt="" class="recap-hero-logo" onerror="this.style.display='none'">
+                    <div class="recap-hero-location">${game.homeTeam.location}</div>
+                    <div class="recap-hero-name">${game.homeTeam.name}</div>
+                    <div class="recap-hero-record">${game.homeTeam.record}</div>
+                    <div class="recap-hero-score">${game.homeTeam.score}</div>
                 </div>
                 <div class="recap-hero-badge">${game.badge}</div>
                 <div class="recap-hero-side">
-                    <img src="${game.awayTeam.logo}" alt="${game.awayTeam.name}" class="recap-hero-logo">
-                    <span class="recap-hero-location">${game.awayTeam.location}</span>
-                    <span class="recap-hero-name">${game.awayTeam.name}</span>
-                    <span class="recap-hero-record">${game.awayTeam.record}</span>
-                    <span class="recap-hero-score">${game.awayTeam.score}</span>
+                    <img src="${game.awayTeam.logo}" alt="" class="recap-hero-logo" onerror="this.style.display='none'">
+                    <div class="recap-hero-location">${game.awayTeam.location}</div>
+                    <div class="recap-hero-name">${game.awayTeam.name}</div>
+                    <div class="recap-hero-record">${game.awayTeam.record}</div>
+                    <div class="recap-hero-score">${game.awayTeam.score}</div>
                 </div>
                 <div class="recap-team-links">
-                    <a href="${game.homeTeam.link}">${game.homeTeam.location} ${game.homeTeam.name} team page</a>
-                    <a href="${game.awayTeam.link}">${game.awayTeam.location} ${game.awayTeam.name} team page</a>
+                    <a href="${game.homeTeam.link}">Team Roster Page</a>
+                    <a href="${game.awayTeam.link}">Team Roster Page</a>
                 </div>
             `;
 
-            // Build out text story blocks safely from config file array properties
-            let sectionsHTML = game.article.sections.map(sec => `
-                <h3 class="recap-section-h3">${sec.heading}</h3>
-                <p class="recap-paragraph">${sec.paragraph}</p>
-            `).join('');
+            // Article Content
+            let sectionsHTML = '';
+            game.article.sections.forEach(s => {
+                sectionsHTML += `
+                    <h3 class="recap-section-h3">${s.heading}</h3>
+                    <p class="recap-paragraph">${s.paragraph}</p>
+                `;
+            });
 
-            let listHTML = game.article.statsList.map(item => `<li>${item}</li>`).join('');
+            let statsHTML = '';
+            game.article.statsList.forEach(stat => {
+                statsHTML += `<li>${stat}</li>`;
+            });
 
-            bodyContainer.innerHTML = `
+            document.getElementById('recapBodyWriteupContainer').innerHTML = `
                 <h1 class="recap-main-title">${game.article.headline}</h1>
-                <p class="recap-meta-line">${game.article.subhead}</p>
+                <div class="recap-meta-line">${game.article.subhead}</div>
                 <div class="recap-divider"></div>
                 ${sectionsHTML}
-                <h3 class="recap-section-h3">By the sheet</h3>
-                <ul class="recap-bullets-list">${listHTML}</ul>
+                <h3 class="recap-section-h3">Data Sheets & Roster Tracker</h3>
+                <ul class="recap-bullets-list">
+                    ${statsHTML}
+                </ul>
             `;
         }
 
-        function handleClientSideViewRouting() {
-            const currentHashStr = window.location.hash || '';
+        function router() {
+            const hash = window.location.hash || '#matchups';
             
-            document.getElementById('landingView').classList.remove('active');
-            document.getElementById('centerView').classList.remove('active');
-            document.getElementById('deepDiveView').classList.remove('active');
+            // Hide all layouts
+            document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
 
-            if(currentHashStr.includes('/') && currentHashStr.startsWith('#week-')) {
-                const routeParams = currentHashStr.replace('#week-', '').split('/');
-                const targetWeekNum = parseInt(routeParams[0]) || 13;
-                const matchId = routeParams[1];
-                
-                document.getElementById('deepDiveBackBtn').href = `#week-${targetWeekNum}`;
-                document.getElementById('deepDiveBackBtn').textContent = `← Week ${targetWeekNum} matchups`;
-                
-                populateWeekUIComponents(targetWeekNum);
-                loadDeepDiveRecap(targetWeekNum, matchId);
-                document.getElementById('deepDiveView').classList.add('active');
-                window.scrollTo(0, 0);
-            }
-            else if(currentHashStr.startsWith('#week-')) {
-                const parsedWeekNum = parseInt(currentHashStr.replace('#week-', '')) || 13;
-                
-                document.getElementById('centerViewWeekTag').textContent = `Week ${parsedWeekNum}`;
-                
-                populateWeekUIComponents(parsedWeekNum);
-                generateCenterMatchCards(parsedWeekNum);
-                document.getElementById('centerView').classList.add('active');
-                window.scrollTo(0, 0);
-            }
-            else {
-                populateWeekUIComponents(0);
+            if (hash === '#matchups' || hash === '') {
+                // Dashboard view defaults to Week 10 (or update to whichever default week you prefer)
+                populateWeekUIComponents(10);
+                renderMatchupsGrid(10);
                 document.getElementById('landingView').classList.add('active');
+            } 
+            else if (hash.startsWith('#week-')) {
+                const parts = hash.replace('#week-', '').split('/');
+                const weekNum = parseInt(parts[0]);
+                
+                if (parts.length === 2) {
+                    // Matchup Deep Dive View
+                    const matchId = parts[1];
+                    populateWeekUIComponents(weekNum);
+                    renderDeepDive(weekNum, matchId);
+                    document.getElementById('deepDiveView').classList.add('active');
+                } else {
+                    // Week Matchup Center View
+                    document.getElementById('centerViewWeekTag').innerText = `Week ${weekNum}`;
+                    populateWeekUIComponents(weekNum);
+                    renderMatchupsGrid(weekNum);
+                    document.getElementById('centerView').classList.add('active');
+                }
             }
         }
 
-        // Theme Toggle Switch handler
-        const themeBtn = document.getElementById('themeToggleBtn');
-        themeBtn.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            if(currentTheme === 'dark') {
-                document.documentElement.removeAttribute('data-theme');
-                themeBtn.textContent = '🌙';
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                themeBtn.textContent = '☀️';
-            }
+        window.addEventListener('hashchange', router);
+        window.addEventListener('DOMContentLoaded', () => {
+            router();
+            
+            // Theme toggling system logic setup
+            const themeBtn = document.getElementById('themeToggleBtn');
+            themeBtn.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                if(currentTheme === 'dark') {
+                    document.documentElement.removeAttribute('data-theme');
+                    themeBtn.innerText = '🌙';
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    themeBtn.innerText = '☀️';
+                }
+            });
         });
-
-        window.addEventListener('hashchange', handleClientSideViewRouting);
-        window.addEventListener('DOMContentLoaded', handleClientSideViewRouting);
     </script>
 </body>
 </html>
