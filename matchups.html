@@ -585,6 +585,7 @@
 </head>
 <body>
 
+    <!-- SYNCHRONIZED NAVIGATION BAR -->
     <header>
         <div class="logo-area">
             <a href="#">
@@ -642,85 +643,46 @@
         </div>
     </header>
 
+    <!-- VIEW 1: MATCHUP PREVIEWS LANDING DASHBOARD (#matchups) -->
     <div id="landingView" class="view-section">
         <span class="office-tag">League Office</span>
         <h2 class="main-heading">matchup previews</h2>
         <p class="heading-desc">Data-driven game previews for every Week — records, stat-sheet leaders, and matchup analysis generated from live ACFL worksheets.</p>
 
-        <div class="week-tabs-container global-week-tabs">
-            </div>
+        <div class="week-tabs-container global-week-tabs"></div>
 
         <p class="jump-text">Jump to <a href="#week-13">Week 13</a> or pick a week above.</p>
 
-        <div class="card-grid" id="landingGridBoxes">
-            </div>
+        <div class="card-grid" id="landingGridBoxes"></div>
     </div>
 
+    <!-- VIEW 2: WEEK MATCHUP CENTER (#week-X) -->
     <div id="centerView" class="view-section">
         <a href="#" class="back-link">← All matchups</a>
         <span class="office-tag" id="centerViewWeekTag">Week 13</span>
         <h2 class="main-heading">matchup center</h2>
         <p class="heading-desc">Every game this week with a full preview article — tap a card to read the breakdown.</p>
 
-        <div class="week-tabs-container global-week-tabs">
-            </div>
+        <div class="week-tabs-container global-week-tabs"></div>
 
-        <div class="card-grid" id="centerScoreGrid">
-            </div>
+        <div class="card-grid" id="centerScoreGrid"></div>
     </div>
 
+    <!-- VIEW 3: MATCHUP DEEP DIVE PREVIEW RECAP (#week-X/match-id) -->
     <div id="deepDiveView" class="view-section">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
             <a href="#week-13" class="back-link" id="deepDiveBackBtn">← Week 13 matchups</a>
-            <div class="week-tabs-container global-week-tabs" style="margin-bottom: 0;">
-                </div>
+            <div class="week-tabs-container global-week-tabs" style="margin-bottom: 0;"></div>
         </div>
 
-        <div class="recap-hero-card">
-            <span class="recap-hero-status" id="recapHeroStatusLabel">WEEK 13 · FINAL</span>
-            
-            <div class="recap-hero-side">
-                <img src="california.webp" alt="Washington Logo" class="recap-hero-logo">
-                <span class="recap-hero-location">Washington</span>
-                <span class="recap-hero-name">Timber</span>
-                <span class="recap-hero-record">11-2</span>
-                <span class="recap-hero-score">21</span>
-            </div>
+        <!-- Dynamic Scoreboard Panel -->
+        <div class="recap-hero-card" id="recapHeroCardContainer"></div>
 
-            <div class="recap-hero-badge">FINAL</div>
-
-            <div class="recap-hero-side">
-                <img src="memphis.webp" alt="Memphis Logo" class="recap-hero-logo">
-                <span class="recap-hero-location">Memphis</span>
-                <span class="recap-hero-name">Kings</span>
-                <span class="recap-hero-record">8-5</span>
-                <span class="recap-hero-score">0</span>
-            </div>
-
-            <div class="recap-team-links">
-                <a href="/teams/california">Washington Timber team page</a>
-                <a href="/teams/memphis">Memphis Kings team page</a>
-            </div>
-        </div>
-
-        <div class="recap-body-writeup">
-            <h1 class="recap-main-title" id="recapMainTitleHeading">Washington Timber 21–0 at Memphis Kings</h1>
-            <p class="recap-meta-line" id="recapMetaSubLabel">Week 13 · Final 21–0</p>
-            <div class="recap-divider"></div>
-
-            <h3 class="recap-section-h3">Statement win</h3>
-            <p class="recap-paragraph">Timber rolled in this matchup, dropping 21 points on Kings in a 21–0 final (Timber–Kings on the road scoreboard). Timber move to an impressive stance with a result that jumps off the page. Below is how each roster stacked on the season stat sheet in the categories we track. That context shows how these teams were built entering the week.</p>
-
-            <h3 class="recap-section-h3">By the sheet</h3>
-            <ul class="recap-bullets-list">
-                <li>Memphis Kings (8-5) · 6-1 · PD 63 · SOS 0.55</li>
-                <li>Washington Timber (11-2) · 7-0 · PD 161 · SOS 0.54</li>
-                <li>Kings top weapon: Skullatis1 (Defensive Line, top-10 (#7 of 478))</li>
-                <li>Timber top weapon: jaxversi (Receiving, top-10 (#6 of 715))</li>
-            </ul>
-        </div>
+        <!-- Dynamic Article Content & Stats -->
+        <div class="recap-body-writeup" id="recapBodyWriteupContainer"></div>
     </div>
 
+    <!-- SYNCHRONIZED FOOTER -->
     <footer>
         <div class="footer-left">
             <div class="footer-socials">
@@ -756,15 +718,102 @@
     </footer>
 
     <script>
-        // Generate uniform week selection lists across the dashboard dynamically
-        const totalWeeks = 13;
+        // =========================================================================
+        //  EASY DATA CONFIGURATION ENGINE - EDIT SCORES, LINKS, AND ARTICLES HERE
+        // =========================================================================
+        const TOTAL_WEEKS = 13;
+
+        const MATCHUPS_DATA = {
+            // WEEK 13 GAMES
+            13: [
+                {
+                    id: "memphis-vs-washington",
+                    status: "FINAL",
+                    badge: "FINAL",
+                    homeTeam: {
+                        location: "Washington",
+                        name: "Timber",
+                        score: 21,
+                        record: "11-2",
+                        logo: "california.webp",
+                        link: "/teams/california"
+                    },
+                    awayTeam: {
+                        location: "Memphis",
+                        name: "Kings",
+                        score: 0,
+                        record: "8-5",
+                        logo: "memphis.webp",
+                        link: "/teams/memphis"
+                    },
+                    article: {
+                        headline: "Washington Timber 21–0 at Memphis Kings",
+                        subhead: "Week 13 · Final 21–0",
+                        sections: [
+                            {
+                                heading: "Statement win",
+                                paragraph: "Timber rolled in this matchup, dropping 21 points on Kings in a 21–0 final. Timber move to an impressive stance with a result that jumps off the page. Below is how each roster stacked on the season stat sheet in the categories we track. That context shows how these teams were built entering the week."
+                            }
+                        ],
+                        statsList: [
+                            "Memphis Kings (8-5) · 6-1 · PD 63 · SOS 0.55",
+                            "Washington Timber (11-2) · 7-0 · PD 161 · SOS 0.54",
+                            "Kings top weapon: Skullatis1 (Defensive Line, top-10 (#7 of 478))",
+                            "Timber top weapon: jaxversi (Receiving, top-10 (#6 of 715))"
+                        ]
+                    }
+                },
+                {
+                    id: "scottsdale-vs-veracruz",
+                    status: "FINAL",
+                    badge: "FINAL",
+                    homeTeam: { location: "Scottsdale", name: "Spartans", score: 43, record: "9-4", logo: "scottsdale.webp", link: "/teams/scottsdale" },
+                    awayTeam: { location: "Veracruz", name: "Outlaws", score: 38, record: "6-7", logo: "veracruz.webp", link: "/teams/veracruz" },
+                    article: {
+                        headline: "Scottsdale Outlasts Veracruz in High-Scoring Shootout",
+                        subhead: "Week 13 · Final 43–38",
+                        sections: [
+                            { heading: "Offensive Explosion", paragraph: "A high-octane offensive showcase left fans breathless as Scottsdale narrowly held off a late-game surge from Veracruz." }
+                        ],
+                        statsList: [
+                            "Scottsdale passing leader: 340 Yds, 4 TD",
+                            "Veracruz rushing leader: 145 Yds, 2 TD"
+                        ]
+                    }
+                }
+            ],
+
+            // WEEK 12 GAMES (Copy/paste rows like below to fill up older weeks easily)
+            12: [
+                {
+                    id: "baltimore-vs-alabama",
+                    status: "FINAL",
+                    badge: "FINAL",
+                    homeTeam: { location: "Baltimore", name: "Crabs", score: 55, record: "10-2", logo: "baltimore.webp", link: "/teams/baltimore" },
+                    awayTeam: { location: "Alabama", name: "Tide", score: 40, record: "7-5", logo: "alabama.webp", link: "/teams/alabama" },
+                    article: {
+                        headline: "Baltimore Pours On Points Against Alabama",
+                        subhead: "Week 12 · Final 55–40",
+                        sections: [
+                            { heading: "Track Meet", paragraph: "Baltimore absolute dominated the ground game, matching down the field with ease to put away a high-powered Alabama squad." }
+                        ],
+                        statsList: [
+                            "Total Offensive Yards: Baltimore 510, Alabama 420"
+                        ]
+                    }
+                }
+            ]
+        };
+
+        // =========================================================================
+        //  AUTOMATIC ROUTING ENGINE - DO NOT NEED TO MANUALLY EDIT BELOW THIS LINE
+        // =========================================================================
         
         function populateWeekUIComponents(activeWeekNum) {
-            // Render top bar picker layout rows
             const tabContainers = document.querySelectorAll('.global-week-tabs');
             tabContainers.forEach(container => {
                 container.innerHTML = '';
-                for(let i = 1; i <= totalWeeks; i++) {
+                for(let i = 1; i <= TOTAL_WEEKS; i++) {
                     const tabLink = document.createElement('a');
                     tabLink.href = `#week-${i}`;
                     tabLink.className = `week-tab ${i === activeWeekNum ? 'active' : ''}`;
@@ -773,128 +822,126 @@
                 }
             });
 
-            // Render Overview board navigation box grid block links
             const landingGrid = document.getElementById('landingGridBoxes');
             if(landingGrid) {
                 landingGrid.innerHTML = '';
-                // Display in reverse chronological order (Week 13 down to Week 1)
-                for(let i = totalWeeks; i >= 1; i--) {
+                for(let i = TOTAL_WEEKS; i >= 1; i--) {
                     const card = document.createElement('a');
                     card.href = `#week-${i}`;
                     card.className = 'overview-card';
-                    card.innerHTML = `
-                        <h3>Week ${i}</h3>
-                        <span>View matchups →</span>
-                    `;
+                    card.innerHTML = `<h3>Week ${i}</h3><span>View matchups →</span>`;
                     landingGrid.appendChild(card);
                 }
             }
         }
 
-        // Render match grid content blocks for any chosen week dynamic selector context
         function generateCenterMatchCards(weekNum) {
             const centerGrid = document.getElementById('centerScoreGrid');
             if(!centerGrid) return;
 
-            // Clear current cards and generate standard match grid blocks clean layout matching card 1 structure
-            centerGrid.innerHTML = 
-                <div class="score-card">
-                    <span class="card-status">FINAL</span>
-                    <div class="card-teams-row">
-                        <div class="card-team-sub">
-                            <img src="california.webp" alt="Washington Logo" class="card-team-logo">
-                            <span class="card-team-name">Washington</span>
-                            <span class="card-team-score">21</span>
-                        </div>
-                        <span class="card-vs-sign">@</span>
-                        <div class="card-team-sub">
-                            <img src="memphis.webp" alt="Memphis Logo" class="card-team-logo">
-                            <span class="card-team-name">Memphis</span>
-                            <span class="card-team-score">0</span>
-                        </div>
-                    </div>
-                    <a href="#week-${weekNum}/memphis-vs-washington" class="card-recap-link">Read recap context →</a>
-                </div>
+            const games = MATCHUPS_DATA[weekNum] || [];
+            
+            if (games.length === 0) {
+                centerGrid.innerHTML = `<p class="heading-desc">No matchup data logged for Week ${weekNum} yet.</p>`;
+                return;
+            }
 
+            centerGrid.innerHTML = games.map(game => `
                 <div class="score-card">
-                    <span class="card-status">FINAL</span>
+                    <span class="card-status">${game.status}</span>
                     <div class="card-teams-row">
                         <div class="card-team-sub">
-                            <img src="scottsdale.webp" alt="Scottsdale Logo" class="card-team-logo">
-                            <span class="card-team-name">Scottsdale</span>
-                            <span class="card-team-score">43</span>
+                            <img src="${game.homeTeam.logo}" alt="${game.homeTeam.name}" class="card-team-logo">
+                            <span class="card-team-name">${game.homeTeam.name}</span>
+                            <span class="card-team-score">${game.homeTeam.score}</span>
                         </div>
                         <span class="card-vs-sign">@</span>
                         <div class="card-team-sub">
-                            <img src="veracruz.webp" alt="Veracruz Logo" class="card-team-logo">
-                            <span class="card-team-name">Veracruz</span>
-                            <span class="card-team-score">38</span>
+                            <img src="${game.awayTeam.logo}" alt="${game.awayTeam.name}" class="card-team-logo">
+                            <span class="card-team-name">${game.awayTeam.name}</span>
+                            <span class="card-team-score">${game.awayTeam.score}</span>
                         </div>
                     </div>
-                    <a href="#" class="card-recap-link">Read recap context →</a>
+                    <a href="#week-${weekNum}/${game.id}" class="card-recap-link">Read recap context →</a>
                 </div>
-
-                <div class="score-card">
-                    <span class="card-status">FINAL</span>
-                    <div class="card-teams-row">
-                        <div class="card-team-sub">
-                            <img src="alabama.webp" alt="Alabama Logo" class="card-team-logo">
-                            <span class="card-team-name">Alabama</span>
-                            <span class="card-team-score">40</span>
-                        </div>
-                        <span class="card-vs-sign">@</span>
-                        <div class="card-team-sub">
-                            <img src="baltimore.webp" alt="Baltimore Logo" class="card-team-logo">
-                            <span class="card-team-name">Baltimore</span>
-                            <span class="card-team-score">55</span>
-                        </div>
-                    </div>
-                    <a href="#" class="card-recap-link">Read recap context →</a>
-                </div>
-
-                <div class="score-card">
-                    <span class="card-status">FINAL</span>
-                    <div class="card-teams-row">
-                        <div class="card-team-sub">
-                            <img src="buffalo.webp" alt="Buffalo Logo" class="card-team-logo">
-                            <span class="card-team-name">Buffalo</span>
-                            <span class="card-team-score">14</span>
-                        </div>
-                        <span class="card-vs-sign">@</span>
-                        <div class="card-team-sub">
-                            <img src="glendale.webp" alt="Glendale Logo" class="card-team-logo">
-                            <span class="card-team-name">Glendale</span>
-                            <span class="card-team-score">28</span>
-                        </div>
-                    </div>
-                    <a href="#" class="card-recap-link">Read recap context →</a>
-                </div>
-            ;
+            `).join('');
         }
 
-        // --- HASH ROUTING STATE HANDLING CONTROLLER Engine ---
+        function loadDeepDiveRecap(weekNum, matchId) {
+            const games = MATCHUPS_DATA[weekNum] || [];
+            const game = games.find(g => g.id === matchId);
+
+            const heroContainer = document.getElementById('recapHeroCardContainer');
+            const bodyContainer = document.getElementById('recapBodyWriteupContainer');
+
+            if(!game) {
+                heroContainer.innerHTML = `<span class="recap-hero-status">ERROR</span><h2>Matchup not found</h2>`;
+                bodyContainer.innerHTML = '';
+                return;
+            }
+
+            // Populate Top Scoreboard Panel Components
+            heroContainer.innerHTML = `
+                <span class="recap-hero-status">WEEK ${weekNum} · ${game.status}</span>
+                <div class="recap-hero-side">
+                    <img src="${game.homeTeam.logo}" alt="${game.homeTeam.name}" class="recap-hero-logo">
+                    <span class="recap-hero-location">${game.homeTeam.location}</span>
+                    <span class="recap-hero-name">${game.homeTeam.name}</span>
+                    <span class="recap-hero-record">${game.homeTeam.record}</span>
+                    <span class="recap-hero-score">${game.homeTeam.score}</span>
+                </div>
+                <div class="recap-hero-badge">${game.badge}</div>
+                <div class="recap-hero-side">
+                    <img src="${game.awayTeam.logo}" alt="${game.awayTeam.name}" class="recap-hero-logo">
+                    <span class="recap-hero-location">${game.awayTeam.location}</span>
+                    <span class="recap-hero-name">${game.awayTeam.name}</span>
+                    <span class="recap-hero-record">${game.awayTeam.record}</span>
+                    <span class="recap-hero-score">${game.awayTeam.score}</span>
+                </div>
+                <div class="recap-team-links">
+                    <a href="${game.homeTeam.link}">${game.homeTeam.location} ${game.homeTeam.name} team page</a>
+                    <a href="${game.awayTeam.link}">${game.awayTeam.location} ${game.awayTeam.name} team page</a>
+                </div>
+            `;
+
+            // Build out text story blocks safely from config file array properties
+            let sectionsHTML = game.article.sections.map(sec => `
+                <h3 class="recap-section-h3">${sec.heading}</h3>
+                <p class="recap-paragraph">${sec.paragraph}</p>
+            `).join('');
+
+            let listHTML = game.article.statsList.map(item => `<li>${item}</li>`).join('');
+
+            bodyContainer.innerHTML = `
+                <h1 class="recap-main-title">${game.article.headline}</h1>
+                <p class="recap-meta-line">${game.article.subhead}</p>
+                <div class="recap-divider"></div>
+                ${sectionsHTML}
+                <h3 class="recap-section-h3">By the sheet</h3>
+                <ul class="recap-bullets-list">${listHTML}</ul>
+            `;
+        }
+
         function handleClientSideViewRouting() {
             const currentHashStr = window.location.hash || '';
             
-            // Hide all block segments
             document.getElementById('landingView').classList.remove('active');
             document.getElementById('centerView').classList.remove('active');
             document.getElementById('deepDiveView').classList.remove('active');
 
-            // View 3: Matchup Deep Dive Context Check
             if(currentHashStr.includes('/') && currentHashStr.startsWith('#week-')) {
                 const routeParams = currentHashStr.replace('#week-', '').split('/');
                 const targetWeekNum = parseInt(routeParams[0]) || 13;
+                const matchId = routeParams[1];
                 
-                // Synchronize dynamic structural text strings
                 document.getElementById('deepDiveBackBtn').href = `#week-${targetWeekNum}`;
                 document.getElementById('deepDiveBackBtn').textContent = `← Week ${targetWeekNum} matchups`;
                 
                 populateWeekUIComponents(targetWeekNum);
+                loadDeepDiveRecap(targetWeekNum, matchId);
                 document.getElementById('deepDiveView').classList.add('active');
                 window.scrollTo(0, 0);
             }
-            // View 2: Week Matchup Center Context Check
             else if(currentHashStr.startsWith('#week-')) {
                 const parsedWeekNum = parseInt(currentHashStr.replace('#week-', '')) || 13;
                 
@@ -905,14 +952,13 @@
                 document.getElementById('centerView').classList.add('active');
                 window.scrollTo(0, 0);
             }
-            // View 1: Default Matchup Dashboard Dashboard Home
             else {
                 populateWeekUIComponents(0);
                 document.getElementById('landingView').classList.add('active');
             }
         }
 
-        // Light/Dark Local State Theme Switch
+        // Theme Toggle Switch handler
         const themeBtn = document.getElementById('themeToggleBtn');
         themeBtn.addEventListener('click', () => {
             const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -925,7 +971,6 @@
             }
         });
 
-        // Initialize state hooks on document ready variables layout
         window.addEventListener('hashchange', handleClientSideViewRouting);
         window.addEventListener('DOMContentLoaded', handleClientSideViewRouting);
     </script>
