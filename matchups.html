@@ -290,6 +290,32 @@
             gap: 20px;
         }
 
+        /* Dashboard Week Boxes Style matching image_aad300.png */
+        .week-box-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        .week-box-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+        .week-box-card span {
+            font-size: 0.88rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        .week-box-card:hover {
+            border-color: var(--text-light);
+        }
+
         /* Score Card Grid Blocks */
         .score-card {
             background: var(--card-bg);
@@ -629,7 +655,7 @@
 
         <div class="week-tabs-container global-week-tabs"></div>
 
-        <p class="jump-text">Jump to <a href="#week-10">Week 10</a> or pick a week above.</p>
+        <p class="jump-text">Jump to <a href="#week-13" id="jumpToLatestWeek">Week 13</a> or pick a week above.</p>
 
         <div class="card-grid" id="landingGridBoxes"></div>
     </div>
@@ -692,9 +718,9 @@
 
     <script>
         // =========================================================================
-        //  EASY DATA CONFIGURATION ENGINE - CAP AT 10 WEEKS
+        //  EASY DATA CONFIGURATION ENGINE - CAP AT 13 WEEKS TO MATCH THE DASHBOARD
         // =========================================================================
-        const TOTAL_WEEKS = 10;
+        const TOTAL_WEEKS = 13;
 
         const MATCHUPS_DATA = {
             // WEEK 10 GAMES
@@ -735,7 +761,7 @@
                             "Timber top weapon: jaxversi (Receiving, top-10 (#6 of 715))"
                         ]
                     }
-                ],
+                },
                 {
                     id: "scottsdale-vs-veracruz",
                     status: "FINAL",
@@ -775,18 +801,31 @@
             });
         }
 
-        function renderMatchupsGrid(weekNum) {
+        function renderLandingDashboard() {
             const landingGrid = document.getElementById('landingGridBoxes');
-            const centerGrid = document.getElementById('centerScoreGrid');
-            
             landingGrid.innerHTML = '';
+            
+            // Generate Week 13 down to Week 1 as illustrated in image_aad300.png
+            for (let i = TOTAL_WEEKS; i >= 1; i--) {
+                const boxHTML = `
+                    <a href="#week-${i}" class="week-box-card">
+                        <h3>Week ${i}</h3>
+                        <span>View matchups →</span>
+                    </a>
+                `;
+                landingGrid.insertAdjacentHTML('beforeend', boxHTML);
+            }
+        }
+
+        function renderMatchupsGrid(weekNum) {
+            const centerGrid = document.getElementById('centerScoreGrid');
+            document.getElementById('centerViewWeekTag').innerText = `Week ${weekNum}`;
             centerGrid.innerHTML = '';
             
             const games = MATCHUPS_DATA[weekNum] || [];
             
             if(games.length === 0) {
                 const noGamesMsg = `<p style="grid-column: 1/-1; color: var(--text-light); font-weight: 500;">No matchups scheduled or data entered for Week ${weekNum}.</p>`;
-                landingGrid.innerHTML = noGamesMsg;
                 centerGrid.innerHTML = noGamesMsg;
                 return;
             }
@@ -811,7 +850,6 @@
                         <div class="card-recap-link">Read Game Breakdown →</div>
                     </a>
                 `;
-                landingGrid.insertAdjacentHTML('beforeend', cardHTML);
                 centerGrid.insertAdjacentHTML('beforeend', cardHTML);
             });
         }
@@ -826,6 +864,7 @@
             }
 
             document.getElementById('deepDiveBackBtn').href = `#week-${weekNum}`;
+            document.getElementById('deepDiveBackBtn').innerText = `← Week ${weekNum} matchups`;
             
             // Hero Card UI
             document.getElementById('recapHeroCardContainer').innerHTML = `
@@ -873,46 +912,38 @@
 
         // Hash Routing Layout Toggle
         function handleNavigationRouting() {
-            const hash = window.location.hash || '#week-10';
+            const hash = window.location.hash;
             
-            const landingView = document.getElementById('landingView');
-            const centerView = document.getElementById('centerView');
-            const deepDiveView = document.getElementById('deepDiveView');
-
-            landingView.classList.remove('active');
-            centerView.classList.remove('active');
-            deepDiveView.classList.remove('active');
-
-            if (hash.includes('/') && hash.startsWith('#week-')) {
-                // Deep Dive Mode
-                deepDiveView.classList.add('active');
-                const pathParts = hash.replace('#week-', '').split('/');
-                const weekNum = parseInt(pathParts[0], 10);
-                const matchId = pathParts[1];
+            // Hide all layout views
+            document.getElementById('landingView').classList.remove('active');
+            document.getElementById('centerView').classList.remove('active');
+            document.getElementById('deepDiveView').classList.remove('active');
+            
+            if (!hash || hash === '#') {
+                // Landing Dashboard view with Grid Boxes (as seen in image_aad300.png)
+                document.getElementById('landingView').classList.add('active');
+                populateWeekUIComponents(0);
+                renderLandingDashboard();
+            } else if (hash.match(/^#week-\d+\/.+$/)) {
+                // Matchup Breakdown Article Deep Dive view
+                const parts = hash.replace('#week-', '').split('/');
+                const weekNum = parseInt(parts[0]);
+                const matchId = parts[1];
                 
+                document.getElementById('deepDiveView').classList.add('active');
                 populateWeekUIComponents(weekNum);
                 renderDeepDive(weekNum, matchId);
-            } else if (hash.startsWith('#week-')) {
-                // Main Matchups Center Mode
-                centerView.classList.add('active');
-                const weekNum = parseInt(hash.replace('#week-', ''), 10);
+            } else if (hash.match(/^#week-\d+$/)) {
+                // Matchup Center list view for a selected week
+                const weekNum = parseInt(hash.replace('#week-', ''));
                 
-                document.getElementById('centerViewWeekTag').innerText = `Week ${weekNum}`;
+                document.getElementById('centerView').classList.add('active');
                 populateWeekUIComponents(weekNum);
                 renderMatchupsGrid(weekNum);
-            } else {
-                // Fallback default
-                centerView.classList.add('active');
-                populateWeekUIComponents(10);
-                renderMatchupsGrid(10);
             }
-            window.scrollTo(0, 0);
         }
 
-        window.addEventListener('hashchange', handleNavigationRouting);
-        window.addEventListener('load', handleNavigationRouting);
-
-        // Light/Dark Theme Switching Mod
+        // Dark/Light Sitewide Theme Engine
         const themeToggleBtn = document.getElementById('themeToggleBtn');
         themeToggleBtn.addEventListener('click', () => {
             const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -924,6 +955,9 @@
                 themeToggleBtn.innerText = '☀️';
             }
         });
+
+        window.addEventListener('hashchange', handleNavigationRouting);
+        window.addEventListener('DOMContentLoaded', handleNavigationRouting);
     </script>
 </body>
 </html>
